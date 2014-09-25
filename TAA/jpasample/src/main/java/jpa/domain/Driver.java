@@ -22,11 +22,10 @@ public class Driver implements Serializable {
 	private int id;
 	
 	/**
-	 * 
+	 * The list of rides a driver can have
 	 */
-	@OneToMany(mappedBy="ride")
 	private List<Ride> rides;
-	
+
 	/**
 	 * Gets the id of the driver
 	 * @return id
@@ -38,11 +37,27 @@ public class Driver implements Serializable {
 	}
 	
 	/**
-	 * Sets the id of the passenger
+	 * Sets the id of the driver
 	 * @param id
 	 */
 	public void setId(final int id) {
 		this.id = id;
 	}
 	
+	/**
+	 * Gets the ride list of the driver
+	 * @return rides
+	 */
+	@OneToMany(mappedBy="ride")
+	public List<Ride> getRides() {
+		return rides;
+	}
+
+	/**
+	 * Sets the ride list of the driver
+	 * @param rides
+	 */
+	public void setRides(List<Ride> rides) {
+		this.rides = rides;
+	}
 }

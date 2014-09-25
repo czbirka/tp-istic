@@ -16,12 +16,12 @@ public class Passenger implements Serializable {
 	private static final long serialVersionUID = 7931470498245035451L;
 	
 	/**
-	 * Id of the passenger
+	 * The id of the passenger
 	 */
 	private int id;
 	
 	/**
-	 * 
+	 * The list of rides a passenger can have
 	 */
 	private List<Ride> rides;
 
@@ -43,7 +43,7 @@ public class Passenger implements Serializable {
 	}
 
 	/**
-	 * 
+	 * Gets the rides of the passenger
 	 * @return
 	 */
 	@ManyToMany
@@ -51,6 +51,10 @@ public class Passenger implements Serializable {
 		return rides;
 	}
 
+	/**
+	 * Sets the rides of the passenger
+	 * @param rides
+	 */
 	public void setRides(List<Ride> rides) {
 		this.rides = rides;
 	}
