@@ -1,0 +1,22 @@
+/*C5*/SET SCHEMA PUBLIC
+drop table Driver if exists
+drop table Passenger if exists
+drop table Ride if exists
+create table Driver (id integer not null, primary key (id))
+create table Passenger (id integer not null, primary key (id))
+create table Ride (id integer not null, destination varchar(255), leavingDate timestamp, origin varchar(255), primary key (id))
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
+drop table Driver if exists
+drop table Passenger if exists
+drop table Ride if exists
+create table Driver (id integer not null, primary key (id))
+create table Passenger (id integer not null, primary key (id))
+create table Ride (id integer not null, destination varchar(255), leavingDate timestamp, origin varchar(255), seatNumber integer not null, primary key (id))
+DISCONNECT
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
