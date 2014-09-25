@@ -48,7 +48,7 @@ public class Driver implements Serializable {
 	 * Gets the ride list of the driver
 	 * @return rides
 	 */
-	@OneToMany(mappedBy="ride")
+	@OneToMany
 	public List<Ride> getRides() {
 		return rides;
 	}
