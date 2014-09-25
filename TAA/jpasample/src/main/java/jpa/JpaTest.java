@@ -26,8 +26,6 @@ public class JpaTest {
 		tx.begin();
 
 		try {
-
-			
 			
 			//manager.persist(et);
 			

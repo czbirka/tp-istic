@@ -1,9 +1,11 @@
 package jpa.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Passenger implements Serializable {
@@ -17,6 +19,11 @@ public class Passenger implements Serializable {
 	 * Id of the passenger
 	 */
 	private int id;
+	
+	/**
+	 * 
+	 */
+	private List<Ride> rides;
 
 	/**
 	 * Gets the id of the passenger
@@ -34,5 +41,18 @@ public class Passenger implements Serializable {
 	public void setId(final int id) {
 		this.id = id;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 */
+	@ManyToMany
+	public List<Ride> getRides() {
+		return rides;
+	}
+
+	public void setRides(List<Ride> rides) {
+		this.rides = rides;
+	}
+
 }

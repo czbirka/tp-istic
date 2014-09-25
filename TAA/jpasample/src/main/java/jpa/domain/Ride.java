@@ -2,9 +2,13 @@ package jpa.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Ride implements Serializable {
@@ -39,7 +43,18 @@ public class Ride implements Serializable {
 	 */
 	private int seatNumber;
 
+	/**
+	 * 
+	 */
+	private Driver driver;
+	
+	/**
+	 * 
+	 */
+	private List<Passenger> passengers;
+
 	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
@@ -79,4 +94,23 @@ public class Ride implements Serializable {
 	public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
 	}
+
+	@ManyToOne
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+	
+	@ManyToMany
+	public List<Passenger> getPassengers() {
+		return passengers;
+	}
+
+	public void setPassengers(List<Passenger> passengers) {
+		this.passengers = passengers;
+	}
+
 }
