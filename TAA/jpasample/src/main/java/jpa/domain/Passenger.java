@@ -27,7 +27,7 @@ public class Passenger implements Serializable {
 
 	/**
 	 * Gets the id of the passenger
-	 * @return
+	 * @return id
 	 */
 	@Id
 	public int getId() {
@@ -44,7 +44,7 @@ public class Passenger implements Serializable {
 
 	/**
 	 * Gets the rides of the passenger
-	 * @return
+	 * @return rides
 	 */
 	@ManyToMany
 	public Collection<Ride> getRides() {

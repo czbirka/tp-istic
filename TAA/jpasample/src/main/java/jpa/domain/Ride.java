@@ -89,7 +89,7 @@ public class Ride implements Serializable {
 
 	/**
 	 * Gets the arrival location
-	 * @return
+	 * @return destination
 	 */
 	public String getDestination() {
 		return destination;
@@ -121,7 +121,7 @@ public class Ride implements Serializable {
 	
 	/**
 	 * Gets the number of seats for the ride
-	 * @return
+	 * @return seatNumber
 	 */
 	public int getSeatNumber() {
 		return seatNumber;
@@ -137,7 +137,7 @@ public class Ride implements Serializable {
 
 	/**
 	 * Gets the driver of the ride
-	 * @return
+	 * @return driver
 	 */
 	@ManyToOne
 	public Driver getDriver() {
@@ -156,7 +156,7 @@ public class Ride implements Serializable {
 	 * Gets the passengers of the ride
 	 * @return passengers
 	 */
-	@ManyToMany
+	@ManyToMany(mappedBy="rides")
 	public Collection<Passenger> getPassengers() {
 		return passengers;
 	}
