@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -30,6 +31,7 @@ public class Passenger implements Serializable {
 	 * @return id
 	 */
 	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
