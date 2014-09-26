@@ -1,7 +1,7 @@
 package jpa.domain;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +24,7 @@ public class Driver implements Serializable {
 	/**
 	 * The list of rides a driver can have
 	 */
-	private List<Ride> rides;
+	private Collection<Ride> rides;
 
 	/**
 	 * Gets the id of the driver
@@ -48,8 +48,8 @@ public class Driver implements Serializable {
 	 * Gets the ride list of the driver
 	 * @return rides
 	 */
-	@OneToMany
-	public List<Ride> getRides() {
+	@OneToMany(mappedBy="driver")
+	public Collection<Ride> getRides() {
 		return rides;
 	}
 
@@ -57,7 +57,7 @@ public class Driver implements Serializable {
 	 * Sets the ride list of the driver
 	 * @param rides
 	 */
-	public void setRides(List<Ride> rides) {
+	public void setRides(Collection<Ride> rides) {
 		this.rides = rides;
 	}
 }

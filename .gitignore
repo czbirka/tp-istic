@@ -8,7 +8,4 @@
 *.ear
 
 # JPA #
-test.lck
-test.log
-test.properties
-test.script
+TAA/jpasample/data/*

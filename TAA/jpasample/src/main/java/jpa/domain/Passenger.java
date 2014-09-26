@@ -1,7 +1,7 @@
 package jpa.domain;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,7 +23,7 @@ public class Passenger implements Serializable {
 	/**
 	 * The list of rides a passenger can have
 	 */
-	private List<Ride> rides;
+	private Collection<Ride> rides;
 
 	/**
 	 * Gets the id of the passenger
@@ -47,7 +47,7 @@ public class Passenger implements Serializable {
 	 * @return
 	 */
 	@ManyToMany
-	public List<Ride> getRides() {
+	public Collection<Ride> getRides() {
 		return rides;
 	}
 
@@ -55,7 +55,7 @@ public class Passenger implements Serializable {
 	 * Sets the rides of the passenger
 	 * @param rides
 	 */
-	public void setRides(List<Ride> rides) {
+	public void setRides(Collection<Ride> rides) {
 		this.rides = rides;
 	}
 
