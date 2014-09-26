@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import jpa.domain.Driver;
 import jpa.domain.Passenger;
@@ -34,17 +35,15 @@ public class JpaTest {
 		tx.begin();
 
 		try {
-			
-			//manager.persist(et);
 			Driver driver = new Driver();
 			
 			Collection<Ride> rides = new ArrayList<Ride>();
 			Ride r = new Ride();
-			r.setDestination("Tahiti");
 			r.setOrigin("Rennes");
-			r.setDriver(driver);
+			r.setDestination("Tahiti");
 			r.setSeatNumber(2);
 			r.setLeavingDate(new Date(new java.util.Date().getTime()));
+			r.setDriver(driver);
 			
 			Collection<Passenger> ps = new ArrayList<Passenger>();
 			Passenger p = new Passenger();
@@ -55,10 +54,18 @@ public class JpaTest {
 			rides.add(r);
 			driver.setRides(rides);
 			
+			// Persist the objects
 			manager.persist(driver);
 			manager.persist(r);
 			manager.persist(p);
-					
+			
+			String textQuery = "SELECT d FROM Driver as d";
+			Query q = manager.createQuery(textQuery);
+			
+			Driver d2 = (Driver) q.getSingleResult();
+			
+			System.out.println("Saved driver id: " + d2.getId());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
