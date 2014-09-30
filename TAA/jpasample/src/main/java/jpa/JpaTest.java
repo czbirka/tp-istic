@@ -39,7 +39,7 @@ public class JpaTest {
 			
 			Collection<Ride> rides = new ArrayList<Ride>();
 			Ride r = new Ride();
-			r.setOrigin("Rennes");
+			r.setOrigin("Plop");
 			r.setDestination("Tahiti");
 			r.setSeatNumber(2);
 			r.setLeavingDate(new Date(new java.util.Date().getTime()));
@@ -58,7 +58,7 @@ public class JpaTest {
 			manager.persist(driver);
 			manager.persist(r);
 			manager.persist(p);
-			
+
 			String textQuery = "SELECT d FROM Driver as d";
 			Query q = manager.createQuery(textQuery);
 			
