@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Ride implements Serializable {
+public class Ride implements Serializable, IRide {
 
 	/**
 	 * Id for serializable class
@@ -57,7 +57,8 @@ public class Ride implements Serializable {
 	 * Gets the id of the ride
 	 * @return id
 	 */
-	@Id
+	@Override
+    @Id
 	@GeneratedValue
 	public int getId() {
 		return id;
@@ -67,7 +68,8 @@ public class Ride implements Serializable {
 	 * Sets the id of the ride
 	 * @param id
 	 */
-	public void setId(final int id) {
+	@Override
+    public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -75,7 +77,8 @@ public class Ride implements Serializable {
 	 * Gets the departure location
 	 * @return origin
 	 */
-	public String getOrigin() {
+	@Override
+    public String getOrigin() {
 		return origin;
 	}
 
@@ -83,7 +86,8 @@ public class Ride implements Serializable {
 	 * Sets the departure location
 	 * @param origin
 	 */
-	public void setOrigin(String origin) {
+	@Override
+    public void setOrigin(String origin) {
 		this.origin = origin;
 	}
 
@@ -91,7 +95,8 @@ public class Ride implements Serializable {
 	 * Gets the arrival location
 	 * @return destination
 	 */
-	public String getDestination() {
+	@Override
+    public String getDestination() {
 		return destination;
 	}
 
@@ -99,7 +104,8 @@ public class Ride implements Serializable {
 	 * Sets the arrival location
 	 * @param destination
 	 */
-	public void setDestination(String destination) {
+	@Override
+    public void setDestination(String destination) {
 		this.destination = destination;
 	}
 
@@ -107,7 +113,8 @@ public class Ride implements Serializable {
 	 * Gets the departure date
 	 * @return leavingDate
 	 */
-	public Date getLeavingDate() {
+	@Override
+    public Date getLeavingDate() {
 		return leavingDate;
 	}
 
@@ -115,7 +122,8 @@ public class Ride implements Serializable {
 	 * Sets the departure date
 	 * @param leavingDate
 	 */
-	public void setLeavingDate(Date leavingDate) {
+	@Override
+    public void setLeavingDate(Date leavingDate) {
 		this.leavingDate = leavingDate;
 	}
 	
@@ -123,7 +131,8 @@ public class Ride implements Serializable {
 	 * Gets the number of seats for the ride
 	 * @return seatNumber
 	 */
-	public int getSeatNumber() {
+	@Override
+    public int getSeatNumber() {
 		return seatNumber;
 	}
 
@@ -131,7 +140,8 @@ public class Ride implements Serializable {
 	 * Sets the number of seats for the ride
 	 * @param seatNumber
 	 */
-	public void setSeatNumber(int seatNumber) {
+	@Override
+    public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
 	}
 
@@ -139,7 +149,8 @@ public class Ride implements Serializable {
 	 * Gets the driver of the ride
 	 * @return driver
 	 */
-	@ManyToOne
+	@Override
+    @ManyToOne
 	public Driver getDriver() {
 		return driver;
 	}
@@ -148,7 +159,8 @@ public class Ride implements Serializable {
 	 * Sets the driver of the ride
 	 * @param driver
 	 */
-	public void setDriver(Driver driver) {
+	@Override
+    public void setDriver(Driver driver) {
 		this.driver = driver;
 	}
 	
@@ -156,7 +168,8 @@ public class Ride implements Serializable {
 	 * Gets the passengers of the ride
 	 * @return passengers
 	 */
-	@ManyToMany(mappedBy="rides")
+	@Override
+    @ManyToMany(mappedBy="rides")
 	public Collection<Passenger> getPassengers() {
 		return passengers;
 	}
@@ -165,7 +178,8 @@ public class Ride implements Serializable {
 	 * Sets the passengers of the ride
 	 * @param passengers
 	 */
-	public void setPassengers(Collection<Passenger> passengers) {
+	@Override
+    public void setPassengers(Collection<Passenger> passengers) {
 		this.passengers = passengers;
 	}
 
