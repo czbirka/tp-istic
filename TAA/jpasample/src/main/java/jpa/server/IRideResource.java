@@ -9,9 +9,9 @@ import javax.xml.bind.JAXBElement;
 import java.util.Collection;
 
 /**
- * Created by thomas on 06/10/14.
+ * Created by Thomas & Amona on 06/10/14.
  */
-public interface IRideRessource {
+public interface IRideResource {
 
     Collection<Ride> getRides();
 

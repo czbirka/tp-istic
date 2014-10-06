@@ -1,8 +1,5 @@
 package jpa.server;
 
-import jpa.domain.Driver;
-import jpa.domain.IRide;
-import jpa.domain.Passenger;
 import jpa.domain.Ride;
 
 import javax.persistence.EntityManager;
@@ -11,21 +8,19 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBElement;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by Thomas & Amona on 06/10/14.
  */
 @Path("/rides")
-public class RideRessource implements IRideRessource {
+public class RideResource implements IRideResource {
 
     EntityManager manager;
 
-    public RideRessource() {
+    public RideResource() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("dev");
         manager = factory.createEntityManager();
         EntityTransaction t = manager.getTransaction();
@@ -73,11 +68,11 @@ public class RideRessource implements IRideRessource {
     @Path("/update/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride>  update(Ride update) {
+    public Collection<Ride> update(Ride update) {
         EntityTransaction t = manager.getTransaction();
 
         t.begin();
-        manager.refresh(update);
+        manager.merge(update);
         t.commit();
 
         return manager.createQuery("select r from Ride as r").getResultList();
