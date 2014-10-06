@@ -35,7 +35,7 @@ public class RideRessource implements IRideRessource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public Collection<Ride> getRides() {
-        return manager.createQuery("select r from Ride as l").getResultList();
+        return manager.createQuery("select r from Ride as r").getResultList();
     }
 
     @GET

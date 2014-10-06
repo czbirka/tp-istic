@@ -57,7 +57,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the id of the ride
 	 * @return id
 	 */
-	@Override
     @Id
 	@GeneratedValue
 	public int getId() {
@@ -68,7 +67,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the id of the ride
 	 * @param id
 	 */
-	@Override
     public void setId(final int id) {
 		this.id = id;
 	}
@@ -77,7 +75,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the departure location
 	 * @return origin
 	 */
-	@Override
     public String getOrigin() {
 		return origin;
 	}
@@ -86,7 +83,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the departure location
 	 * @param origin
 	 */
-	@Override
     public void setOrigin(String origin) {
 		this.origin = origin;
 	}
@@ -95,7 +91,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the arrival location
 	 * @return destination
 	 */
-	@Override
     public String getDestination() {
 		return destination;
 	}
@@ -104,7 +99,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the arrival location
 	 * @param destination
 	 */
-	@Override
     public void setDestination(String destination) {
 		this.destination = destination;
 	}
@@ -113,7 +107,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the departure date
 	 * @return leavingDate
 	 */
-	@Override
     public Date getLeavingDate() {
 		return leavingDate;
 	}
@@ -122,7 +115,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the departure date
 	 * @param leavingDate
 	 */
-	@Override
     public void setLeavingDate(Date leavingDate) {
 		this.leavingDate = leavingDate;
 	}
@@ -131,7 +123,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the number of seats for the ride
 	 * @return seatNumber
 	 */
-	@Override
     public int getSeatNumber() {
 		return seatNumber;
 	}
@@ -140,7 +131,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the number of seats for the ride
 	 * @param seatNumber
 	 */
-	@Override
     public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
 	}
@@ -149,7 +139,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the driver of the ride
 	 * @return driver
 	 */
-	@Override
     @ManyToOne
 	public Driver getDriver() {
 		return driver;
@@ -159,7 +148,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the driver of the ride
 	 * @param driver
 	 */
-	@Override
     public void setDriver(Driver driver) {
 		this.driver = driver;
 	}
@@ -168,7 +156,6 @@ public class Ride implements Serializable, IRide {
 	 * Gets the passengers of the ride
 	 * @return passengers
 	 */
-	@Override
     @ManyToMany(mappedBy="rides")
 	public Collection<Passenger> getPassengers() {
 		return passengers;
@@ -178,7 +165,6 @@ public class Ride implements Serializable, IRide {
 	 * Sets the passengers of the ride
 	 * @param passengers
 	 */
-	@Override
     public void setPassengers(Collection<Passenger> passengers) {
 		this.passengers = passengers;
 	}
