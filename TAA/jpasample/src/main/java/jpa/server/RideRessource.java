@@ -1,22 +1,20 @@
 package jpa.server;
 
+import jpa.domain.Driver;
 import jpa.domain.IRide;
+import jpa.domain.Passenger;
 import jpa.domain.Ride;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.DELETE;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -30,52 +28,65 @@ public class RideRessource implements IRideRessource {
     public RideRessource() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("dev");
         manager = factory.createEntityManager();
+        EntityTransaction t = manager.getTransaction();
+        t.begin();
+
+        Ride r = new Ride();
+        r.setOrigin("NY");
+        r.setDestination("LA");
+        r.setSeatNumber(2);
+        r.setLeavingDate(new Date(new java.util.Date().getTime()));
+
+        // Persist the objects
+        manager.persist(r);
+        t.commit();
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Produces(MediaType.APPLICATION_JSON)
     public Collection<Ride> getRides() {
         return manager.createQuery("select r from Ride as r").getResultList();
     }
 
     @GET
     @Path("/search/{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Produces(MediaType.APPLICATION_JSON)
     public Ride getRideById(@PathParam("id") String id) {
         return manager.find(Ride.class, Integer.parseInt(id));
     }
 
     @POST
     @Path("/create/")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public Ride create(JAXBElement<Ride> ride) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Ride> create(Ride ride) {
         EntityTransaction t = manager.getTransaction();
-        Ride update = ride.getValue();
 
         t.begin();
-        manager.persist(update);
+        manager.persist(ride);
         t.commit();
 
-        return manager.find(Ride.class, update.getId());
+        return manager.createQuery("select r from Ride as r").getResultList();
     }
 
     @PUT
     @Path("/update/{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public Ride update(JAXBElement<Ride> ride) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Ride>  update(Ride update) {
         EntityTransaction t = manager.getTransaction();
-        Ride update = ride.getValue();
 
         t.begin();
         manager.refresh(update);
         t.commit();
 
-        return manager.find(Ride.class, update.getId());
+        return manager.createQuery("select r from Ride as r").getResultList();
     }
 
     @DELETE
     @Path("/delete/{id}")
-    public IRide deleteById(@PathParam("id") String id) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Ride> deleteById(@PathParam("id") String id) {
         EntityTransaction t = manager.getTransaction();
 
         t.begin();
@@ -83,6 +94,6 @@ public class RideRessource implements IRideRessource {
         manager.remove(r);
         t.commit();
 
-        return r;
+        return manager.createQuery("select r from Ride as r").getResultList();
     }
 }

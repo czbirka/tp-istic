@@ -17,9 +17,9 @@ public interface IRideRessource {
 
     Ride getRideById(String id);
 
-    Ride create(JAXBElement<Ride> ride);
+    Collection<Ride> create(Ride ride);
 
-    Ride update(JAXBElement<Ride> ride);
+    Collection<Ride> update(Ride update);
 
-    IRide deleteById(String id);
+    Collection<Ride> deleteById(String id);
 }
