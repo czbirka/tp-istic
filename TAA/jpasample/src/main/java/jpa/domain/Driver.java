@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Driver implements Serializable {
+public class Driver implements User, Serializable {
 
 	/**
 	 * Id for serializable class

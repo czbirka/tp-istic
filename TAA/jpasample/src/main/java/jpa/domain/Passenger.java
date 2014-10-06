@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Passenger implements Serializable {
+public class Passenger implements User, Serializable {
 
 	/**
 	 * Id for serializable class
