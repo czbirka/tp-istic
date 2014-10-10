@@ -21,15 +21,11 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schema/jaxws.xsd">
 
-	<bean id="engine" class="fr.istic.tp.spring.engine.impl.Engine">
-	<property name="startCommand" ref="cmdStart" />
-	<property name="stopCommand" ref="cmdStop" />
+	<bean id="client" class="fr.istic.impl.Client">
 	</bean>
-
-	<bean id="cmdStart" class="fr.istic.tp.spring.command.impl.CommandStart" />
-	<bean id="cmdStop" class="fr.istic.tp.spring.command.impl.CommandStop" />
-
-
+	<bean id="store" class="fr.istic.impl.Store"></bean>
+	<bean id="bank" class="fr.istic.impl.Bank"></bean>
+	<bean id="provider" class="fr.istic.impl.Provider"></bean>
 
 
 </beans>
