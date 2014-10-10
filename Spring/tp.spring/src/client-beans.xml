@@ -22,13 +22,14 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://cxf.apache.org/jaxws http://cxf.apache.org/schema/jaxws.xsd">
 
 	<bean id="client" class="fr.istic.impl.Client">
-		<property name="have" ref="store"></property>
-		<property name="ilane" ref="store"></property>
-		<property name="lane" ref="store"></property>
+		<property name="have" ref="store"/>
+		<property name="ilane" ref="store"/>
+		<property name="lane" ref="store"/>
 	</bean>
 	
 	<bean id="store" class="fr.istic.impl.Store">
-		<property name="provider" ref="provider"></property>	
+		<property name="bank" ref="bank"/>
+		<property name="provider" ref="provider"/>	
 	</bean>
 	
 	<bean id="bank" class="fr.istic.impl.Bank"></bean>
