@@ -8,7 +8,15 @@ import fr.istic.interfaces.IRun;
 
 public class Client implements IClient, IRun {
 	private IJustHaveALook have;
-	private IFastLane fLane;
+	private IFastLane ilane;
+	public IFastLane getIlane() {
+		return ilane;
+	}
+
+	public void setIlane(IFastLane ilane) {
+		this.ilane = ilane;
+	}
+
 	private ILane lane;
 	
 	public IJustHaveALook getHave() {
