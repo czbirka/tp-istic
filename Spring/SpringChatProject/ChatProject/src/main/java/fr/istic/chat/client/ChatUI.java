@@ -20,8 +20,8 @@ import javax.swing.JTextField;
 
 public class ChatUI {
 
-	private Commande  unregister;
-	private Commande  postMessage;
+	private Command  unregister;
+	private Command  postMessage;
 	
 	
 	private ChatUser u = null;
@@ -36,7 +36,7 @@ public class ChatUI {
 
 	private JButton btnSend = new JButton("Envoyer");
 
-	public ChatUI(ChatUser u,Commande post, Commande unregister) {
+	public ChatUI(ChatUser u,Command post, Command unregister) {
 
 		this.postMessage = post;
 		this.unregister = unregister;

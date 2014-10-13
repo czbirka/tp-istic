@@ -41,9 +41,9 @@ public class ChatUserImpl extends UnicastRemoteObject implements ChatUser,
 	}
 
 	public void createIHM() {
-		Commande unreg = new CommandeUnregister(room);
+		Command unreg = new CommandUnregister(room);
 		unreg.setUser(this);
-		Commande post = new CommandPost(room);
+		Command post = new CommandPost(room);
 		post.setUser(this);
 		ui = new ChatUI(this, post, unreg);
 		((CommandPost) post).setUI(ui);
