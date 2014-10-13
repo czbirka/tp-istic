@@ -29,32 +29,27 @@ public class Store implements IStore, IJustHaveALook, ILane, IFastLane {
 
 	@Override
 	public void oneShotOrder() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("One shot order !");
 	}
 
 	@Override
 	public void addItemToCart() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Item added to cart.");
 	}
 
 	@Override
 	public void pay() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Payment accepted. Thank you !");
 	}
 
 	@Override
 	public int getPrice() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public boolean isAvailable() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	

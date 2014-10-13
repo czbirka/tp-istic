@@ -1,6 +1,6 @@
 package fr.istic.interfaces;
 
 
-public interface IClient {
+public interface IClient extends IRun {
 	
 }
