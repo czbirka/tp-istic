@@ -29,7 +29,7 @@ public class RideJsonConverter {
 	    return ride.as();
 	  }
 
-	  String serializeToJson(Ride ride) {
+	  String serializeToJson(IRide ride) {
 	    // Retrieve the AutoBean controller
 	    AutoBean<IRide> bean = AutoBeanUtils.getAutoBean(ride);
 
