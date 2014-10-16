@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import fr.istic.chat.server.ChatRoom;
 
 
-public class CommandPost implements Commande {
+public class CommandPost implements Command {
 
 	public CommandPost(ChatRoom room) {
 		this.room = room;

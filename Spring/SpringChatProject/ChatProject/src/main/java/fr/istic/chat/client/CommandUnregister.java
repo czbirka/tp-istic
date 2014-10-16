@@ -5,12 +5,12 @@ import java.rmi.RemoteException;
 import fr.istic.chat.server.ChatRoom;
 
 
-public class CommandeUnregister implements Commande {
+public class CommandUnregister implements Command {
 
 	ChatRoom room = null;
 	User user = null;
 	
-	public CommandeUnregister(ChatRoom room) {
+	public CommandUnregister(ChatRoom room) {
 		this.room = room;
 	}
 
