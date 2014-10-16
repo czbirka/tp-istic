@@ -1,0 +1,21 @@
+<div>
+	<h1>Ride list</h1>
+	<div class="panel panel-default">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>origin</th>
+					<th>destination</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="ride in rides">
+					<td>{{ ride.id }}</td>
+					<td>{{ ride.origin }}</td>
+					<td>{{ ride.destination }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
