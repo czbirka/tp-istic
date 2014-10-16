@@ -1,6 +1,6 @@
 
-TAA/jpasample/.idea/
-TAA/jpasample/target/
+TAA/*/.idea/
+TAA/*/target/
 
 ### Java ###
 *.class
