@@ -13,10 +13,10 @@ var angularApp = angular.module('tpangularApp', [
 	'ngResource',
 	'ngRoute',
 	'ngSanitize',
-	'ui.router'
-	]);
+	'ui.router',
+]);
 
- angularApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+angularApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/home');
 
 	$stateProvider.state('home', {
@@ -37,6 +37,15 @@ var angularApp = angular.module('tpangularApp', [
 	.state('delete', {
 		url: '/delete/:id',
 		controller: 'DeleteCtrl'
+	})
+	.state('register', {
+		url: '/register',
+		templateUrl: 'views/userForm.tpl.html',
+		controller: 'RegisterCtrl'
+	})
+	.state('user', {
+		url: '/user/:id',
+		templateUrl: 'views/userInfo.tpl.html',
+		controller: 'UserInfoCtrl'
 	});
-}
-]);
+}]);

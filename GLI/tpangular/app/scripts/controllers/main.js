@@ -9,7 +9,7 @@
  */
 var controllers = angular.module('tpangularApp');
 
-controllers.controller('HomeCtrl', ['$scope', '$http', 
+controllers.controller('HomeCtrl', ['$scope', '$http',
 	function ($scope, $http) {
 		$http.get('/rest/rides').success(function (data) {
 			$scope.rides = data;
@@ -17,33 +17,50 @@ controllers.controller('HomeCtrl', ['$scope', '$http',
 	}
 ]);
 
-controllers.controller('CreateCtrl', ['$scope', '$state', '$http', 
-	function ($scope, $state, $http) {
+controllers.controller('CreateCtrl', ['$scope', '$state', '$http', 'UserService',
+	function ($scope, $state, $http, UserService) {
 		$scope.pageName = 'Create';
 		$scope.ride = {
 			origin: '',
 			destination: '',
 			leavingDate: '',
-			seatNumber: ''
+			seatNumber: '',
+			driver: null
 		};
 
+		$scope.users = [];
+
+		UserService.getAll().then(function (data) {
+			$scope.users = data;
+		});
+
 		$scope.submit = function () {
+			// Deserialize the driver
+			$scope.ride.driver = angular.fromJson($scope.ride.driver);
+
 			$http.post('/rest/rides/create/', $scope.ride)
 			.success(function (){
 				$state.go('home');
 			});
 		};
+
+		$scope.cancel = function () {
+			$state.go('home');
+		};
 	}
 ]);
 
-controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http',
-	function ($state, $stateParams, $scope, $http) {
+controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http', 'UserService',
+	function ($state, $stateParams, $scope, $http, UserService) {
 		var id = $stateParams.id;
 
 		$scope.pageName = 'Update';
 
-		$http.get('/rest/rides/search/' + id)
-		.success(function (data) {
+		UserService.getAll().then(function (data) {
+			$scope.users = data;
+		});
+
+		$http.get('/rest/rides/' + id).success(function (data) {
 			$scope.ride = data;
 		});
 
@@ -52,6 +69,10 @@ controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http
 			.success(function () {
 				$state.go('home');
 			});
+		};
+
+		$scope.cancel = function () {
+			$state.go('home');
 		};
 	}
 ]);
@@ -62,5 +83,22 @@ controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http
 		.success(function() {
 			$state.go('home');
 		});
+	}
+]);
+
+controllers.controller('RegisterCtrl', ['$state', '$scope', function ($state, $scope) {
+	$scope.pageName = 'Register';
+	$scope.user = {
+		username: ''
+	};
+
+	$scope.cancel = function () {
+		$state.go('home');
+	};
+}]);
+
+controllers.controller('UserInfoCtrl', ['$scope', 'UserService',
+	function ($scope, UserService) {
+		// TODO: get user info and save it into the $scope
 	}
 ]);
