@@ -1,0 +1,24 @@
+<h1>{{ pageName }}</h1>
+
+<form name="rideForm">
+	<div class="form-group">
+		<label for="origin">Origin</label>
+		<input type="text" class="form-control" id="origin" ng-model="ride.origin" placeholder="Enter the origin" required>
+	</div>
+	<div class="form-group">
+		<label for="destination">Destination</label>
+		<input type="text" class="form-control" id="destination" ng-model="ride.destination" placeholder="Enter your destination" required>
+	</div>
+	<div class="form-group">
+		<label for="leavingDate">LeavingDate</label>
+		<input type="text" class="form-control" id="leavingDate" ng-model="ride.leavingDate" placeholder="Enter the date" required>
+	</div>
+	<div class="form-group">
+		<label for="seatNumber">Seat number</label>
+		<input type="text" class="form-control" id="seatNumber" ng-model="ride.seatNumber" placeholder="Enter the Seat Number" required>
+	</div>
+	<div class="form-action text-right">
+		<a ng-click="cancel()" class="btn btn-default">Cancel</a>
+		<button type="submit" ng-click="submit()" id="submit" ng-disabled="rideForm.$invalid" class="btn btn-default btn-primary">Valider</button>
+	</div>
+</form>
