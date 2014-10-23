@@ -7,6 +7,9 @@
 					<th>id</th>
 					<th>origin</th>
 					<th>destination</th>
+					<th>leaving date</th>
+					<th>seat number</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -14,6 +17,9 @@
 					<td>{{ ride.id }}</td>
 					<td>{{ ride.origin }}</td>
 					<td>{{ ride.destination }}</td>
+					<td>{{ ride.leavingDate }}</td>
+					<td>{{ ride.seatNumber }}</td>
+					<td><a ui-sref="delete({ id: ride.id })">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

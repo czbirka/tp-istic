@@ -23,5 +23,14 @@ angularApp.config(function ($stateProvider, $urlRouterProvider) {
       url: '/home',
       templateUrl: 'views/home.tpl.html',
       controller: 'HomeCtrl'
-    });
-  });
+    })
+    .state('create', {
+      url: '/create',
+      templateUrl: 'views/create.tpl.html',
+      controller: 'CreateCtrl'
+   })
+   .state('delete', {
+      url: '/delete/:id',
+      controller: 'DeleteCtrl'
+   });
+});
