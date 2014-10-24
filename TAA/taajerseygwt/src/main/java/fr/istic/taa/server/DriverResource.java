@@ -1,76 +1,74 @@
 package fr.istic.taa.server;
 
-import fr.istic.taa.shared.Ride;
+import fr.istic.taa.shared.Driver;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import java.util.Collection;
 
 /**
- * Created by Thomas & Amona on 06/10/14.
+ * Created by thomas on 23/10/14.
  */
-@Path("/rides")
-public class RideResource implements IRideResource {
+@Path("/drivers")
+public class DriverResource implements IDriverResource {
 
-
-    public RideResource() {
+    public DriverResource() {
 
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> getRides() {
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+    public Collection<Driver> getDrivers() {
+        return ManagerSingleton.getInstance().createQuery("select d from Driver as d").getResultList();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Ride getRideById(@PathParam("id") String id) {
-        return ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
+    public Driver getRideById(String id) {
+        return ManagerSingleton.getInstance().find(Driver.class, Integer.parseInt(id));
     }
 
     @POST
     @Path("/create/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> create(Ride ride) {
+    public Collection<Driver> create(Driver ride) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
         ManagerSingleton.getInstance().persist(ride);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ManagerSingleton.getInstance().createQuery("select d from Driver as d").getResultList();
     }
 
     @PUT
     @Path("/update/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> update(Ride update) {
+    public Collection<Driver> update(Driver update) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
         ManagerSingleton.getInstance().merge(update);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ManagerSingleton.getInstance().createQuery("select d from Driver as d").getResultList();
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> deleteById(@PathParam("id") String id) {
+    public Collection<Driver> deleteById(@PathParam("id") String id) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
-        Ride r = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
-        ManagerSingleton.getInstance().remove(r);
+        Driver d = ManagerSingleton.getInstance().find(Driver.class, Integer.parseInt(id));
+        ManagerSingleton.getInstance().remove(d);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ManagerSingleton.getInstance().createQuery("select d from Driver as d").getResultList();
     }
 }

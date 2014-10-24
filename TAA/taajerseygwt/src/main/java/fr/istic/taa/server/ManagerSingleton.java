@@ -42,11 +42,11 @@ public class ManagerSingleton {
         return manager.createQuery(query);
     }
 
-    public <T extends Ride> T merge(T entity) {
+    public <T> T merge(T entity) {
         return manager.merge(entity);
     }
 
-    public <T extends Ride> T find(Class<T> entityClass, Object primaryKey) {
+    public <T> T find(Class<T> entityClass, Object primaryKey) {
         return manager.find(entityClass, primaryKey);
     }
 }

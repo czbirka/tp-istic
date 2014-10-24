@@ -20,6 +20,11 @@ public class Driver implements User, Serializable {
 	 * The id of the driver
 	 */
 	private int id;
+
+    /**
+     * The username of the driver
+     */
+    private String username;
 	
 	/**
 	 * The list of rides a driver can have
@@ -43,8 +48,24 @@ public class Driver implements User, Serializable {
 	public void setId(final int id) {
 		this.id = id;
 	}
-	
-	/**
+
+    /**
+     * Gets the driver's username
+     * @return
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets the driver's username
+     * @param username
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
 	 * Gets the ride list of the driver
 	 * @return rides
 	 */
