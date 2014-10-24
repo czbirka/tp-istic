@@ -24,27 +24,42 @@ angularApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
 		templateUrl: 'views/home.tpl.html',
 		controller: 'HomeCtrl'
 	})
-	.state('create', {
+	.state('rides', {
+		abstract: true,
+		url: '/rides',
+		template: '<ui-view/>'
+	})
+	.state('rides.create', {
 		url: '/create',
 		templateUrl: 'views/rideForm.tpl.html',
 		controller: 'CreateCtrl'
 	})
-	.state('update', {
+	.state('rides.update', {
 		url: '/update/:id',
 		templateUrl: 'views/rideForm.tpl.html',
 		controller: 'UpdateCtrl'
 	})
-	.state('delete', {
+	.state('rides.delete', {
 		url: '/delete/:id',
 		controller: 'DeleteCtrl'
 	})
-	.state('register', {
+	.state('users', {
+		abstract: true,
+		url: '/users',
+		template: '<ui-view/>'
+	})
+	.state('users.list', {
+		url: '/',
+		templateUrl: 'views/userList.tpl.html',
+		controller: 'UsersCtrl'
+	})
+	.state('users.register', {
 		url: '/register',
 		templateUrl: 'views/userForm.tpl.html',
 		controller: 'RegisterCtrl'
 	})
-	.state('user', {
-		url: '/user/:id',
+	.state('users.user', {
+		url: '/:id',
 		templateUrl: 'views/userInfo.tpl.html',
 		controller: 'UserInfoCtrl'
 	});

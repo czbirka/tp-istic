@@ -20,8 +20,8 @@
 					<td>{{ ride.destination }}</td>
 					<td>{{ ride.leavingDate }}</td>
 					<td>{{ ride.seatNumber }}</td>
-					<td><a ui-sref="user({ id: ride.driver.id })">{{ ride.driver.username }}</a></td>
-					<td><a ui-sref="update({ id: ride.id })">Update</a> | <a ui-sref="delete({ id: ride.id })">Delete</a></td>
+					<td><a ui-sref="users.user({ id: ride.driver.id })">{{ ride.driver.username }}</a></td>
+					<td><a ui-sref="rides.update({ id: ride.id })">Update</a> | <a ui-sref="rides.delete({ id: ride.id })">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

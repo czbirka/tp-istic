@@ -82,20 +82,36 @@ controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http
 		$http.delete('/rest/rides/delete/' + $stateParams.id)
 		.success(function() {
 			$state.go('home');
+		})
+		.error(function (data, status) {
+			console.log('Error: ', status);
+			$state.go('home');
 		});
 	}
 ]);
 
-controllers.controller('RegisterCtrl', ['$state', '$scope', function ($state, $scope) {
-	$scope.pageName = 'Register';
-	$scope.user = {
-		username: ''
-	};
+controllers.controller('RegisterCtrl', ['$state', '$scope',
+	function ($state, $scope) {
+		$scope.pageName = 'Create user';
+		$scope.user = {
+			username: ''
+		};
 
-	$scope.cancel = function () {
-		$state.go('home');
-	};
-}]);
+		$scope.submit = function () {
+			// TODO
+		};
+
+		$scope.cancel = function () {
+			$state.go('home');
+		};
+	}
+]);
+
+controllers.controller('UsersCtrl', ['$scope', 'UserService',
+	function ($scope, UserService) {
+		// TODO
+	}
+]);
 
 controllers.controller('UserInfoCtrl', ['$scope', 'UserService',
 	function ($scope, UserService) {

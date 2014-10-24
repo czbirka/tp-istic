@@ -1,13 +1,14 @@
 /* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 /* Custom page footer */
 .footer {
-  margin-top: 20px;
-  padding-top: 20px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+	margin-top: 20px;
+	padding-top: 20px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
