@@ -112,7 +112,9 @@ controllers.controller('RegisterCtrl', ['$state', '$scope', '$http',
 
 controllers.controller('UsersCtrl', ['$scope', 'UserService',
 	function ($scope, UserService) {
-		// TODO
+		UserService.getAll().then(function (data) {
+			$scope.users = data;
+		});
 	}
 ]);
 
