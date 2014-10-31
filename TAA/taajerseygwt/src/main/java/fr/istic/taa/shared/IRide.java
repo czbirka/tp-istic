@@ -1,9 +1,5 @@
 package fr.istic.taa.shared;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.util.Collection;
 
@@ -32,11 +28,11 @@ public interface IRide {
 
     void setSeatNumber(int seatNumber);
 
-    Driver getDriver();
+    User getDriver();
 
-    void setDriver(Driver driver);
+    void setDriver(User driver);
 
-    Collection<Passenger> getPassengers();
+    Collection<User> getPassengers();
 
-    void setPassengers(Collection<Passenger> passengers);
+    void setPassengers(Collection<User> passengers);
 }

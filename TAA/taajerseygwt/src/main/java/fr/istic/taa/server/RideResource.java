@@ -1,6 +1,7 @@
 package fr.istic.taa.server;
 
 import fr.istic.taa.shared.Ride;
+import fr.istic.taa.shared.User;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -40,7 +41,12 @@ public class RideResource implements IRideResource {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
-        ManagerSingleton.getInstance().persist(ride);
+        User driver = (User) ManagerSingleton.getInstance()
+                .createQuery("select u from User as u where u.id=" + ride.getDriver().getId())
+                .getSingleResult();
+        driver.addRidesAsDriver(ride);
+        ride.setDriver(driver);
+        ManagerSingleton.getInstance().merge(driver);
         t.commit();
 
         return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();

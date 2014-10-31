@@ -1,7 +1,7 @@
 package fr.istic.taa.shared;
 
-import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -41,12 +41,12 @@ public class Ride implements IRide {
 	/**
 	 * Driver of the ride
 	 */
-	private Driver driver;
+	private User driver;
 	
 	/**
 	 * List of passengers of the ride
 	 */
-	private Collection<Passenger> passengers;
+	private Collection<User> passengers;
 
 	/**
 	 * Gets the id of the ride
@@ -135,7 +135,7 @@ public class Ride implements IRide {
 	 * @return driver
 	 */
     @ManyToOne
-	public Driver getDriver() {
+	public User getDriver() {
 		return driver;
 	}
 
@@ -143,7 +143,7 @@ public class Ride implements IRide {
 	 * Sets the driver of the ride
 	 * @param driver
 	 */
-    public void setDriver(Driver driver) {
+    public void setDriver(User driver) {
 		this.driver = driver;
 	}
 	
@@ -151,8 +151,10 @@ public class Ride implements IRide {
 	 * Gets the passengers of the ride
 	 * @return passengers
 	 */
-    @ManyToMany(mappedBy="rides")
-	public Collection<Passenger> getPassengers() {
+    @ManyToMany(mappedBy="ridesAsPassenger")
+	public Collection<User> getPassengers() {
+        if (passengers == null)
+            passengers = new ArrayList<User>();
 		return passengers;
 	}
 
@@ -160,7 +162,7 @@ public class Ride implements IRide {
 	 * Sets the passengers of the ride
 	 * @param passengers
 	 */
-    public void setPassengers(Collection<Passenger> passengers) {
+    public void setPassengers(Collection<User> passengers) {
 		this.passengers = passengers;
 	}
 
