@@ -15,6 +15,4 @@ public interface IUser {
     public void setRidesAsDriver(Collection<Ride> ridesAsDriver);
     public Collection<Ride> getRidesAsPassenger();
     public void setRidesAsPassenger(Collection<Ride> ridesAsPassenger);
-    public Collection<Number> getRidesAsDriverID();
-    public Collection<Number> getRidesAsPassengerID();
 }

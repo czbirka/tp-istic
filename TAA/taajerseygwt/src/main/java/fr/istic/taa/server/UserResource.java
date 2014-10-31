@@ -34,11 +34,11 @@ public class UserResource implements IUserResource {
     @Path("/create/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<User> create(User ride) {
+    public Collection<User> create(User user) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
-        ManagerSingleton.getInstance().persist(ride);
+        ManagerSingleton.getInstance().persist(user);
         t.commit();
 
         return ManagerSingleton.getInstance().createQuery("select u from User as u").getResultList();

@@ -1,5 +1,6 @@
 package fr.istic.taa.shared;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Ride implements IRide {
+public class Ride implements IRide, Serializable {
+
+    /**
+     * Id for serializable class
+     */
+    private static final long serialVersionUID = 7931470498245035451L;
 
 	/**
 	 * Id of the ride
