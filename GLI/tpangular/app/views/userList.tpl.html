@@ -13,7 +13,7 @@
 				<tr ng-repeat="user in users">
 					<td>{{ user.id }}</td>
 					<td>{{ user.username }}</td>
-					<td><a ui-sref="update({ id: user.id })">Update</a> | <a ui-sref="delete({ id: ride.id })">Delete</a></td>
+					<td><a ui-sref="users.update({ id: user.id })">Update</a> | <a ui-sref="users.delete({ id: user.id })">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

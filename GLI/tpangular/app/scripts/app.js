@@ -62,5 +62,14 @@ angularApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
 		url: '/:id',
 		templateUrl: 'views/userInfo.tpl.html',
 		controller: 'UserInfoCtrl'
+	})
+	.state('users.update', {
+		url: '/update/:id',
+		templateUrl: 'views/userInfo.tpl.html',
+		controller: 'UpdateUserCtrl'
+	})
+	.state('users.delete', {
+		url: '/delete/:id',
+		controller: 'DeleteUserCtrl'
 	});
 }]);

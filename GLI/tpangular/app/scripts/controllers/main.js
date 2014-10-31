@@ -65,6 +65,9 @@ controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http
 		});
 
 		$scope.submit = function () {
+			// Deserialize the driver
+			$scope.ride.driver = angular.fromJson($scope.ride.driver);
+			
 			$http.put('/rest/rides/update/' + id, $scope.ride)
 			.success(function () {
 				$state.go('home');
@@ -118,8 +121,26 @@ controllers.controller('UsersCtrl', ['$scope', 'UserService',
 	}
 ]);
 
-controllers.controller('UserInfoCtrl', ['$scope', 'UserService',
-	function ($scope, UserService) {
-		// TODO: get user info and save it into the $scope
+controllers.controller('UserInfoCtrl', ['$scope', '$stateParams', 'UserService',
+	function ($scope, $stateParams, UserService) {
+		UserService.get($stateParams.id).then(function (data) {
+			$scope.user = data;
+			$scope.pageName = $scope.user.username;
+		});
+	}
+]);
+
+controllers.controller('UpdateUserCtrl', [
+	function () {
+		// TODO: update user
+	}
+]);
+
+controllers.controller('DeleteUserCtrl', ['$state', '$stateParams', '$scope', '$http',
+	function ($state, $stateParams, $scope, $http) {
+		$http.delete('/rest/users/delete/' + $stateParams.id)
+		.success(function() {
+			$state.go('users.list');
+		});
 	}
 ]);
