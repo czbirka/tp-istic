@@ -11,7 +11,7 @@ var controllers = angular.module('tpangularApp');
 
 controllers.controller('HomeCtrl', ['$scope', '$http',
 	function ($scope, $http) {
-		$http.get('/rest/rides').success(function (data) {
+		$http.get('/rest/rides/').success(function (data) {
 			$scope.rides = data;
 		});
 	}
@@ -19,7 +19,7 @@ controllers.controller('HomeCtrl', ['$scope', '$http',
 
 controllers.controller('CreateCtrl', ['$scope', '$state', '$http', 'UserService',
 	function ($scope, $state, $http, UserService) {
-		$scope.pageName = 'Create';
+		$scope.pageName = 'Create a Ride';
 		$scope.ride = {
 			origin: '',
 			destination: '',
@@ -77,7 +77,7 @@ controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http
 	}
 ]);
 
-controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http', 
+controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http',
 	function ($state, $stateParams, $scope, $http) {
 		$http.delete('/rest/rides/delete/' + $stateParams.id)
 		.success(function() {
@@ -90,15 +90,18 @@ controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http
 	}
 ]);
 
-controllers.controller('RegisterCtrl', ['$state', '$scope',
-	function ($state, $scope) {
-		$scope.pageName = 'Create user';
+controllers.controller('RegisterCtrl', ['$state', '$scope', '$http',
+	function ($state, $scope, $http) {
+		$scope.pageName = 'Create a user';
 		$scope.user = {
 			username: ''
 		};
 
 		$scope.submit = function () {
-			// TODO
+			$http.post('/rest/users/create/', $scope.user)
+			.success(function () {
+				$state.go('users.list');
+			});
 		};
 
 		$scope.cancel = function () {
