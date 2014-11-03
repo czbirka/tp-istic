@@ -71,9 +71,17 @@ public class RideResource implements IRideResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Ride> deleteById(@PathParam("id") String id) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
-
-        t.begin();
         Ride r = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
+        User driver = r.getDriver();
+
+        // Update driver
+        t.begin();
+        driver.removeRidesAsDriver(r);
+        ManagerSingleton.getInstance().merge(driver);
+        t.commit();
+
+        // Delete ride
+        t.begin();
         ManagerSingleton.getInstance().remove(r);
         t.commit();
 

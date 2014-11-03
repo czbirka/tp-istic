@@ -95,6 +95,10 @@ public class User implements IUser, Serializable {
         ridesAsDriver.add(ride);
     }
 
+    public void removeRidesAsDriver(Ride ride) {
+        ridesAsDriver.remove(ride);
+    }
+
     /**
      * Gets the rides of the user as a Passenger
      * @return ridesAsPassenger
