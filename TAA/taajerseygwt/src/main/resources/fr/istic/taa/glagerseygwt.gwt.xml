@@ -10,6 +10,11 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
+  <inherits name="com.google.gwt.uibinder.UiBinder"/>
+
+  <!-- Bootstrap -->
+  <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+  <inherits name='com.github.gwtbootstrap.datetimepicker.Datetimepicker' />
 
   <!-- Other module inherits                                      -->
   <inherits name="com.google.web.bindery.autobean.AutoBean" />	

@@ -2,12 +2,12 @@ package fr.istic.taa.shared;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
-import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User implements IUser, Serializable {
@@ -30,12 +30,12 @@ public class User implements IUser, Serializable {
     /**
      * The list of rides a user can have as a Driver
      */
-    private Collection<Ride> ridesAsDriver;
+    private List<Ride> ridesAsDriver;
 
     /**
      * The list of rides a user can have as a Passenger
      */
-    private Collection<Ride> ridesAsPassenger;
+    private List<Ride> ridesAsPassenger;
 
 	/**
 	 * Gets the id of the driver
@@ -77,7 +77,7 @@ public class User implements IUser, Serializable {
      */
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     @JsonIgnore
-    public Collection<Ride> getRidesAsDriver() {
+    public List<Ride> getRidesAsDriver() {
         if (ridesAsDriver == null)
             ridesAsDriver = new ArrayList<Ride>();
         return ridesAsDriver;
@@ -87,7 +87,7 @@ public class User implements IUser, Serializable {
      * Sets the rides of the user as a Driver
      * @param ridesAsDriver
      */
-    public void setRidesAsDriver(Collection<Ride> ridesAsDriver) {
+    public void setRidesAsDriver(List<Ride> ridesAsDriver) {
         this.ridesAsDriver = ridesAsDriver;
     }
 
@@ -95,7 +95,7 @@ public class User implements IUser, Serializable {
         ridesAsDriver.add(ride);
     }
 
-    public void removeRidesAsDriver(Ride ride) {
+    public void removeRidesAsDriver(IRide ride) {
         ridesAsDriver.remove(ride);
     }
 
@@ -105,7 +105,7 @@ public class User implements IUser, Serializable {
      */
     @ManyToMany
     @JsonIgnore
-    public Collection<Ride> getRidesAsPassenger() {
+    public List<Ride> getRidesAsPassenger() {
         if (ridesAsPassenger == null)
             ridesAsPassenger = new ArrayList<Ride>();
         return ridesAsPassenger;
@@ -115,7 +115,7 @@ public class User implements IUser, Serializable {
      * Sets the rides of the user as a Passenger
      * @param ridesAsPassenger
      */
-    public void setRidesAsPassenger(Collection<Ride> ridesAsPassenger) {
+    public void setRidesAsPassenger(List<Ride> ridesAsPassenger) {
         this.ridesAsPassenger = ridesAsPassenger;
     }
 
@@ -126,7 +126,7 @@ public class User implements IUser, Serializable {
     @Transient
     public Collection<Number> getRidesAsDriverID() {
         Collection<Number> ids = new HashSet<Number>();
-        for (Ride ride : getRidesAsDriver()) {
+        for (IRide ride : getRidesAsDriver()) {
             ids.add(ride.getId());
         }
         return ids;
@@ -135,7 +135,7 @@ public class User implements IUser, Serializable {
     @Transient
     public Collection<Number> getRidesAsPassengerID() {
         Collection<Number> ids = new HashSet<Number>();
-        for (Ride ride : getRidesAsPassenger()) {
+        for (IRide ride : getRidesAsPassenger()) {
             ids.add(ride.getId());
         }
         return ids;

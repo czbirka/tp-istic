@@ -1,7 +1,7 @@
 package fr.istic.taa.shared;
 
-import java.sql.Date;
-import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by thomas on 06/10/14.
@@ -28,11 +28,11 @@ public interface IRide {
 
     void setSeatNumber(int seatNumber);
 
-    User getDriver();
+    IUser getDriver();
 
     void setDriver(User driver);
 
-    Collection<User> getPassengers();
+    List<User> getPassengers();
 
-    void setPassengers(Collection<User> passengers);
+    void setPassengers(List<User> passengers);
 }
