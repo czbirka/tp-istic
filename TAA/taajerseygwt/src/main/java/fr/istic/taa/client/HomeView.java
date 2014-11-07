@@ -1,5 +1,6 @@
 package fr.istic.taa.client;
 
+
 import com.github.gwtbootstrap.client.ui.CellTable;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.*;
@@ -32,7 +33,7 @@ public class HomeView extends Composite {
     public HomeView() {
         createRideTable();
         initWidget(uiBinder.createAndBindUi(this));
-        test();
+        buildPage();
     }
 
     private void createRideTable() {
@@ -88,7 +89,7 @@ public class HomeView extends Composite {
         rideTable.addColumn(driverColumn, "driver");
     }
 
-    private void test() {
+    private void buildPage() {
         RequestBuilder rb = new RequestBuilder(RequestBuilder.GET,
                 GWT.getHostPageBaseURL() + "rest/rides/");
         rb.setCallback(new RequestCallback() {

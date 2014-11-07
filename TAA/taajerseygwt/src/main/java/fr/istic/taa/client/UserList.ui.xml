@@ -18,7 +18,7 @@
         <b:FluidContainer>
             <b:FluidRow>
                 <b:Column size="12">
-                    <b:CellTable ui:field="rideTable" />
+                    <b:CellTable ui:field="usersTable" />
                 </b:Column>
             </b:FluidRow>
         </b:FluidContainer>

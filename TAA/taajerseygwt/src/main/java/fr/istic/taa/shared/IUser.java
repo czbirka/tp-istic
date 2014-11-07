@@ -11,6 +11,7 @@ public interface IUser {
     public void setId(final int id);
     public String getUsername();
     public void setUsername(final String username);
+
     public List<Ride> getRidesAsDriver();
     public void setRidesAsDriver(List<Ride> ridesAsDriver);
     public List<Ride> getRidesAsPassenger();
