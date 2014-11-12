@@ -4,7 +4,11 @@
 # Home page
 GET        /                                   controllers.Journeys.journeys()
 
-# TODO Part 1: insert routes for authentication here
+# Authentication routes
+GET     /auth/login     controllers.Authentication.login()
+POST    /auth/login     controllers.Authentication.authenticate()
+GET     /auth/logout    controllers.Authentication.logout()
+
 
 # Other Journeys actions
 GET        /journey/:id                        controllers.Journeys.journey(id: Long)
