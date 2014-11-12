@@ -1,0 +1,26 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:gwt='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
+    <gwt:HTMLPanel>
+
+        <b:ResponsiveNavbar>
+            <b:Brand href="#home">tpgwt</b:Brand>
+            <b:Nav alignment="RIGHT">
+                <b:NavLink href="#home">Home</b:NavLink>
+                <b:NavLink href="#create">Create</b:NavLink>
+                <b:Dropdown text="Members">
+                    <b:NavLink href="#users">List</b:NavLink>
+                    <b:NavLink href="#">Create</b:NavLink>
+                </b:Dropdown>
+            </b:Nav>
+        </b:ResponsiveNavbar>
+
+        <b:FluidContainer>
+            <b:FluidRow>
+                <b:Column size="12">
+                    <b:CellTable ui:field="rideTable" />
+                </b:Column>
+            </b:FluidRow>
+        </b:FluidContainer>
+    </gwt:HTMLPanel>
+</ui:UiBinder>

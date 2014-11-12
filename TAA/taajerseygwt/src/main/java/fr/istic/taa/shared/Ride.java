@@ -1,15 +1,10 @@
 package fr.istic.taa.shared;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import java.util.List;
+import java.util.Date;
 
 @Entity
 public class Ride implements IRide, Serializable {
@@ -52,7 +47,7 @@ public class Ride implements IRide, Serializable {
 	/**
 	 * List of passengers of the ride
 	 */
-	private Collection<User> passengers;
+	private List<User> passengers;
 
 	/**
 	 * Gets the id of the ride
@@ -158,7 +153,7 @@ public class Ride implements IRide, Serializable {
 	 * @return passengers
 	 */
     @ManyToMany(mappedBy="ridesAsPassenger")
-	public Collection<User> getPassengers() {
+	public List<User> getPassengers() {
         if (passengers == null)
             passengers = new ArrayList<User>();
 		return passengers;
@@ -168,7 +163,7 @@ public class Ride implements IRide, Serializable {
 	 * Sets the passengers of the ride
 	 * @param passengers
 	 */
-    public void setPassengers(Collection<User> passengers) {
+    public void setPassengers(List<User> passengers) {
 		this.passengers = passengers;
 	}
 
