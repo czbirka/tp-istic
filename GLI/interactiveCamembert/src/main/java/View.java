@@ -198,6 +198,29 @@ public class View extends JComponent implements Observer {
     }
 
     /**
+     * Focuses the next arc in the list
+     */
+    public void next() {
+        if (focusedArcIndex > -1) {
+            focusedArcIndex = (focusedArcIndex + 1) % arcList.size();
+            controller.setViewInfo(focusedArcIndex);
+            repaint();
+        }
+    }
+
+    /**
+     * Focuses the previous arc in the list
+     */
+    public void previous() {
+        if (focusedArcIndex > -1) {
+            if (--focusedArcIndex < 0)
+                focusedArcIndex = arcList.size() - 1;
+            controller.setViewInfo(focusedArcIndex);
+            repaint();
+        }
+    }
+
+    /**
      * Creates a box at the selected arc's coordinates
      *
      * @param focusedArc
@@ -265,6 +288,7 @@ public class View extends JComponent implements Observer {
      *
      * @param g
      */
+    @Override
     public void paintComponent(Graphics g) {
         Graphics2D graph = (Graphics2D) g;
         int titleWidthInPx = graph.getFontMetrics().stringWidth(title);

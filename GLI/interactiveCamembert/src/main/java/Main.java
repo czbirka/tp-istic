@@ -17,6 +17,12 @@ public class Main {
 
         JFrame frame = new JFrame();
         frame.add(view, BorderLayout.CENTER);
+        NextButton next = new NextButton("<", controller);
+        PreviousButton previous = new PreviousButton(">", controller);
+        JPanel panel = new JPanel();
+        panel.add(next);
+        panel.add(previous);
+        frame.add(panel, BorderLayout.SOUTH);
 
         frame.setSize(GlobalConfigs.WINDOW_WIDTH, GlobalConfigs.WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

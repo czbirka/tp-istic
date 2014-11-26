@@ -12,7 +12,7 @@ public class Controller {
      */
     public Controller(Model model) {
         this.model = model;
-
+//
         model.addField("Chrome", "By Google", 44.4f);
         model.addField("Internet explorer", "By Microsoft", 22.6f);
         model.addField("Firefox", "By Mozilla", 18.2f);
@@ -39,5 +39,14 @@ public class Controller {
         String value = model.getValues().get(focusedArcIndex) + " %";
 
         view.setFocusedArcInfo(name, description, value);
+    }
+
+
+    public void showNext() {
+        view.next();
+    }
+
+    public void showPrevious() {
+        view.previous();
     }
 }
