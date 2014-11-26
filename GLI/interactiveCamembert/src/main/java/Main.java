@@ -7,16 +7,18 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         Model model = new Model();
-        View view = new View();
-        Controller controller = new Controller();
+        Controller controller = new Controller(model);
+        View view = new View(controller);
+
+        controller.setView(view);
 
         model.addObserver(view);
-        model.addObserver(controller);
+        model.setTitle("Navigateurs");
 
         JFrame frame = new JFrame();
         frame.add(view, BorderLayout.CENTER);
 
-        frame.setSize(640, 480);
+        frame.setSize(GlobalConfigs.WINDOW_WIDTH, GlobalConfigs.WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
