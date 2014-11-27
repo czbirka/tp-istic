@@ -12,7 +12,7 @@ public class Controller {
      */
     public Controller(Model model) {
         this.model = model;
-//
+
         model.addField("Chrome", "By Google", 44.4f);
         model.addField("Internet explorer", "By Microsoft", 22.6f);
         model.addField("Firefox", "By Mozilla", 18.2f);
@@ -22,25 +22,34 @@ public class Controller {
     }
 
     /**
+     * Gets the view.
+     * @return the view
+     */
+    public View getView() {
+        return this.view;
+    }
+
+    /**
      * Binds the view to the controller.
      * @param view
      */
     public void setView(View view) {
         this.view = view;
+        this.view.addMouseListener(new Listener(this));
     }
 
     /**
      * Gets the description from the model and binds it to the view.
-     * @param focusedArcIndex
      */
-    public void setViewInfo(int focusedArcIndex) {
+    public void updateViewInfo() {
+        int focusedArcIndex = view.getFocusedArcIndex();
+
         String name = model.getFields().get(focusedArcIndex);
         String description = model.getDescriptions().get(focusedArcIndex);
-        String value = model.getValues().get(focusedArcIndex) + " %";
+        String value = String.format("%.2f", model.getValueAsPercent(focusedArcIndex) * 100) + " %";
 
         view.setFocusedArcInfo(name, description, value);
     }
-
 
     public void showNext() {
         view.next();

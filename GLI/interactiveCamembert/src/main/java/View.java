@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Arc2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -29,7 +27,6 @@ public class View extends JComponent implements Observer {
      */
     private static final Color FOCUSED_ARC_COLOR = new Color(205, 0, 116);
     private static final Color BOX_BG_COLOR =  new Color(255, 116, 0);
-
 
     /**
      * List containing all the arcs for the view.
@@ -62,9 +59,14 @@ public class View extends JComponent implements Observer {
     private int focusedArcIndex;
 
     /**
-     * Focused arc informations.
+     * Focused arc information.
      */
     private String focusedArcName, focusedArcDesc, focusedArcValue;
+
+    /**
+     * Model's total values.
+     */
+    private String totalValue;
 
     /**
      * Constructor.
@@ -78,18 +80,6 @@ public class View extends JComponent implements Observer {
         originY = GlobalConfigs.WINDOW_HEIGHT / 2;
 
         initialize();
-    }
-
-    /**
-     * Sets the focused arc information.
-     * @param name
-     * @param description
-     * @param value
-     */
-    void setFocusedArcInfo(String name, String description, String value) {
-        this.focusedArcName = name;
-        this.focusedArcDesc = description;
-        this.focusedArcValue = value;
     }
 
     /**
@@ -110,6 +100,130 @@ public class View extends JComponent implements Observer {
     }
 
     /**
+     * Gets the arcList.
+     * @return the arcList
+     */
+    public ArrayList<Arc2D> getArcList() {
+        return arcList;
+    }
+
+    /**
+     * Sets the arcList.
+     * @param arcList
+     */
+    public void setArcList(ArrayList<Arc2D> arcList) {
+        this.arcList = arcList;
+    }
+
+    /**
+     * Gets the center circle.
+     * @return the center circle
+     */
+    public Arc2D getBlankCircle() {
+        return blankCircle;
+    }
+
+    /**
+     * Sets the center circle.
+     * @param blankCircle
+     */
+    public void setBlankCircle(Arc2D blankCircle) {
+        this.blankCircle = blankCircle;
+    }
+
+    /**
+     * Gets the selected arc index.
+     * @return the selected arc index
+     */
+    public int getFocusedArcIndex() {
+        return focusedArcIndex;
+    }
+
+    /**
+     * Sets the selected arc's index
+     * @param focusedArcIndex
+     */
+    public void setFocusedArcIndex(int focusedArcIndex) {
+        this.focusedArcIndex = focusedArcIndex;
+    }
+
+    /**
+     * Get the selected arc's name.
+     * @return the selected arc's name
+     */
+    public String getFocusedArcName() {
+        return focusedArcName;
+    }
+
+    /**
+     * Sets the selected arc's name.
+     * @param focusedArcName
+     */
+    public void setFocusedArcName(String focusedArcName) {
+        this.focusedArcName = focusedArcName;
+    }
+
+    /**
+     * Gets the selected arc's description.
+     * @return
+     */
+    public String getFocusedArcDesc() {
+        return focusedArcDesc;
+    }
+
+    /**
+     * Sets the selected arc's description.
+     * @param focusedArcDesc
+     */
+    public void setFocusedArcDesc(String focusedArcDesc) {
+        this.focusedArcDesc = focusedArcDesc;
+    }
+
+    /**
+     * Gets the selected arc's value.
+     * @return the selected arc's value
+     */
+    public String getFocusedArcValue() {
+        return focusedArcValue;
+    }
+
+    /**
+     * Sets the selected arc's value.
+     * @param focusedArcValue
+     */
+    public void setFocusedArcValue(String focusedArcValue) {
+        this.focusedArcValue = focusedArcValue;
+    }
+
+    /**
+     * Gets the camembert's title.
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets the camembert's title.
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Sets the focused arc information.
+     * @param name
+     * @param description
+     * @param value
+     */
+    void setFocusedArcInfo(String name, String description, String value) {
+        this.focusedArcName = name;
+        this.focusedArcDesc = description;
+        this.focusedArcValue = value;
+    }
+
+    /**
      * Method called when the observable object is modified
      * @param observable
      */
@@ -118,6 +232,7 @@ public class View extends JComponent implements Observer {
         Model model = (Model) observable;
 
         title = model.getTitle();
+        totalValue = "" + model.getTotalValue();
 
         // Arcs settings
         float angleStart = 0, angleEnd = 0;
@@ -130,38 +245,6 @@ public class View extends JComponent implements Observer {
 
             // Create the arc from the angle values
             final Arc2D arc = createArc(angleStart, angleEnd, Arc2D.PIE, ARC_RADIUS);
-
-            addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent mouseEvent) {
-                    if (arc.contains(mouseEvent.getX(), mouseEvent.getY()) &&
-                            !blankCircle.contains(mouseEvent.getX(), mouseEvent.getY())) {
-                        focusedArcIndex = arcList.indexOf(arc);
-                        controller.setViewInfo(focusedArcIndex);
-                        repaint();
-                    }
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
-            });
 
             angleStart += angleEnd;
             arcList.add(arc);
@@ -198,24 +281,24 @@ public class View extends JComponent implements Observer {
     }
 
     /**
-     * Focuses the next arc in the list
+     * Focuses the next arc in the list.
      */
     public void next() {
         if (focusedArcIndex > -1) {
             focusedArcIndex = (focusedArcIndex + 1) % arcList.size();
-            controller.setViewInfo(focusedArcIndex);
+            controller.updateViewInfo();
             repaint();
         }
     }
 
     /**
-     * Focuses the previous arc in the list
+     * Focuses the previous arc in the list.
      */
     public void previous() {
         if (focusedArcIndex > -1) {
             if (--focusedArcIndex < 0)
                 focusedArcIndex = arcList.size() - 1;
-            controller.setViewInfo(focusedArcIndex);
+            controller.updateViewInfo();
             repaint();
         }
     }
@@ -267,7 +350,10 @@ public class View extends JComponent implements Observer {
             graph.fill(focusedArc);
 
             // Content shows the selected arc's name and description (if it's not empty)
-            String boxContent = focusedArcDesc.length() > 0 ? focusedArcName + " " + focusedArcDesc : focusedArcName;
+            String boxContent = focusedArcDesc.length() > 0
+                    ? focusedArcName + " " + focusedArcDesc + " (" + focusedArcValue + ")"
+                    : focusedArcName + " (" + focusedArcValue + ")";
+            
             boxWidth = graph.getFontMetrics().stringWidth(boxContent) + defaultOffset * 2;
 
             // Create the description shape and draw it
@@ -284,7 +370,7 @@ public class View extends JComponent implements Observer {
     }
 
     /**
-     * Draws the window.
+     * Draws the camembert.
      *
      * @param g
      */
@@ -309,10 +395,10 @@ public class View extends JComponent implements Observer {
         graph.setColor(Color.WHITE);
         graph.drawString(title, originX - titleWidthInPx / 2, originY);
 
-        int valueWidth = graph.getFontMetrics().stringWidth(focusedArcValue);
+        int valueWidth = graph.getFontMetrics().stringWidth(totalValue);
         int valueHeight = graph.getFontMetrics().getHeight();
 
-        // Shows the selected arc's value at the center of the camembert
-        graph.drawString(focusedArcValue, originX - valueWidth / 2, originY + valueHeight + defaultOffset);
+        // Shows the total of the model's values at the center of the camembert
+        graph.drawString(totalValue, originX - valueWidth / 2, originY + valueHeight + defaultOffset);
     }
 }
