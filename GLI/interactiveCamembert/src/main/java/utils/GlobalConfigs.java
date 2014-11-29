@@ -1,3 +1,5 @@
+package utils;
+
 /**
  * Created by thomas & amona on 20/11/14.
  */

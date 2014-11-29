@@ -1,5 +1,14 @@
+package mvc;
+
+import listeners.ClickListener;
+import observer.Observable;
+import observer.Observer;
+import utils.GlobalConfigs;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Arc2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -10,7 +19,7 @@ import java.util.ArrayList;
 public class View extends JComponent implements Observer {
 
     /**
-     * Controller.
+     * mvc.Controller.
      */
     private Controller controller;
 
@@ -19,7 +28,7 @@ public class View extends JComponent implements Observer {
      */
     private static final double TITLE_CIRCLE_RADIUS = 150;
     private static final double BLANK_CIRCLE_RADIUS = TITLE_CIRCLE_RADIUS * 1.4;
-    private static final double ARC_RADIUS = TITLE_CIRCLE_RADIUS * 2.5;
+    private static final double ARC_RADIUS = TITLE_CIRCLE_RADIUS * 2;
     private static final double FOCUSED_ARC_RADIUS = ARC_RADIUS * 1.1;
 
     /**
@@ -36,7 +45,7 @@ public class View extends JComponent implements Observer {
     /**
      * Center and title circle.
      */
-    private Arc2D blankCircle, titleCircle;
+    private Arc2D blankCircle, titleCircle, dragCircle;
 
     /**
      * Camembert's coordinates.
@@ -47,6 +56,11 @@ public class View extends JComponent implements Observer {
      * Description box properties.
      */
     private int boxWidth, boxHeight, defaultOffset;
+
+    /**
+     * Default start angle.
+     */
+    private double defaultStartAngle;
 
     /**
      * Camembert's title.
@@ -64,7 +78,7 @@ public class View extends JComponent implements Observer {
     private String focusedArcName, focusedArcDesc, focusedArcValue;
 
     /**
-     * Model's total values.
+     * mvc.Model's total values.
      */
     private String totalValue;
 
@@ -88,6 +102,7 @@ public class View extends JComponent implements Observer {
     private void initialize() {
         blankCircle = createArc(0, 360, Arc2D.OPEN, BLANK_CIRCLE_RADIUS);
         titleCircle = createArc(0, 360, Arc2D.OPEN, TITLE_CIRCLE_RADIUS);
+        dragCircle  = createArc(0, 360, Arc2D.OPEN, ARC_RADIUS);
 
         boxWidth = 100;
         boxHeight = 40;
@@ -97,6 +112,38 @@ public class View extends JComponent implements Observer {
         focusedArcDesc = "";
         focusedArcName = "";
         focusedArcValue = "";
+    }
+
+    /**
+     * Gets the camembert's position on x-axis.
+     * @return originX
+     */
+    public int getOriginX() {
+        return originX;
+    }
+
+    /**
+     * Sets the camembert's position on x-axis.
+     * @param originX
+     */
+    public void setOriginX(int originX) {
+        this.originX = originX;
+    }
+
+    /**
+     * Gets the camembert's position on y-axis.
+     * @return
+     */
+    public int getOriginY() {
+        return originY;
+    }
+
+    /**
+     * Sets the camembert's position on y-axis.
+     * @param originY
+     */
+    public void setOriginY(int originY) {
+        this.originY = originY;
     }
 
     /**
@@ -129,6 +176,38 @@ public class View extends JComponent implements Observer {
      */
     public void setBlankCircle(Arc2D blankCircle) {
         this.blankCircle = blankCircle;
+    }
+
+    /**
+     * Gets the circle used for the drag action.
+     * @return drag circle
+     */
+    public Arc2D getDragCircle() {
+        return dragCircle;
+    }
+
+    /**
+     * Sets the circle used for the drag action.
+     * @param dragCircle
+     */
+    public void setDragCircle(Arc2D dragCircle) {
+        this.dragCircle = dragCircle;
+    }
+
+    /**
+     * Gets the default start angle.
+     * @return defaultStartAngle
+     */
+    public double getDefaultStartAngle() {
+        return defaultStartAngle;
+    }
+
+    /**
+     * Sets the default start angle.
+     * @param defaultStartAngle
+     */
+    public void setDefaultStartAngle(double defaultStartAngle) {
+        this.defaultStartAngle = defaultStartAngle;
     }
 
     /**
@@ -233,9 +312,33 @@ public class View extends JComponent implements Observer {
 
         title = model.getTitle();
         totalValue = "" + model.getTotalValue();
+        computeArcs(model);
+    }
+
+    /**
+     * Clears the MouseListener list.
+     */
+    public void clearMouseListeners() {
+        for (MouseListener m : getMouseListeners()) {
+            removeMouseListener(m);
+        }
+    }
+
+    /**
+     * Clears the MouseMotionListener list.
+     */
+    public void clearDragListeners() {
+        for (MouseMotionListener m : getMouseMotionListeners()) {
+            removeMouseMotionListener(m);
+        }
+    }
+
+    public void computeArcs(Model model) {
+
+        arcList.clear();
 
         // Arcs settings
-        float angleStart = 0, angleEnd = 0;
+        double angleStart = defaultStartAngle, angleEnd;
 
         // Compute the arcs
         for (int i = 0; i < model.getValues().size(); i++) {
@@ -244,10 +347,9 @@ public class View extends JComponent implements Observer {
             angleEnd = 360 * model.getValueAsPercent(i);
 
             // Create the arc from the angle values
-            final Arc2D arc = createArc(angleStart, angleEnd, Arc2D.PIE, ARC_RADIUS);
+            arcList.add(createArc(angleStart, angleEnd, Arc2D.PIE, ARC_RADIUS));
 
             angleStart += angleEnd;
-            arcList.add(arc);
         }
     }
 
@@ -270,7 +372,7 @@ public class View extends JComponent implements Observer {
     }
 
     /**
-     * Resize an arc with a new radius value
+     * Resizes an arc with a new radius value
      *
      * @param arc
      * @param radius

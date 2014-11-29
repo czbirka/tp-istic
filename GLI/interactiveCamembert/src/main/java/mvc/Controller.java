@@ -1,3 +1,8 @@
+package mvc;
+
+import listeners.ClickListener;
+import listeners.DragListener;
+
 /**
  * Created by thomas & amona on 13/10/14.
  */
@@ -22,6 +27,14 @@ public class Controller {
     }
 
     /**
+     * Gets the model.
+     * @return model
+     */
+    public Model getModel() {
+        return model;
+    }
+
+    /**
      * Gets the view.
      * @return the view
      */
@@ -35,7 +48,8 @@ public class Controller {
      */
     public void setView(View view) {
         this.view = view;
-        this.view.addMouseListener(new Listener(this));
+        this.view.addMouseListener(new ClickListener(this));
+        this.view.addMouseListener(new DragListener(this));
     }
 
     /**

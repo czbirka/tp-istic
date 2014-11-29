@@ -1,3 +1,7 @@
+package mvc;
+
+import observer.Observable;
+
 import java.util.ArrayList;
 
 /**

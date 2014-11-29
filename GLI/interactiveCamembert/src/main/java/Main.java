@@ -1,3 +1,10 @@
+import components.NextButton;
+import components.PreviousButton;
+import mvc.Controller;
+import mvc.Model;
+import mvc.View;
+import utils.GlobalConfigs;
+
 import javax.swing.*;
 import java.awt.*;
 
