@@ -1,0 +1,66 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:gwt='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
+             xmlns:b2='urn:import:com.github.gwtbootstrap.datepicker.client.ui'>
+    <gwt:HTMLPanel>
+
+        <b:ResponsiveNavbar>
+            <b:Brand href="#home">tpgwt</b:Brand>
+            <b:Nav alignment="RIGHT">
+                <b:NavLink href="#home">Home</b:NavLink>
+                <b:NavLink href="#create">Create</b:NavLink>
+                <b:Dropdown text="Members">
+                    <b:NavLink href="#users">List</b:NavLink>
+                    <b:NavLink href="#">Create</b:NavLink>
+                </b:Dropdown>
+            </b:Nav>
+        </b:ResponsiveNavbar>
+
+        <b:FluidContainer>
+            <b:FluidRow>
+                <b:Column size="12">
+                    <b:Form type="HORIZONTAL" ui:field="rideForm">
+                        <b:Fieldset>
+                            <b:ControlGroup>
+                                <b:ControlLabel for="origin">Origin</b:ControlLabel>
+                                <b:Controls>
+                                    <b:TextBox alternateSize="XLARGE" b:id="origin" ui:field="origin"></b:TextBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
+                            <b:ControlGroup>
+                                <b:ControlLabel for="destination">Destination</b:ControlLabel>
+                                <b:Controls>
+                                    <b:TextBox alternateSize="XLARGE" b:id="destination" ui:field="destination"></b:TextBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
+                            <b:ControlGroup>
+                                <b:ControlLabel for="leavingDate">Leaving Date</b:ControlLabel>
+                                <b:Controls>
+                                    <b2:DateBox b:id="leavingDate" alternateSize="XLARGE" autoClose="true" ui:field="leavingDate"></b2:DateBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
+                            <b:ControlGroup>
+                                <b:ControlLabel for="seatNumber">Seat number</b:ControlLabel>
+                                <b:Controls>
+                                    <b:TextBox alternateSize="XLARGE" b:id="seatNumber" ui:field="seatNumber"></b:TextBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
+                            <b:ControlGroup>
+                                <b:ControlLabel>Driver</b:ControlLabel>
+                                <b:Controls>
+                                    <b:ListBox alternateSize="XLARGE" ui:field="driverList"></b:ListBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
+                            <b:SubmitButton addStyleNames="btn">Submit</b:SubmitButton>
+                        </b:Fieldset>
+                    </b:Form>
+                </b:Column>
+            </b:FluidRow>
+        </b:FluidContainer>
+    </gwt:HTMLPanel>
+</ui:UiBinder>

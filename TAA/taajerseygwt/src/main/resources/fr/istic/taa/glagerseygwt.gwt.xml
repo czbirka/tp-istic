@@ -14,6 +14,7 @@
 
   <!-- Bootstrap -->
   <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+  <inherits name='com.github.gwtbootstrap.datepicker.Datepicker' />
 
   <!-- Other module inherits                                      -->
   <inherits name="com.google.web.bindery.autobean.AutoBean" />
