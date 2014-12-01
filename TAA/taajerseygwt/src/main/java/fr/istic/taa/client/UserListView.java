@@ -17,7 +17,7 @@ import fr.istic.taa.shared.IUserList;
 import java.util.List;
 
 /**
- * Created by thomas on 06/11/14.
+ * Created by thomas & amona on 06/11/14.
  */
 public class UserListView extends Composite {
 
@@ -59,8 +59,8 @@ public class UserListView extends Composite {
     }
 
     private void buildPage() {
-        RequestBuilder rb = new RequestBuilder(RequestBuilder.GET,
-                GWT.getHostPageBaseURL() + "rest/users/");
+        RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, GWT.getHostPageBaseURL() + "rest/users/");
+
         rb.setCallback(new RequestCallback() {
             public void onError(Request request, Throwable exception) {
                 Window.alert(exception.getMessage());

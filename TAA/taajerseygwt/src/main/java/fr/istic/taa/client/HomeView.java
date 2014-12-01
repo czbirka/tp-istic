@@ -27,8 +27,7 @@ public class HomeView extends Composite {
     CellTable<IRide> rideTable;
 
     @UiTemplate("Home.ui.xml")
-    interface HomeUiBinder extends UiBinder<Widget, HomeView> {
-    }
+    interface HomeUiBinder extends UiBinder<Widget, HomeView> {}
 
     public HomeView() {
         createRideTable();
