@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Created by thomas & amona on 27/10/14.
+ * Created by thomas & amona on 15/11/14.
  */
 public class DragListener implements MouseListener {
 
@@ -20,7 +20,6 @@ public class DragListener implements MouseListener {
      */
     public DragListener(Controller controller) {
         this.controller = controller;
-        this.controller.getView().clearDragListeners();
     }
 
     @Override
@@ -85,8 +84,7 @@ public class DragListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        controller.getView().addMouseListener(new ClickListener(controller));
-        controller.getView().addMouseListener(new DragListener(controller));
+        controller.resetListeners();
     }
 
     @Override

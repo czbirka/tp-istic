@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by thomas & amona on 26/11/14.
+ * Created by thomas & amona on 20/11/14.
  */
 public class PreviousButton extends JButton implements ActionListener {
 

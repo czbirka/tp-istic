@@ -9,7 +9,7 @@ import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 
 /**
- * Created by thomas & amona on 27/10/14.
+ * Created by thomas & amona on 15/11/14.
  */
 public class ClickListener implements MouseListener {
 
@@ -21,7 +21,6 @@ public class ClickListener implements MouseListener {
      */
     public ClickListener(Controller controller) {
         this.controller = controller;
-        this.controller.getView().clearMouseListeners();
     }
 
     /**
@@ -39,6 +38,7 @@ public class ClickListener implements MouseListener {
                 if (arc.contains(e.getX(), e.getY())) {
                     view.setFocusedArcIndex(arcList.indexOf(arc));
                     controller.updateViewInfo();
+                    controller.showButtons();
                     view.repaint();
                 }
             }
@@ -46,6 +46,7 @@ public class ClickListener implements MouseListener {
         else {
             view.setFocusedArcIndex(-1);
             view.repaint();
+            controller.hideButtons();
         }
     }
 

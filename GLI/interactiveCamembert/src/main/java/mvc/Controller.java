@@ -1,15 +1,29 @@
 package mvc;
 
+import components.CamembertTable;
+import components.NextButton;
+import components.PreviousButton;
 import listeners.ClickListener;
 import listeners.DragListener;
+import observer.Observable;
+import observer.Observer;
+import utils.GlobalConfigs;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Arc2D;
+import java.util.ArrayList;
 
 /**
  * Created by thomas & amona on 13/10/14.
  */
-public class Controller {
+public class Controller implements Observer {
 
     private Model model;
     private View view;
+    private PreviousButton previousButton;
+    private NextButton nextButton;
+    private CamembertTable table;
 
     /**
      * Constructor.
@@ -48,28 +62,155 @@ public class Controller {
      */
     public void setView(View view) {
         this.view = view;
-        this.view.addMouseListener(new ClickListener(this));
-        this.view.addMouseListener(new DragListener(this));
+        resetListeners();
+        initButtons();
+        initTable();
     }
 
     /**
-     * Gets the description from the model and binds it to the view.
+     * Initializes the next & previous buttons.
+     */
+    private void initButtons() {
+        nextButton = new NextButton("<", this);
+        previousButton = new PreviousButton(">", this);
+        hideButtons();
+        JPanel panel = new JPanel();
+        panel.add(nextButton);
+        panel.add(previousButton);
+        view.getParent().add(panel, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Initializes the JTable.
+     */
+    private void initTable() {
+        table = new CamembertTable(this);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(table.getPreferredSize());
+        scrollPane.setMaximumSize(new Dimension(GlobalConfigs.WINDOW_WIDTH, 200));
+        view.getParent().add(scrollPane, BorderLayout.NORTH);
+    }
+
+    /**
+     * Shows the buttons.
+     */
+    public void showButtons() {
+        nextButton.setVisible(true);
+        previousButton.setVisible(true);
+    }
+
+    /**
+     * Hides the buttons.
+     */
+    public void hideButtons() {
+        nextButton.setVisible(false);
+        previousButton.setVisible(false);
+    }
+
+    /**
+     * Gets the focused field information from the model and binds it to the view.
      */
     public void updateViewInfo() {
         int focusedArcIndex = view.getFocusedArcIndex();
 
-        String name = model.getFields().get(focusedArcIndex);
-        String description = model.getDescriptions().get(focusedArcIndex);
-        String value = String.format("%.2f", model.getValueAsPercent(focusedArcIndex) * 100) + " %";
+        if (focusedArcIndex > -1) {
+            String name = model.getFieldName(focusedArcIndex);
+            String description = model.getFieldDescription(focusedArcIndex);
+            String value = String.format("%.2f", model.getValueAsPercent(focusedArcIndex) * 100) + " %";
 
-        view.setFocusedArcInfo(name, description, value);
+            view.setFocusedArcInfo(name, description, value);
+        }
     }
 
+    @Override
+    public void update(Observable observable) {
+        updateViewInfo();
+    }
+
+    /**
+     * Gets the model's fields list.
+     * @return fields list.
+     */
+    public ArrayList<Field> getFields() {
+        return model.getFields();
+    }
+
+    /**
+     * Gets a specific field from the model.
+     * @param index
+     * @return field at the specified index.
+     */
+    public Field getField(int index) {
+        return model.getField(index);
+    }
+
+    /**
+     * Sets a specific field in the model.
+     * @param index
+     * @param field
+     */
+    public void setField(int index, Field field) {
+        model.setField(index, field);
+    }
+
+    /**
+     * Adds a field to the model.
+     * @param field
+     */
+    public void addField(Field field) {
+        model.addField(field);
+    }
+
+    /**
+     * Focuses the next arc on the view's list.
+     */
     public void showNext() {
-        view.next();
+        int focusedArcIndex = view.getFocusedArcIndex();
+        ArrayList<Arc2D> arcList = view.getArcList();
+
+        if (focusedArcIndex > -1) {
+            view.setFocusedArcIndex((focusedArcIndex + 1) % arcList.size());
+            updateViewInfo();
+            view.repaint();
+        }
     }
 
+    /**
+     * Focuses the previous arc on the view's list.
+     */
     public void showPrevious() {
-        view.previous();
+        int focusedArcIndex = view.getFocusedArcIndex();
+        ArrayList<Arc2D> arcList = view.getArcList();
+
+        if (focusedArcIndex > -1) {
+            focusedArcIndex--;
+            view.setFocusedArcIndex((focusedArcIndex < 0) ? (arcList.size() - 1) : focusedArcIndex);
+            updateViewInfo();
+            view.repaint();
+        }
+    }
+
+    /**
+     * Adds a ClickListener to the view.
+     */
+    private void addClickListener() {
+        view.clearMouseListeners();
+        view.addMouseListener(new ClickListener(this));
+    }
+
+    /**
+     * Adds a DragListener to the view.
+     */
+    private void addDragListener() {
+        view.clearMouseMotionListeners();
+        view.addMouseListener(new DragListener(this));
+    }
+
+    /**
+     * Resets the view's Listeners.
+     */
+    public void resetListeners() {
+        addClickListener();
+        addDragListener();
     }
 }

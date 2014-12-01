@@ -1,6 +1,5 @@
 package mvc;
 
-import listeners.ClickListener;
 import observer.Observable;
 import observer.Observer;
 import utils.GlobalConfigs;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 public class View extends JComponent implements Observer {
 
     /**
-     * mvc.Controller.
+     * Controller.
      */
     private Controller controller;
 
@@ -78,7 +77,7 @@ public class View extends JComponent implements Observer {
     private String focusedArcName, focusedArcDesc, focusedArcValue;
 
     /**
-     * mvc.Model's total values.
+     * Model's total values.
      */
     private String totalValue;
 
@@ -91,7 +90,7 @@ public class View extends JComponent implements Observer {
         arcList = new ArrayList<Arc2D>();
 
         originX = GlobalConfigs.WINDOW_WIDTH / 2;
-        originY = GlobalConfigs.WINDOW_HEIGHT / 2;
+        originY = GlobalConfigs.WINDOW_HEIGHT / 3;
 
         initialize();
     }
@@ -109,9 +108,9 @@ public class View extends JComponent implements Observer {
         defaultOffset = 5;
 
         focusedArcIndex = -1;
-        focusedArcDesc = "";
-        focusedArcName = "";
-        focusedArcValue = "";
+        focusedArcDesc = new String();
+        focusedArcName = new String();
+        focusedArcValue = new String();
     }
 
     /**
@@ -296,7 +295,7 @@ public class View extends JComponent implements Observer {
      * @param description
      * @param value
      */
-    void setFocusedArcInfo(String name, String description, String value) {
+    public void setFocusedArcInfo(String name, String description, String value) {
         this.focusedArcName = name;
         this.focusedArcDesc = description;
         this.focusedArcValue = value;
@@ -313,6 +312,7 @@ public class View extends JComponent implements Observer {
         title = model.getTitle();
         totalValue = "" + model.getTotalValue();
         computeArcs(model);
+        repaint();
     }
 
     /**
@@ -327,7 +327,7 @@ public class View extends JComponent implements Observer {
     /**
      * Clears the MouseMotionListener list.
      */
-    public void clearDragListeners() {
+    public void clearMouseMotionListeners() {
         for (MouseMotionListener m : getMouseMotionListeners()) {
             removeMouseMotionListener(m);
         }
@@ -341,7 +341,7 @@ public class View extends JComponent implements Observer {
         double angleStart = defaultStartAngle, angleEnd;
 
         // Compute the arcs
-        for (int i = 0; i < model.getValues().size(); i++) {
+        for (int i = 0; i < model.fieldCount(); i++) {
 
             // Compute the arc angle from the model values
             angleEnd = 360 * model.getValueAsPercent(i);
@@ -383,29 +383,6 @@ public class View extends JComponent implements Observer {
     }
 
     /**
-     * Focuses the next arc in the list.
-     */
-    public void next() {
-        if (focusedArcIndex > -1) {
-            focusedArcIndex = (focusedArcIndex + 1) % arcList.size();
-            controller.updateViewInfo();
-            repaint();
-        }
-    }
-
-    /**
-     * Focuses the previous arc in the list.
-     */
-    public void previous() {
-        if (focusedArcIndex > -1) {
-            if (--focusedArcIndex < 0)
-                focusedArcIndex = arcList.size() - 1;
-            controller.updateViewInfo();
-            repaint();
-        }
-    }
-
-    /**
      * Creates a box at the selected arc's coordinates
      *
      * @param focusedArc
@@ -415,7 +392,7 @@ public class View extends JComponent implements Observer {
 
         // Get the middle angle of the focused arc
         double middleAngle = (focusedArc.getAngleExtent() / 2) + focusedArc.getAngleStart();
-        double middleAngleInRad = middleAngle * (Math.PI / 180.f);
+        double middleAngleInRad = Math.toRadians(middleAngle);
 
         // Convert polar to cartesian coordinates
         int startX = (int) (FOCUSED_ARC_RADIUS * Math.cos(middleAngleInRad));

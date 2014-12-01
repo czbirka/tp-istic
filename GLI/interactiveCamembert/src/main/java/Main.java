@@ -1,8 +1,8 @@
-import components.NextButton;
-import components.PreviousButton;
+import components.CamembertTable;
 import mvc.Controller;
 import mvc.Model;
 import mvc.View;
+import sun.org.mozilla.javascript.tools.shell.JSConsole;
 import utils.GlobalConfigs;
 
 import javax.swing.*;
@@ -17,19 +17,14 @@ public class Main {
         Controller controller = new Controller(model);
         View view = new View(controller);
 
-        controller.setView(view);
-
+        model.addObserver(controller);
         model.addObserver(view);
-        model.setTitle("Navigateurs");
 
         JFrame frame = new JFrame();
         frame.add(view, BorderLayout.CENTER);
-        NextButton next = new NextButton("<", controller);
-        PreviousButton previous = new PreviousButton(">", controller);
-        JPanel panel = new JPanel();
-        panel.add(next);
-        panel.add(previous);
-        frame.add(panel, BorderLayout.SOUTH);
+
+        controller.setView(view);
+        model.setTitle("Navigateurs");
 
         frame.setSize(GlobalConfigs.WINDOW_WIDTH, GlobalConfigs.WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

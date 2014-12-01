@@ -15,29 +15,16 @@ public class Model extends Observable {
     private String title;
 
     /**
-     * List containing all the fields names.
+     * List containing all the data.
      */
-    private ArrayList<String> fields;
-
-    /**
-     * List containing all the fields description.
-     */
-    private ArrayList<String> descriptions;
-
-    /**
-     * List containing all the fields values.
-     */
-    private ArrayList<Float> values;
+    private ArrayList<Field> fields;
 
     /**
      * Constructor.
      */
     public Model() {
         super();
-
-        fields = new ArrayList<String>();
-        descriptions = new ArrayList<String>();
-        values = new ArrayList<Float>();
+        fields = new ArrayList<Field>();
     }
 
     /**
@@ -58,66 +45,76 @@ public class Model extends Observable {
     }
 
     /**
-     * Gets the fields list.
-     * @return the fields list
-     */
-    public ArrayList<String> getFields() {
-        return fields;
-    }
-
-    /**
-     * Sets the fields list.
-     * @param fields
-     */
-    public void setFields(ArrayList<String> fields) {
-        this.fields = fields;
-        notifyObservers();
-    }
-
-    /**
-     * Gets the descriptions list.
-     * @return the descriptions list
-     */
-    public ArrayList<String> getDescriptions() {
-        return descriptions;
-    }
-
-    /**
-     * Sets the descriptions list.
-     * @param descriptions
-     */
-    public void setDescriptions(ArrayList<String> descriptions) {
-        this.descriptions = descriptions;
-        notifyObservers();
-    }
-
-    /**
-     * Gets the values list.
-     * @return the values list
-     */
-    public ArrayList<Float> getValues() {
-        return values;
-    }
-
-    /**
-     * Sets the values list.
-     * @param values
-     */
-    public void setValues(ArrayList<Float> values) {
-        this.values = values;
-        notifyObservers();
-    }
-
-    /**
-     * Add an entry in the model.
+     * Adds an entry in the model.
      * @param fieldName
      * @param fieldDescription
      * @param fieldValue
      */
     public void addField(String fieldName, String fieldDescription, float fieldValue) {
-        fields.add(fieldName);
-        descriptions.add(fieldDescription);
-        values.add(fieldValue);
+        fields.add(new Field(fieldName, fieldDescription, fieldValue));
+        notifyObservers();
+    }
+
+    /**
+     * Adds an entry in the model.
+     * @param field
+     */
+    public void addField(Field field) {
+        fields.add(field);
+        notifyObservers();
+    }
+
+    /**
+     * Gets the data list.
+     * @return All the fields.
+     */
+    public ArrayList<Field> getFields() {
+        return fields;
+    }
+
+    /**
+     * Gets the field at the specified index.
+     * @param index
+     * @return A specific field.
+     */
+    public Field getField(int index) {
+        return fields.get(index);
+    }
+
+    /**
+     * Sets the field at the specified index.
+     * @param index
+     * @param field
+     */
+    public void setField(int index, Field field) {
+        fields.set(index, field);
+        notifyObservers();
+    }
+
+    /**
+     * Gets the name of the specified field.
+     * @param index
+     * @return The field's name.
+     */
+    public String getFieldName(int index) {
+        return fields.get(index).getName();
+    }
+
+    /**
+     * Gets the description of the specified field.
+     * @param index
+     * @return The field's description.
+     */
+    public String getFieldDescription(int index) {
+        return fields.get(index).getDescription();
+    }
+
+    /**
+     * Gets the number of fields.
+     * @return fields' size.
+     */
+    public int fieldCount() {
+        return fields.size();
     }
 
     /**
@@ -127,8 +124,8 @@ public class Model extends Observable {
     public float getTotalValue() {
         float total = 0;
 
-        for (int i = 0; i < values.size(); i++) {
-            total += values.get(i);
+        for (int i = 0; i < fields.size(); i++) {
+            total += fields.get(i).getValue();
         }
 
         return total;
@@ -140,6 +137,6 @@ public class Model extends Observable {
      * @return value in percent
      */
     public float getValueAsPercent(int index) {
-        return values.get(index) / getTotalValue();
+        return fields.get(index).getValue() / getTotalValue();
     }
 }
