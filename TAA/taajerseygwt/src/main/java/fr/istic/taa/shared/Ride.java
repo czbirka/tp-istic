@@ -1,13 +1,12 @@
 package fr.istic.taa.shared;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Ride implements IRide, Serializable {
@@ -180,6 +179,7 @@ public class Ride implements IRide, Serializable {
 	 * @return passengers
 	 */
     @ManyToMany(mappedBy="ridesAsPassenger", targetEntity = User.class)
+    @JsonIgnore
 	public List<IUser> getPassengers() {
         if (passengers == null)
             passengers = new ArrayList<IUser>();
@@ -194,4 +194,16 @@ public class Ride implements IRide, Serializable {
 		this.passengers = passengers;
 	}
 
+    @Transient
+    public List<Number> getPassengersID() {
+        List<Number> ids = new ArrayList<Number>();
+        for (IUser passenger : getPassengers()) {
+            ids.add(passenger.getId());
+        }
+        return ids;
+    }
+
+    public void addPassenger(IUser passenger) {
+        passengers.add(passenger);
+    }
 }

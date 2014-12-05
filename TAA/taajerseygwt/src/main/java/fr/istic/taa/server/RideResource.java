@@ -65,6 +65,27 @@ public class RideResource implements IRideResource {
         return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
     }
 
+    @PUT
+    @Path("{rideId}/add/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Ride> addPassenger(@PathParam("rideId") String rideId, @PathParam("userId") String userId) {
+
+        EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
+
+        User passenger = ManagerSingleton.getInstance().find(User.class, Integer.parseInt(userId));
+        Ride ride = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(rideId));
+
+        passenger.addRidesAsPassenger(ride);
+        ride.addPassenger(passenger);
+
+        t.begin();
+        ManagerSingleton.getInstance().merge(ride);
+        t.commit();
+
+        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+    }
+
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)

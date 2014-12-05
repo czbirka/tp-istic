@@ -3,6 +3,7 @@ package fr.istic.taa.server;
 
 import fr.istic.taa.shared.Ride;
 
+import javax.ws.rs.PathParam;
 import java.util.Collection;
 
 /**
@@ -17,6 +18,8 @@ public interface IRideResource {
     Collection<Ride> create(Ride ride);
 
     Collection<Ride> update(Ride update);
+
+    Collection<Ride> addPassenger(String rideId, String userId);
 
     Collection<Ride> deleteById(String id);
 }
