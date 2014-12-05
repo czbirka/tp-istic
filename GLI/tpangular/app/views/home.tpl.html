@@ -1,5 +1,7 @@
 <div>
-	<h1>Ride list</h1>
+	<div class="page-header">
+		<h1>Ride list</h1>
+	</div>
 	<div class="panel panel-default">
 		<table class="table table-bordered table-striped">
 			<thead>
@@ -16,9 +18,9 @@
 			<tbody>
 				<tr ng-repeat="ride in rides">
 					<td>{{ ride.id }}</td>
-					<td>{{ ride.origin }}</td>
+					<td><a ui-sref="rides.view({ id: ride.id })">{{ ride.origin }}</a></td>
 					<td>{{ ride.destination }}</td>
-					<td>{{ ride.leavingDate }}</td>
+					<td>{{ ride.leavingDate | date:"dd/MM/yyyy" }}</td>
 					<td>{{ ride.seatNumber }}</td>
 					<td><a ui-sref="users.user({ id: ride.driver.id })">{{ ride.driver.username }}</a></td>
 					<td><a ui-sref="rides.update({ id: ride.id })">Update</a> | <a ui-sref="rides.delete({ id: ride.id })">Delete</a></td>

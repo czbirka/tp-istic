@@ -1,21 +1,22 @@
-<div>
+<div class="page-header">
 	<h1>User list</h1>
-	<div class="panel panel-default">
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>id</th>
-					<th>Username</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="user in users">
-					<td>{{ user.id }}</td>
-					<td>{{ user.username }}</td>
-					<td><a ui-sref="users.update({ id: user.id })">Update</a> | <a ui-sref="users.delete({ id: user.id })">Delete</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>Username</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users">
+				<td>{{ user.id }}</td>
+				<td>{{ user.username }}</td>
+				<td><a ui-sref="users.update({ id: user.id })">Update</a> | <a ui-sref="users.delete({ id: user.id })">Delete</a></td>
+			</tr>
+		</tbody>
+	</table>
 </div>

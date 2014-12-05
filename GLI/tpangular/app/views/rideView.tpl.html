@@ -1,0 +1,24 @@
+<div class="page-header">
+	<h1>Ride information</h1>
+	<button type="button" class="btn btn-primary text-right" ng-click="askUsername()">Join this ride!</button>
+</div>
+
+<dl class="dl-horizontal">
+	<dt>Identifier</dt>
+	<dd>{{ ride.id }}</dd>
+	<dt>Origin</dt>
+	<dd>{{ ride.origin }}</dd>
+	<dt>Destination</dt>
+	<dd>{{ ride.destination }}</dd>
+	<dt>Leaving date</dt>
+	<dd>{{ ride.leavingDate | date:"dd/mm/yyyy" }}</dd>
+	<dt>Seat number</dt>
+	<dd>{{ ride.seatNumber }}</dd>
+	<dt>Driver</dt>
+	<dd><a ui-sref="users.user({id: ride.driver.id})">{{ ride.driver.username }}</a></dd>
+	<dt>Passengers</dt>
+	<dd ng-if="ride.passengers.length > 0" ng-bind="ride.passengers"></d>
+	<dd ng-if="ride.passengers.length === 0">
+		There is no passenger for this ride.
+	</dd>
+</dl>

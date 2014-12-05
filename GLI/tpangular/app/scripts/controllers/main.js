@@ -9,9 +9,9 @@
  */
 var controllers = angular.module('tpangularApp');
 
-controllers.controller('HomeCtrl', ['$scope', '$http',
-	function ($scope, $http) {
-		$http.get('/rest/rides/').success(function (data) {
+controllers.controller('HomeCtrl', ['$scope', 'RideService',
+	function ($scope, RideService) {
+		RideService.getAll().then(function (data) {
 			$scope.rides = data;
 		});
 	}
@@ -23,7 +23,7 @@ controllers.controller('CreateCtrl', ['$scope', '$state', '$http', 'UserService'
 		$scope.ride = {
 			origin: '',
 			destination: '',
-			leavingDate: '',
+			leavingDate: new Date(),
 			seatNumber: '',
 			driver: null
 		};
@@ -46,6 +46,37 @@ controllers.controller('CreateCtrl', ['$scope', '$state', '$http', 'UserService'
 
 		$scope.cancel = function () {
 			$state.go('home');
+		};
+	}
+]);
+
+controllers.controller('ViewCtrl', ['$state', '$stateParams', '$scope', 'RideService', 'UserService', '$q', '$modal',
+	function ($state, $stateParams, $scope, RideService, UserService, $q, $modal) {
+		$q.all([
+			RideService.get($stateParams.id), 
+			UserService.getAll()
+		]).then(function (data) {
+			$scope.ride = data[0];
+			$scope.users = data[1];
+		});
+
+		var joinModal = $modal({scope: $scope, template: 'views/modal/join_modal.tpl.html', show: false});
+
+		$scope.askUsername = function () {
+			joinModal.$promise.then(joinModal.show);
+		};
+
+		$scope.userSelected = function (object) {
+			return object !== undefined;
+		};
+
+		$scope.join = function (user) {	
+			var ride = $scope.ride;
+
+			ride.passengers.push(angular.fromJson(user));
+			RideService.update(ride);
+
+			joinModal.hide();
 		};
 	}
 ]);
@@ -130,9 +161,25 @@ controllers.controller('UserInfoCtrl', ['$scope', '$stateParams', 'UserService',
 	}
 ]);
 
-controllers.controller('UpdateUserCtrl', [
-	function () {
-		// TODO: update user
+controllers.controller('UpdateUserCtrl', ['$scope', '$state', '$stateParams', 'UserService', '$alert',
+	function ($scope, $state, $stateParams, UserService, $alert) {
+		UserService.get($stateParams.id).then(function (data) {
+			$scope.user = data;
+		});
+
+		$scope.submit = function () {
+			UserService.update($scope.user).then(function () {
+				$alert({
+					title:'Success', 
+					content: 'User updated successfully',
+					type: 'success',
+					show: true
+				});
+				$state.go('users.list');
+			}, function (data) {
+				console.log(data);
+			});
+		};
 	}
 ]);
 
