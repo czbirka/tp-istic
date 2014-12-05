@@ -1,6 +1,8 @@
 package fr.istic.taa.shared;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,12 +32,26 @@ public class User implements IUser, Serializable {
     /**
      * The list of rides a user can have as a Driver
      */
-    private List<Ride> ridesAsDriver;
+    private List<IRide> ridesAsDriver;
 
     /**
      * The list of rides a user can have as a Passenger
      */
-    private List<Ride> ridesAsPassenger;
+    private List<IRide> ridesAsPassenger;
+
+    @JsonCreator
+    public User() {
+        this.username = "Username";
+        this.ridesAsDriver = new ArrayList<IRide>();
+        this.ridesAsPassenger = new ArrayList<IRide>();
+    }
+
+    @JsonCreator
+    public User(@JsonProperty("username") String username) {
+        this.username = username.length() > 0 ? username : "Username";
+        this.ridesAsDriver = new ArrayList<IRide>();
+        this.ridesAsPassenger = new ArrayList<IRide>();
+    }
 
 	/**
 	 * Gets the id of the driver
@@ -75,11 +91,11 @@ public class User implements IUser, Serializable {
      * Gets the rides of the user as a Driver
      * @return ridesAsDriver
      */
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, targetEntity = Ride.class)
     @JsonIgnore
-    public List<Ride> getRidesAsDriver() {
+    public List<IRide> getRidesAsDriver() {
         if (ridesAsDriver == null)
-            ridesAsDriver = new ArrayList<Ride>();
+            ridesAsDriver = new ArrayList<IRide>();
         return ridesAsDriver;
     }
 
@@ -87,11 +103,11 @@ public class User implements IUser, Serializable {
      * Sets the rides of the user as a Driver
      * @param ridesAsDriver
      */
-    public void setRidesAsDriver(List<Ride> ridesAsDriver) {
+    public void setRidesAsDriver(List<IRide> ridesAsDriver) {
         this.ridesAsDriver = ridesAsDriver;
     }
 
-    public void addRidesAsDriver(Ride ride) {
+    public void addRidesAsDriver(IRide ride) {
         ridesAsDriver.add(ride);
     }
 
@@ -103,11 +119,11 @@ public class User implements IUser, Serializable {
      * Gets the rides of the user as a Passenger
      * @return ridesAsPassenger
      */
-    @ManyToMany
+    @ManyToMany(targetEntity = Ride.class)
     @JsonIgnore
-    public List<Ride> getRidesAsPassenger() {
+    public List<IRide> getRidesAsPassenger() {
         if (ridesAsPassenger == null)
-            ridesAsPassenger = new ArrayList<Ride>();
+            ridesAsPassenger = new ArrayList<IRide>();
         return ridesAsPassenger;
     }
 
@@ -115,11 +131,11 @@ public class User implements IUser, Serializable {
      * Sets the rides of the user as a Passenger
      * @param ridesAsPassenger
      */
-    public void setRidesAsPassenger(List<Ride> ridesAsPassenger) {
+    public void setRidesAsPassenger(List<IRide> ridesAsPassenger) {
         this.ridesAsPassenger = ridesAsPassenger;
     }
 
-    public void addRidesAsPassenger(Ride ride) {
+    public void addRidesAsPassenger(IRide ride) {
         ridesAsPassenger.add(ride);
     }
 

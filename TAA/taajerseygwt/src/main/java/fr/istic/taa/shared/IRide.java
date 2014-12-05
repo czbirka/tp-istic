@@ -30,9 +30,9 @@ public interface IRide {
 
     IUser getDriver();
 
-    void setDriver(User driver);
+    void setDriver(IUser driver);
 
-    List<User> getPassengers();
+    List<IUser> getPassengers();
 
-    void setPassengers(List<User> passengers);
+    void setPassengers(List<IUser> passengers);
 }

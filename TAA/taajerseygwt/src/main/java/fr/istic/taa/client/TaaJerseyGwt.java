@@ -14,6 +14,8 @@ public class TaaJerseyGwt implements EntryPoint, ValueChangeHandler<String> {
     private static final String HOME = "home";
     private static final String USERS = "users";
     private static final String CREATE_RIDE = "create";
+    private static final String REGISTER = "register";
+
 
 	/**
 	 * This is the entry point method.
@@ -40,6 +42,10 @@ public class TaaJerseyGwt implements EntryPoint, ValueChangeHandler<String> {
         RootPanel.get().add(new RideFormView());
     }
 
+    public void loadRegisterPage() {
+        RootPanel.get().add(new RegisterFormView());
+    }
+
     public void onValueChange(ValueChangeEvent<String> stringValueChangeEvent) {
         String history = stringValueChangeEvent.getValue();
         RootPanel.get().clear();
@@ -48,8 +54,11 @@ public class TaaJerseyGwt implements EntryPoint, ValueChangeHandler<String> {
             loadUsersPage();
         } else if (history.equals(CREATE_RIDE)) {
             loadCreateRidePage();
+        } else if (history.equals(REGISTER)) {
+            loadRegisterPage();
         } else {
             loadHomePage();
         }
     }
+
 }

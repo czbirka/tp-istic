@@ -1,12 +1,12 @@
 package fr.istic.taa.server;
 
+import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.Ride;
 import fr.istic.taa.shared.User;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import java.util.Collection;
 
 /**
@@ -41,9 +41,7 @@ public class RideResource implements IRideResource {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
-        User driver = (User) ManagerSingleton.getInstance()
-                .createQuery("select u from User as u where u.id=" + ride.getDriver().getId())
-                .getSingleResult();
+        User driver = ManagerSingleton.getInstance().find(User.class, ride.getDriver().getId());
         driver.addRidesAsDriver(ride);
         ride.setDriver(driver);
         ManagerSingleton.getInstance().merge(driver);
@@ -57,6 +55,7 @@ public class RideResource implements IRideResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Ride> update(Ride update) {
+
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
@@ -72,7 +71,7 @@ public class RideResource implements IRideResource {
     public Collection<Ride> deleteById(@PathParam("id") String id) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
         Ride r = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
-        User driver = r.getDriver();
+        IUser driver = r.getDriver();
 
         // Update driver
         t.begin();

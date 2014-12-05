@@ -1,5 +1,8 @@
 package fr.istic.taa.shared;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,12 +45,36 @@ public class Ride implements IRide, Serializable {
 	/**
 	 * Driver of the ride
 	 */
-	private User driver;
+	private IUser driver;
 	
 	/**
 	 * List of passengers of the ride
 	 */
-	private List<User> passengers;
+	private List<IUser> passengers;
+
+    @JsonCreator
+    public Ride() {
+        this.origin = "Origin";
+        this.destination = "Destination";
+        this.leavingDate = new Date();
+        this.seatNumber = 0;
+        this.driver = null;
+        this.passengers = new ArrayList<IUser>();
+    }
+
+    @JsonCreator
+    public Ride(@JsonProperty("origin") String origin,
+                @JsonProperty("destination") String destination,
+                @JsonProperty("leavingDate") Date leavingDate,
+                @JsonProperty("seatNumber") int seatNumber,
+                @JsonProperty("driver") User driver) {
+        this.origin = origin;
+        this.destination = destination;
+        this.leavingDate = leavingDate;
+        this.seatNumber = seatNumber;
+        this.driver = driver;
+        this.passengers = new ArrayList<IUser>();
+    }
 
 	/**
 	 * Gets the id of the ride
@@ -135,8 +162,8 @@ public class Ride implements IRide, Serializable {
 	 * Gets the driver of the ride
 	 * @return driver
 	 */
-    @ManyToOne
-	public User getDriver() {
+    @ManyToOne(targetEntity = User.class)
+	public IUser getDriver() {
 		return driver;
 	}
 
@@ -144,7 +171,7 @@ public class Ride implements IRide, Serializable {
 	 * Sets the driver of the ride
 	 * @param driver
 	 */
-    public void setDriver(User driver) {
+    public void setDriver(IUser driver) {
 		this.driver = driver;
 	}
 	
@@ -152,10 +179,10 @@ public class Ride implements IRide, Serializable {
 	 * Gets the passengers of the ride
 	 * @return passengers
 	 */
-    @ManyToMany(mappedBy="ridesAsPassenger")
-	public List<User> getPassengers() {
+    @ManyToMany(mappedBy="ridesAsPassenger", targetEntity = User.class)
+	public List<IUser> getPassengers() {
         if (passengers == null)
-            passengers = new ArrayList<User>();
+            passengers = new ArrayList<IUser>();
 		return passengers;
 	}
 
@@ -163,7 +190,7 @@ public class Ride implements IRide, Serializable {
 	 * Sets the passengers of the ride
 	 * @param passengers
 	 */
-    public void setPassengers(List<User> passengers) {
+    public void setPassengers(List<IUser> passengers) {
 		this.passengers = passengers;
 	}
 

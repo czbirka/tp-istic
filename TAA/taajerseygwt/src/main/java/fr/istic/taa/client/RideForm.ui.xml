@@ -11,7 +11,7 @@
                 <b:NavLink href="#create">Create</b:NavLink>
                 <b:Dropdown text="Members">
                     <b:NavLink href="#users">List</b:NavLink>
-                    <b:NavLink href="#">Create</b:NavLink>
+                    <b:NavLink href="#register">Create</b:NavLink>
                 </b:Dropdown>
             </b:Nav>
         </b:ResponsiveNavbar>

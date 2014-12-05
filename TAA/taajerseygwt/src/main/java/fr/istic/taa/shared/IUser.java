@@ -12,13 +12,13 @@ public interface IUser {
     public String getUsername();
     public void setUsername(final String username);
 
-    public List<Ride> getRidesAsDriver();
-    public void setRidesAsDriver(List<Ride> ridesAsDriver);
-    public List<Ride> getRidesAsPassenger();
-    /*
+    public List<IRide> getRidesAsDriver();
+    public void setRidesAsDriver(List<IRide> ridesAsDriver);
+    public List<IRide> getRidesAsPassenger();
+
     public void removeRidesAsDriver(IRide ride);
     public void addRidesAsDriver(IRide ride);
     public void addRidesAsPassenger(IRide ride);
-    public void setRidesAsPassenger(Collection<IRide> ridesAsPassenger);
-    */
+    public void setRidesAsPassenger(List<IRide> ridesAsPassenger);
+
 }

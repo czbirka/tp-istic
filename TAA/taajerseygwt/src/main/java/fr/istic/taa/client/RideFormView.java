@@ -105,7 +105,7 @@ public class RideFormView extends Composite {
                     ride.setDestination(destinationValue);
                     ride.setLeavingDate(leavingDateValue);
                     ride.setSeatNumber(Integer.parseInt(seatNumberValue));
-                    //ride.setDriver(usersMap.get(driverUsername));
+                    ride.setDriver(usersMap.get(driverUsername));
 
                     String serializedRide = RideJsonConverter.getInstance().serializeToJson(ride);
 
