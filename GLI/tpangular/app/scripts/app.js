@@ -12,11 +12,14 @@ var angularApp = angular.module('tpangularApp', [
 	'ngAnimate',
 	'ngSanitize',
 	'ui.router',
-	'mgcrea.ngStrap'
+	'mgcrea.ngStrap',
+	'ui.select'
 ]);
 
-angularApp.config(['$stateProvider', '$urlRouterProvider', '$alertProvider',
-	function ($stateProvider, $urlRouterProvider, $alertProvider) {
+angularApp.config(['$stateProvider', '$urlRouterProvider', '$alertProvider', 'uiSelectConfig',
+	function ($stateProvider, $urlRouterProvider, $alertProvider, uiSelectConfig) {
+		uiSelectConfig.theme = 'bootstrap';
+
 		angular.extend($alertProvider.defaults, {
 			duration: 3,
 			container: 'body',

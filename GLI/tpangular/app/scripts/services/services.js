@@ -30,12 +30,36 @@ services.factory('RideService', ['$http', '$q',
 			return deferred.promise;
 		};
 
+		RideService.create = function (ride) {
+			var deferred = $q.defer();
+
+			$http.post('/rest/rides/create', ride).success(function () {
+				deferred.resolve();
+			}).error(function () {
+				deferred.reject();
+			});
+
+			return deferred.promise;
+		};
+
 		RideService.update = function (ride) {
 			var deferred = $q.defer();
 
 			$http.put('/rest/rides/update/' + ride.id, ride).success(function (data) {
 				deferred.resolve(data);
 			}).error(function () {
+				deferred.reject();
+			});
+
+			return deferred.promise;
+		};
+
+		RideService.addPassengerToRide = function (user, ride) {
+			var deferred = $q.defer();
+
+			$http.put('/rest/rides/' + ride.id + '/add', user).success(function () {
+				deferred.resolve();
+			}).error(function() {
 				deferred.reject();
 			});
 

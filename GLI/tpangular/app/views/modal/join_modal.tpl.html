@@ -8,7 +8,22 @@
 			<div class="modal-body">
 				<h4>Join a ride</h4>
 				<p>To proceed, please select your username:</p>
-				<select ng-model="selectedUser"><option ng-repeat="user in users" value="{{ user }}">{{ user.username }}</option></select>
+				<span ng-if="users.length == 0"><strong>No user can join this ride.</strong> Try to create a new user.</span>
+				<form ng-show="users.length > 0">
+					<div class="form-group">
+						<select ng-model="selectedUser">
+							<option ng-repeat="user in users" value="{{ user }}">{{ user.username }}</option>
+						</select>
+						<!--<ui-select ng-model="selectedUser">
+							<ui-select-match placeholder="Enter a username">
+								{{ $select.selected.username }}
+							</ui-select-match>
+							<ui-select-choices repeat="user in users">
+								<div ng-bind-html="user.username"></div>
+							</ui-select-choices>
+						</ui-select>-->
+					</div>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" ng-click="$hide()">Close</button>

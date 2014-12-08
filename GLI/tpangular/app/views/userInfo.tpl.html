@@ -1,3 +1,12 @@
 <div class="page-header">
-	<h1>{{ pageName }}</h1>
+	<h1>{{ user.username }}</h1>
 </div>
+
+<dl class="dl-horizontal">
+	<dt>Identifier</dt>
+	<dd>{{ user.id }}</dd>
+	<dt>Rides as driver</dt>
+	<dd>{{ user.ridesAsDriverID }}</dd>
+	<dt>Rides as passenger</dt>
+	<dd>{{ user.ridesAsPassengerID }}</dd>
+</dl>

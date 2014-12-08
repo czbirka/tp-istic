@@ -1,6 +1,6 @@
 <div class="page-header">
 	<h1>Ride information</h1>
-	<button type="button" class="btn btn-primary text-right" ng-click="askUsername()">Join this ride!</button>
+	<button ng-disabled="ride.seatNumber == 0" type="button" class="btn btn-primary text-right" ng-click="askUsername()">Join this ride!</button>
 </div>
 
 <dl class="dl-horizontal">
@@ -11,13 +11,16 @@
 	<dt>Destination</dt>
 	<dd>{{ ride.destination }}</dd>
 	<dt>Leaving date</dt>
-	<dd>{{ ride.leavingDate | date:"dd/mm/yyyy" }}</dd>
+	<dd>{{ ride.leavingDate | date:"dd/MM/yyyy" }}</dd>
 	<dt>Seat number</dt>
 	<dd>{{ ride.seatNumber }}</dd>
 	<dt>Driver</dt>
 	<dd><a ui-sref="users.user({id: ride.driver.id})">{{ ride.driver.username }}</a></dd>
 	<dt>Passengers</dt>
-	<dd ng-if="ride.passengers.length > 0" ng-bind="ride.passengers"></d>
+	<dd ng-if="ride.passengers.length > 0">
+		<span ng-repeat="passenger in ride.passengers"><a ui-sref="users.user({ id: passenger.id })">{{ passenger.username }}</a><span ng-if="$index != ride.passengers.length - 1">, </span></span>
+
+	</dd>
 	<dd ng-if="ride.passengers.length === 0">
 		There is no passenger for this ride.
 	</dd>
