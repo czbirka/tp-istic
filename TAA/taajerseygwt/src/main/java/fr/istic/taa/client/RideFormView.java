@@ -109,6 +109,7 @@ public class RideFormView extends Composite {
 
                     String serializedRide = RideJsonConverter.getInstance().serializeToJson(ride);
 
+                    Window.alert(serializedRide);
                     RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
                             GWT.getHostPageBaseURL() + "rest/rides/create");
 

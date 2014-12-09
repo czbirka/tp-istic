@@ -1,5 +1,6 @@
 package fr.istic.taa.server;
 
+import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.Ride;
 import fr.istic.taa.shared.User;
@@ -16,13 +17,11 @@ import java.util.Collection;
 public class RideResource implements IRideResource {
 
 
-    public RideResource() {
-
-    }
+    public RideResource() {}
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> getRides() {
+    public Collection<IRide> getRides() {
         return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
     }
 
@@ -37,7 +36,7 @@ public class RideResource implements IRideResource {
     @Path("/create/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> create(Ride ride) {
+    public IRide create(Ride ride) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
@@ -47,64 +46,80 @@ public class RideResource implements IRideResource {
         ManagerSingleton.getInstance().merge(driver);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ride;
     }
 
     @PUT
     @Path("/update/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> update(Ride update) {
+    public IRide update(Ride update) {
 
+        // TODO: fix this (rides are not being updated)
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
         t.begin();
         ManagerSingleton.getInstance().merge(update);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return update;
     }
 
     @PUT
     @Path("{rideId}/add/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> addPassenger(@PathParam("rideId") String rideId, @PathParam("userId") String userId) {
+    public IRide addPassenger(@PathParam("rideId") String rideId,@PathParam("userId") String userId) throws Exception {
 
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
 
-        User passenger = ManagerSingleton.getInstance().find(User.class, Integer.parseInt(userId));
-        Ride ride = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(rideId));
+        IUser user = ManagerSingleton.getInstance().find(User.class, Integer.parseInt(userId));
+        IRide ride = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(rideId));
 
-        passenger.addRidesAsPassenger(ride);
-        ride.addPassenger(passenger);
+        if (ride.getSeatNumber() == 0) {
+            throw new RuntimeException();
+        }
+
+        if (ride.getDriver().getId() == user.getId()) {
+            throw new RuntimeException();
+        }
+
+        for(IUser u : ride.getPassengers()) {
+            if (u.getId() == user.getId()) {
+                throw new RuntimeException();
+            }
+        }
+
+        user.addRidesAsPassenger(ride);
+        ride.addPassenger(user);
+        ride.setSeatNumber(ride.getSeatNumber() -1);
 
         t.begin();
-        ManagerSingleton.getInstance().merge(ride);
+        ManagerSingleton.getInstance().merge(user);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ride;
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Ride> deleteById(@PathParam("id") String id) {
+    public IRide deleteById(@PathParam("id") String id) {
         EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
-        Ride r = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
-        IUser driver = r.getDriver();
+        Ride ride = ManagerSingleton.getInstance().find(Ride.class, Integer.parseInt(id));
+        IUser driver = ride.getDriver();
 
         // Update driver
         t.begin();
-        driver.removeRidesAsDriver(r);
+        driver.removeRidesAsDriver(ride);
         ManagerSingleton.getInstance().merge(driver);
         t.commit();
 
         // Delete ride
         t.begin();
-        ManagerSingleton.getInstance().remove(r);
+        ManagerSingleton.getInstance().remove(ride);
         t.commit();
 
-        return ManagerSingleton.getInstance().createQuery("select r from Ride as r").getResultList();
+        return ride;
     }
 }

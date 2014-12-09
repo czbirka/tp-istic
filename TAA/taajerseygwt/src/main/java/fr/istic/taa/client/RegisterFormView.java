@@ -59,6 +59,8 @@ public class RegisterFormView extends Composite {
                     rb.setHeader("Content-Type", "application/json");
                     rb.setRequestData(serializedUser);
 
+                    Window.alert(serializedUser);
+
                     rb.setCallback(new RequestCallback() {
                         public void onResponseReceived(Request request, Response response) {
                             if (response.getStatusCode() == 200) {

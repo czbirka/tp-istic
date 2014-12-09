@@ -1,5 +1,6 @@
 package fr.istic.taa.server;
 
+import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.User;
 
 import java.util.Collection;
@@ -9,13 +10,15 @@ import java.util.Collection;
  */
 public interface IUserResource {
 
-    Collection<User> getUsers();
+    Collection<IUser> getUsers();
 
-    User getUserById(String id);
+    IUser getUserById(String id);
 
-    Collection<User> create(User ride);
+    IUser getByName(String id);
 
-    Collection<User> update(User update);
+    IUser create(User ride);
 
-    Collection<User> deleteById(String id);
+    IUser update(User update);
+
+    IUser deleteById(String id);
 }

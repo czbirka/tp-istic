@@ -1,9 +1,9 @@
 package fr.istic.taa.server;
 
 
+import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.Ride;
 
-import javax.ws.rs.PathParam;
 import java.util.Collection;
 
 /**
@@ -11,15 +11,15 @@ import java.util.Collection;
  */
 public interface IRideResource {
 
-    Collection<Ride> getRides();
+    Collection<IRide> getRides();
 
-    Ride getRideById(String id);
+    IRide getRideById(String id);
 
-    Collection<Ride> create(Ride ride);
+    IRide create(Ride ride);
 
-    Collection<Ride> update(Ride update);
+    IRide update(Ride update);
 
-    Collection<Ride> addPassenger(String rideId, String userId);
+    IRide addPassenger(String rideId, String userId) throws Exception;
 
-    Collection<Ride> deleteById(String id);
+    IRide deleteById(String id);
 }

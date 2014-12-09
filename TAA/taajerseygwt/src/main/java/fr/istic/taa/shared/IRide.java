@@ -35,4 +35,6 @@ public interface IRide {
     List<IUser> getPassengers();
 
     void setPassengers(List<IUser> passengers);
+
+    public void addPassenger(IUser passenger);
 }

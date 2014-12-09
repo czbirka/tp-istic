@@ -2,10 +2,8 @@ package fr.istic.taa.shared;
 
 import com.google.web.bindery.autobean.shared.AutoBean;
 
-import java.util.List;
-
 /**
- * Created by thomas on 03/12/14.
+ * Created by thomas & amona on 03/12/14.
  */
 public class IRideCategory {
 
