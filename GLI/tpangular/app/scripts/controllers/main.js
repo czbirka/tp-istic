@@ -19,6 +19,7 @@ controllers.controller('HomeCtrl', ['$scope', 'RideService',
 
 controllers.controller('CreateCtrl', ['$scope', '$state', 'RideService', 'UserService', '$alert',
 	function ($scope, $state, RideService, UserService, $alert) {
+		$scope.$state = $state;
 		$scope.pageName = 'Create a Ride';
 		$scope.ride = {
 			origin: '',
@@ -65,25 +66,26 @@ controllers.controller('CreateCtrl', ['$scope', '$state', 'RideService', 'UserSe
 
 controllers.controller('ViewCtrl', ['$state', '$stateParams', '$scope', 'RideService', 'UserService', '$q', '$modal', '$alert',
 	function ($state, $stateParams, $scope, RideService, UserService, $q, $modal, $alert) {
-		$q.all([
-			RideService.get($stateParams.id), 
-			UserService.getAll()
-		]).then(function (data) {
+		var promises = [];
+
+		promises.push(RideService.get($stateParams.id));
+		promises.push(UserService.getAll());
+
+		$q.all(promises).then(function (data) {
 			// Ride informations
 			$scope.ride = data[0];
 			$scope.users = [];
 
 			var driver = $scope.ride.driver;
-			var passengers = $scope.ride.passengers;
 
 			// Remove the driver from the user list
 			var users = data[1].filter(function (element) {
 				return element.id !== driver.id;
 			});
 
-			// 
+			// Build the user list
 			angular.forEach(users, function (user) {
-				if (user.ridesAsPassengerID.indexOf($scope.ride.id) == -1) {
+				if (user.ridesAsPassengerID.indexOf($scope.ride.id) === -1) {
 					$scope.users.push(user);
 				}
 			});
@@ -129,26 +131,25 @@ controllers.controller('ViewCtrl', ['$state', '$stateParams', '$scope', 'RideSer
 	}
 ]);
 
-controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', '$http', 'UserService', '$alert',
-	function ($state, $stateParams, $scope, $http, UserService, $alert) {
+controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', 'RideService', 'UserService', '$alert', '$q',
+	function ($state, $stateParams, $scope, RideService, UserService, $alert, $q) {
 		var id = $stateParams.id;
+		var promises = [];
 
 		$scope.pageName = 'Update';
+		$scope.showDriver = false;
 
-		UserService.getAll().then(function (data) {
-			$scope.users = data;
-		});
+		promises.push(RideService.get(id));
+		promises.push(UserService.getAll());
 
-		$http.get('/rest/rides/' + id).success(function (data) {
-			$scope.ride = data;
+		$q.all(promises).then(function (data) {
+			$scope.ride = data[0]
+			$scope.users = data[1];
 		});
 
 		$scope.submit = function () {
-			// Deserialize the driver
-			$scope.ride.driver = angular.fromJson($scope.ride.driver);
 			
-			$http.put('/rest/rides/update/' + id, $scope.ride)
-			.success(function () {
+			RideService.update($scope.ride).then(function () {
 				$alert({
 					title:'Success:', 
 					content: 'The ride has been updated.',
@@ -197,24 +198,33 @@ controllers.controller('UsersCtrl', ['$scope', 'UserService',
 	}
 ]);
 
-controllers.controller('UserInfoCtrl', ['$scope', '$stateParams', 'UserService',
-	function ($scope, $stateParams, UserService) {
+controllers.controller('UserInfoCtrl', ['$scope', '$stateParams', 'UserService', 'RideService', '$q',
+	function ($scope, $stateParams, UserService, RideService, $q) {
 		UserService.get($stateParams.id).then(function (data) {
-			$scope.user = data;
+			var user = data;
+			var promises = [];
+
+			promises.push(RideService.getByIds(user.ridesAsDriverID));
+			promises.push(RideService.getByIds(user.ridesAsPassengerID));
+
+			$q.all(promises).then(function (data) {
+				$scope.user = user;
+				$scope.ridesAsDriver = data[0];
+				$scope.ridesAsPassenger = data[1];
+			});
 		});
 	}
 ]);
 
-controllers.controller('RegisterCtrl', ['$state', '$scope', '$http', '$alert',
-	function ($state, $scope, $http, $alert) {
+controllers.controller('RegisterCtrl', ['$state', '$scope', 'UserService', '$alert',
+	function ($state, $scope, UserService, $alert) {
 		$scope.pageName = 'Create a user';
 		$scope.user = {
 			username: ''
 		};
 
 		$scope.submit = function () {
-			$http.post('/rest/users/create/', $scope.user)
-			.success(function () {
+			UserService.create($scope.user).then(function () {
 				$alert({
 					title:'Success:', 
 					content: 'The user has been created successfully.',

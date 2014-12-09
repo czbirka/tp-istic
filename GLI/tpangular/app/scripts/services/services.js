@@ -30,6 +30,23 @@ services.factory('RideService', ['$http', '$q',
 			return deferred.promise;
 		};
 
+		RideService.getByIds = function (ids) {
+			var deferred = $q.defer();
+			var promises = [];
+
+			angular.forEach(ids, function (id) {
+				promises.push(RideService.get(id));
+			});
+
+			$q.all(promises).then(function (data) {
+				deferred.resolve(data);
+			}, function () {
+				deferred.reject();
+			});
+
+			return deferred.promise;
+		};
+
 		RideService.create = function (ride) {
 			var deferred = $q.defer();
 
@@ -43,6 +60,7 @@ services.factory('RideService', ['$http', '$q',
 		};
 
 		RideService.update = function (ride) {
+			console.log(ride);
 			var deferred = $q.defer();
 
 			$http.put('/rest/rides/update/' + ride.id, ride).success(function (data) {
@@ -57,7 +75,7 @@ services.factory('RideService', ['$http', '$q',
 		RideService.addPassengerToRide = function (user, ride) {
 			var deferred = $q.defer();
 
-			$http.put('/rest/rides/' + ride.id + '/add', user).success(function () {
+			$http.put('/rest/rides/' + ride.id + '/add/' + user.id).success(function () {
 				deferred.resolve();
 			}).error(function() {
 				deferred.reject();
@@ -91,6 +109,18 @@ services.factory('UserService', ['$http', '$q',
 
 			$http.get('/rest/users/' + id).success(function (data) {
 				deferred.resolve(data);
+			}).error(function () {
+				deferred.reject();
+			});
+
+			return deferred.promise;
+		};
+
+		UserService.create = function (user) {
+			var deferred = $q.defer();
+
+			$http.put('/rest/users/create/', user).success(function () {
+				deferred.resolve();
 			}).error(function () {
 				deferred.reject();
 			});

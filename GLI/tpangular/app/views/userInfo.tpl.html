@@ -6,7 +6,17 @@
 	<dt>Identifier</dt>
 	<dd>{{ user.id }}</dd>
 	<dt>Rides as driver</dt>
-	<dd>{{ user.ridesAsDriverID }}</dd>
+	<dd>
+		<div ng-show="!ridesAsDriver.length">No rides</div>
+		<div ng-show="ridesAsDriver.length" ng-repeat="ride in ridesAsDriver">
+			<a ui-sref="rides.view({ id: ride.id })">{{ ride.origin }} &rarr; {{ ride.destination }}</a>
+		</div>
+	</dd>
 	<dt>Rides as passenger</dt>
-	<dd>{{ user.ridesAsPassengerID }}</dd>
+	<dd>
+		<div ng-show="!ridesAsPassenger.length">No rides</div>
+		<div ng-show="ridesAsPassenger.length" ng-repeat="ride in ridesAsPassenger">
+			<a ui-sref="rides.view({ id: ride.id })">{{ ride.origin }} &rarr; {{ ride.destination }}</a>
+		</div>
+	</dd>
 </dl>
