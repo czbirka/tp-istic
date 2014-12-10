@@ -6,7 +6,7 @@ import fr.istic.taa.shared.User;
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Thomas & Amona on 23/10/14.
@@ -18,7 +18,7 @@ public class UserResource implements IUserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<IUser> getUsers() {
+    public List<IUser> getUsers() {
         return ManagerSingleton.getInstance().createQuery("select u from User as u").getResultList();
     }
 
@@ -32,8 +32,13 @@ public class UserResource implements IUserResource {
     @GET
     @Path("/search/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public IUser getByName(@PathParam("name") String name) {
-        return (IUser) ManagerSingleton.getInstance().createQuery("select u from User as u where u.username = '" + name + "'").getSingleResult();
+    public IUser getUserByName(@PathParam("name") String name) {
+        List<IUser> users = (List<IUser>) ManagerSingleton.getInstance().createQuery("select u from User as u where u.username = '" + name + "'").getResultList();
+
+        if (users.isEmpty())
+            return null;
+
+        return users.get(0);
     }
 
     @POST

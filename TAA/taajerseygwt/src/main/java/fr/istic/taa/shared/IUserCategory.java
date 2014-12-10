@@ -8,15 +8,20 @@ import java.util.List;
  * Created by thomas on 03/12/14.
  */
 public class IUserCategory {
-    public static void removeRidesAsDriver(AutoBean<IUser> user, IRide ride) {
-
-    }
 
     public static void addRidesAsDriver(AutoBean<IUser> user, IRide ride) {
 
     }
 
+    public static void removeRidesAsDriver(AutoBean<IUser> user, IRide ride) {
+
+    }
+
     public static void addRidesAsPassenger(AutoBean<IUser> user, IRide ride) {
+
+    }
+
+    public static void removeRidesAsPassenger(AutoBean<IUser> user, IRide ride) {
 
     }
 

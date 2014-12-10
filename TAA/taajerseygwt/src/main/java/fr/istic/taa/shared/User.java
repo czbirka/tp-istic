@@ -30,6 +30,11 @@ public class User implements IUser, Serializable {
     private String username;
 
     /**
+     * The password of the driver
+     */
+    private String password;
+
+    /**
      * The list of rides a user can have as a Driver
      */
     private List<IRide> ridesAsDriver;
@@ -42,13 +47,15 @@ public class User implements IUser, Serializable {
     @JsonCreator
     public User() {
         this.username = "Username";
+        this.password = "password";
         this.ridesAsDriver = new ArrayList<IRide>();
         this.ridesAsPassenger = new ArrayList<IRide>();
     }
 
     @JsonCreator
-    public User(@JsonProperty("username") String username) {
+    public User(@JsonProperty("username") String username, @JsonProperty("password") String password) {
         this.username = username.length() > 0 ? username : "Username";
+        this.password = password.length() > 0 ? password : "password";
         this.ridesAsDriver = new ArrayList<IRide>();
         this.ridesAsPassenger = new ArrayList<IRide>();
     }
@@ -80,7 +87,7 @@ public class User implements IUser, Serializable {
     }
 
     /**
-     * Sets the driver's username
+     * Sets the user's username
      * @param username
      */
     public void setUsername(String username) {
@@ -88,10 +95,31 @@ public class User implements IUser, Serializable {
     }
 
     /**
+     * Gets the user's password
+     * @return password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets the user's password
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
      * Gets the rides of the user as a Driver
      * @return ridesAsDriver
      */
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, targetEntity = Ride.class)
+    @OneToMany(
+        mappedBy = "driver",
+        orphanRemoval = true,
+        cascade = CascadeType.ALL,              // Refresh
+        targetEntity = Ride.class
+    )
     @JsonIgnore
     public List<IRide> getRidesAsDriver() {
         if (ridesAsDriver == null)
@@ -105,14 +133,6 @@ public class User implements IUser, Serializable {
      */
     public void setRidesAsDriver(List<IRide> ridesAsDriver) {
         this.ridesAsDriver = ridesAsDriver;
-    }
-
-    public void addRidesAsDriver(IRide ride) {
-        ridesAsDriver.add(ride);
-    }
-
-    public void removeRidesAsDriver(IRide ride) {
-        ridesAsDriver.remove(ride);
     }
 
     /**
@@ -135,10 +155,42 @@ public class User implements IUser, Serializable {
         this.ridesAsPassenger = ridesAsPassenger;
     }
 
+    /**
+     * Adds a ride in the ridesAsDriver list
+     * @param ride
+     */
+    public void addRidesAsDriver(IRide ride) {
+        ridesAsDriver.add(ride);
+    }
+
+    /**
+     * Removes a ride in the ridesAsDriver list
+     * @param ride
+     */
+    public void removeRidesAsDriver(IRide ride) {
+        ridesAsDriver.remove(ride);
+    }
+
+    /**
+     * Adds a ride in the ridesAsPassenger list
+     * @param ride
+     */
     public void addRidesAsPassenger(IRide ride) {
         ridesAsPassenger.add(ride);
     }
 
+    /**
+     * Removes a ride in the ridesAsPassenger list
+     * @param ride
+     */
+    public void removeRidesAsPassenger(IRide ride) {
+        ridesAsPassenger.remove(ride);
+    }
+
+    /**
+     * Gets the ids of the rides where the user is a driver
+     * @return the list of ids
+     */
     @Transient
     public Collection<Number> getRidesAsDriverID() {
         Collection<Number> ids = new HashSet<Number>();
@@ -148,6 +200,10 @@ public class User implements IUser, Serializable {
         return ids;
     }
 
+    /**
+     * Gets the ids of the rides where the user is a passenger
+     * @return the list of ids
+     */
     @Transient
     public Collection<Number> getRidesAsPassengerID() {
         Collection<Number> ids = new HashSet<Number>();

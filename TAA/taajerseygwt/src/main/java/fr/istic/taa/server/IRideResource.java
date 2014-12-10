@@ -4,14 +4,14 @@ package fr.istic.taa.server;
 import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.Ride;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Thomas & Amona on 06/10/14.
  */
 public interface IRideResource {
 
-    Collection<IRide> getRides();
+    List<IRide> getRides();
 
     IRide getRideById(String id);
 

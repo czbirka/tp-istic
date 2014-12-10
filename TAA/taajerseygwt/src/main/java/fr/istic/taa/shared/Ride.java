@@ -162,7 +162,10 @@ public class Ride implements IRide, Serializable {
 	 * Gets the driver of the ride
 	 * @return driver
 	 */
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class,
+		fetch = FetchType.EAGER,
+		cascade = CascadeType.MERGE
+	)
 	public IUser getDriver() {
 		return driver;
 	}
