@@ -6,9 +6,9 @@
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
-				<th>id</th>
-				<th>Username</th>
-				<th>Action</th>
+				<th class="col-xs-1">id</th>
+				<th class="col-xs-9">Username</th>
+				<th class="col-xs-2">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,8 +17,8 @@
 			</tr>
 			<tr ng-repeat="user in users">
 				<td>{{ user.id }}</td>
-				<td><a ui-sref="users.user({ id: user.id })">{{ user.username }}</a></td>
-				<td><a ui-sref="users.update({ id: user.id })">Update</a> | <a ui-sref="users.delete({ id: user.id })">Delete</a></td>
+				<td>{{ user.username }}</td>
+				<td><a ui-sref="users.user({ id: user.id })" class="btn btn-primary btn-xs">View</a> <a ui-sref="users.update({ id: user.id })" class="btn btn-warning btn-xs">Update</a> <a ui-sref="users.delete({ id: user.id })" class="btn btn-danger btn-xs">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>

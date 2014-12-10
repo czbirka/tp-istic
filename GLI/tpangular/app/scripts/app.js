@@ -23,7 +23,7 @@ angularApp.config(['$stateProvider', '$urlRouterProvider', '$alertProvider', 'ui
 		angular.extend($alertProvider.defaults, {
 			duration: 3,
 			container: 'body',
-			placement: 'top-right'
+			placement: 'top-left'
 		});
 
 		$urlRouterProvider.otherwise('/home');

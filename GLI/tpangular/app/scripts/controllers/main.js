@@ -220,7 +220,8 @@ controllers.controller('RegisterCtrl', ['$state', '$scope', 'UserService', '$ale
 	function ($state, $scope, UserService, $alert) {
 		$scope.pageName = 'Create a user';
 		$scope.user = {
-			username: ''
+			username: '',
+			password: ''
 		};
 
 		$scope.submit = function () {

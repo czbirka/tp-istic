@@ -119,7 +119,7 @@ services.factory('UserService', ['$http', '$q',
 		UserService.create = function (user) {
 			var deferred = $q.defer();
 
-			$http.put('/rest/users/create/', user).success(function () {
+			$http.post('/rest/users/create/', user).success(function () {
 				deferred.resolve();
 			}).error(function () {
 				deferred.reject();

@@ -16,13 +16,13 @@
 		<input type="text" class="form-control" id="leavingDate" name="leavingDate" ng-model="ride.leavingDate" placeholder="Enter the date" data-autoclose="true" data-date-format="dd/MM/yyyy" data-min-date="today" bs-datepicker required>
 	</div>
 	<div class="form-group">
-		<label for="seatNumber">Seat number</label>
+		<label for="seatNumber">Seat number <small>(excluding the driver's seat)</small></label>
 		<input type="number" class="form-control" id="seatNumber" ng-model="ride.seatNumber" placeholder="Enter the Seat Number" required>
 	</div>
 	<div class="form-group" ng-if="$state.is('rides.create')">
 		<label>Driver</label>
 		<ui-select ng-model="ride.driver">
-			<ui-select-match placeholder="Enter a username">{{$select.selected.username}}</ui-select-match>
+			<ui-select-match placeholder="Enter a username">{{ $select.selected.username }}</ui-select-match>
 			<ui-select-choices repeat="user in users">
 				<div ng-bind-html="user.username"></div>
 			</ui-select-choices>
