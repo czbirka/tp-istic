@@ -117,7 +117,6 @@ public class User implements IUser, Serializable {
     @OneToMany(
         mappedBy = "driver",
         orphanRemoval = true,
-        cascade = CascadeType.ALL,              // Refresh
         targetEntity = Ride.class
     )
     @JsonIgnore

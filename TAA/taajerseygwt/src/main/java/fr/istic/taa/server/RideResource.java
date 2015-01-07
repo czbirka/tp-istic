@@ -39,26 +39,26 @@ public class RideResource implements IRideResource {
     @Produces(MediaType.APPLICATION_JSON)
     public IRide create(Ride ride) {
         EntityTransaction t = manager.getTransaction();
+        IUser driver = manager.find(User.class, ride.getDriver().getId());
 
         t.begin();
 
-        // FetchType.EAGER on user
-        // We can update it without getting it with the manager
-        IUser user = ride.getDriver();
-        user.addRidesAsDriver(ride);
+        ride.setDriver(driver);
+        manager.persist(ride);
 
-        manager.merge(ride);
+        driver.addRidesAsDriver(ride);
+        manager.merge(driver);
+
         t.commit();
 
         return ride;
     }
 
     @PUT
-    @Path("/update/{id}")
+    @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public IRide update(Ride update) {
-
         // TODO: fix this (rides are not being updated)
         EntityTransaction t = manager.getTransaction();
 

@@ -1,5 +1,6 @@
 package fr.istic.taa.server;
 
+import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.User;
 
@@ -14,26 +15,28 @@ import java.util.List;
 @Path("/users")
 public class UserResource implements IUserResource {
 
+    private static ManagerSingleton manager = ManagerSingleton.getInstance();
+
     public UserResource() {}
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<IUser> getUsers() {
-        return ManagerSingleton.getInstance().createQuery("select u from User as u").getResultList();
+        return manager.createQuery("select u from User as u").getResultList();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public IUser getUserById(@PathParam("id") String id) {
-        return ManagerSingleton.getInstance().find(User.class, Integer.parseInt(id));
+        return manager.find(User.class, Integer.parseInt(id));
     }
 
     @GET
     @Path("/search/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public IUser getUserByName(@PathParam("name") String name) {
-        List<IUser> users = (List<IUser>) ManagerSingleton.getInstance().createQuery("select u from User as u where u.username = '" + name + "'").getResultList();
+        List<IUser> users = (List<IUser>) manager.createQuery("select u from User as u where u.username = '" + name + "'").getResultList();
 
         if (users.isEmpty())
             return null;
@@ -46,10 +49,10 @@ public class UserResource implements IUserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public IUser create(User user) {
-        EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
+        EntityTransaction t = manager.getTransaction();
 
         t.begin();
-        ManagerSingleton.getInstance().persist(user);
+        manager.persist(user);
         t.commit();
 
         return user;
@@ -60,10 +63,10 @@ public class UserResource implements IUserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public IUser update(User update) {
-        EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
+        EntityTransaction t = manager.getTransaction();
 
         t.begin();
-        ManagerSingleton.getInstance().merge(update);
+        manager.merge(update);
         t.commit();
 
         return update;
@@ -73,11 +76,20 @@ public class UserResource implements IUserResource {
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public IUser deleteById(@PathParam("id") String id) {
-        EntityTransaction t = ManagerSingleton.getInstance().getTransaction();
+        EntityTransaction t = manager.getTransaction();
 
         t.begin();
-        User user = ManagerSingleton.getInstance().find(User.class, Integer.parseInt(id));
-        ManagerSingleton.getInstance().remove(user);
+        User user = manager.find(User.class, Integer.parseInt(id));
+
+        // Get rides and remove every passengers
+        List<IRide> rides = user.getRidesAsDriver();
+
+        for (IRide ride : rides) {
+            manager.remove(ride);
+        }
+
+        // Finally, remove the user
+        manager.remove(user);
         t.commit();
 
         return user;
