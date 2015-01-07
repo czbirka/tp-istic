@@ -1,56 +1,79 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import play.Routes;
 import play.data.Form;
 import play.data.validation.Constraints;
-import play.libs.Akka;
-import play.libs.EventSource;
+import play.data.validation.ValidationError;
 import play.libs.F;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
-import rx.Subscription;
 import scala.NotImplementedError;
-import services.JourneysService;
-import services.JourneysServiceStub;
-import services.models.Journey;
+import services.JourneysServiceHTTP;
+import services.RidesService;
+import services.models.Ride;
+import services.models.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
+
+import static play.data.Form.form;
 
 /**
  * Controller grouping actions related to the journeys service.
  */
-@Security.Authenticated
+@Security.Authenticated(Authenticator.class)
 public class Journeys extends Controller {
+
+    public final static Long DEFAULT_TIMEOUT = 5000L;
 
     /**
      * The entry point to the service implementation.
      */
-    static JourneysService service = new JourneysServiceStub(Akka.system());
+    static RidesService service = new JourneysServiceHTTP(WS.client());
 
     /**
      * Show all visible journeys
      */
-    public static F.Promise<Result> journeys() {
-        return service.allJourneys().
-                map(journeys -> ok(views.html.index.render(Authentication.username(), journeys)));
+    public static F.Promise<Result> rides() {
+        return service.allRides()
+                .map(journeys -> ok(views.html.index.render(Authentication.username(), journeys)));
     }
 
     /**
      * Show the details of the journey with the given id
      */
     public static F.Promise<Result> journey(Long id) {
-        throw new NotImplementedError();
+        Ride r = service.getRideById(id).get(DEFAULT_TIMEOUT);
+        return F.Promise.promise(() -> ok(views.html.rideView.render(r)));
+    }
+
+// public static F.Promise<Result> journey(Long id) {
+//        return withJourney(id, (journey -> ok(views.html.journey.render(journey, form(Join.class), form(Attend.class)))));
+//    }
+
+    public static F.Promise<Result> rideForm() {
+        return F.Promise.promise(() -> ok(views.html.rideForm.render(form(Ride.class))));
     }
 
     /**
      * Attend to the journey with the given id
      */
-    public static F.Promise<Result> attend(Long journeyId) {
+    public static F.Promise<Result> attend(Long id) {
         throw new NotImplementedError();
+    }
+
+    public static F.Promise<Result> createRide() {
+        Form<Ride> form = Form.form(Ride.class).bindFromRequest();
+
+        if (form.hasErrors()) {
+            return F.Promise.promise(() -> badRequest(views.html.rideForm.render(form)));
+        }
+
+        return service.createRide(form.get()).map(b -> redirect(routes.Journeys.rides()));
     }
 
     /**
@@ -58,13 +81,33 @@ public class Journeys extends Controller {
      */
     public static F.Promise<Result> join(Long journeyId) {
         throw new NotImplementedError();
+//        Form<Join> joinForm = Form.form(Join.class).bindFromRequest();
+//
+//        if (joinForm.hasErrors()) {
+//            return withJourney(journeyId, (journey -> badRequest(views.html.journey.render(journey, joinForm, form(Attend.class)))));
+//        }
+//
+//        return null;
     }
 
     /**
      * Show a page displaying journey’s attendee
      */
     public static F.Promise<Result> observe(Long journeyId) {
-        return withJourney(journeyId, journey -> ok(views.html.observe.render(journeyId)));
+        throw new NotImplementedError();
+        //return withJourney(journeyId, journey -> ok(views.html.observe.render(journeyId)));
+    }
+
+    /**
+     * Deletes a given Ride.
+     * @param id
+     * @return
+     */
+    public static F.Promise<Result> delete(Long id) {
+        return deleteAndRefresh(id, r -> {
+            service.deleteById(id);
+            return redirect(routes.Journeys.rides());
+        });
     }
 
     /**
@@ -87,6 +130,16 @@ public class Journeys extends Controller {
     public static class Attend {
         @Constraints.Required
         public Integer availableSeats;
+
+        public List<ValidationError> validate() {
+            List<ValidationError> errors = new ArrayList<ValidationError>();
+
+            if (availableSeats < 1) {
+                errors.add(new ValidationError("availableSeats", "Please enter a strictly positive number."));
+            }
+
+            return errors.isEmpty() ? null : errors;
+        }
     }
 
     /**
@@ -95,6 +148,31 @@ public class Journeys extends Controller {
     public static class Join {
         @Constraints.Required
         public Long driverId;
+
+        public List<ValidationError> validate() {
+            List<ValidationError> errors = new ArrayList<ValidationError>();
+
+            if (driverId < 1) {
+                errors.add(new ValidationError("driverId", "Please enter a strictly positive number."));
+            }
+
+            return errors.isEmpty() ? null : errors;
+        }
+    }
+
+    public static Ride getRideById(Long id) {
+        return service.getRideById(id).get(DEFAULT_TIMEOUT);
+    }
+
+    /*
+    public static F.Promise<Result> getRide(Long id, Function<Ride, Result> f) {
+        return service.allRides().map(rides ->
+             rides.stream()
+                  .filter(r -> r.getId().equals(id))
+                  .findFirst()
+                  .map(f::apply)
+                  .orElseGet(Results::notFound)
+        );
     }
 
     static F.Promise<Result> withJourney(Long id, Function<Journey, Result> f) {
@@ -106,5 +184,15 @@ public class Journeys extends Controller {
                 orElseGet(Results::notFound);
         });
     }
+    */
 
+    private static F.Promise<Result> deleteAndRefresh(Long id, Function<Ride, Result> f) {
+        return service.allRides().map(journeys -> {
+            return journeys.stream().
+                    filter(r -> r.id.equals(id)).
+                    findFirst().
+                    map(f::apply).
+                    orElseGet(Results::notFound);
+        });
+    }
 }

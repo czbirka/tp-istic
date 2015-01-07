@@ -1,24 +1,71 @@
 @(journey: services.models.Journey, joinForm: Form[Journeys.Join], attendForm: Form[Journeys.Attend])
 
+@import views.form.HorizontalForm._
+
 @layout {
 
     <h1>Attend to “@journey.name”</h1>
 
+    <div class="panel panel-default">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Seats available</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(attendee <- journey.attendees) {
+                    <tr>
+                        <td>@attendee.id</td>
+                        <td>@attendee.name</td>
+                        <td>@attendee.availableSeats</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
     @if(journey.attendees.nonEmpty) {
-        @helper.form(???) {
+        @helper.form(action = routes.Journeys.join(journey.id)) {
             <fieldset>
                 <legend>Join an attending driver</legend>
-                ???
-                <button>Join the selected driver</button>
+
+                @if(joinForm.hasGlobalErrors) {
+                    <div class="form-group has-error">
+                        <div class="controls">
+                            @for(error <- joinForm.globalErrors) {
+                                <div class="help-block">@error.message</div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @helper.inputText(joinForm("driverId"), 'placeholder -> "Enter the driver's ID...", '_label -> "Driver's ID", 'class -> "form-control")
+                <button class="btn btn-primary">Join the selected driver</button>
             </fieldset>
         }
         <hr/>
     }
-    @helper.form(???) {
+
+    @helper.form(action = routes.Journeys.attend(journey.id)) {
+
         <fieldset>
             <legend>Attend as a driver</legend>
-            ???
-            <button>Attend to this event as a driver</button>
+
+            @if(attendForm.hasGlobalErrors) {
+                <div class="form-group has-error">
+                    <div class="controls">
+                        @for(error <- attendForm.globalErrors) {
+                            <div class="help-block">@error.message</div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @helper.inputText(attendForm("availableSeats"), 'placeholder -> "Enter the number of seats available...", '_label -> "Seats available", 'class -> "form-control")
+            <button class="btn btn-primary">Attend to this event as a driver</button>
         </fieldset>
     }
 }

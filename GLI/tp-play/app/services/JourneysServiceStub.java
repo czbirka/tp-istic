@@ -12,6 +12,7 @@ import rx.Observable;
 import rx.subjects.PublishSubject;
 import services.models.Attendee;
 import services.models.Journey;
+import services.models.Ride;
 
 import java.util.ArrayList;
 import java.util.List;
