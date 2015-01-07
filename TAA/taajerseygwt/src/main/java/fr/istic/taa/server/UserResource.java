@@ -85,6 +85,9 @@ public class UserResource implements IUserResource {
         List<IRide> rides = user.getRidesAsDriver();
 
         for (IRide ride : rides) {
+            for (IUser passenger : ride.getPassengers()) {
+                passenger.removeRidesAsPassenger(ride);
+            }
             manager.remove(ride);
         }
 
