@@ -63,7 +63,7 @@ services.factory('RideService', ['$http', '$q',
 			console.log(ride);
 			var deferred = $q.defer();
 
-			$http.put('/rest/rides/update/' + ride.id, ride).success(function (data) {
+			$http.put('/rest/rides/update', ride).success(function (data) {
 				deferred.resolve(data);
 			}).error(function () {
 				deferred.reject();

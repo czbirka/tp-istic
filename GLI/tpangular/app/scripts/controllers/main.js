@@ -54,7 +54,6 @@ controllers.controller('CreateCtrl', ['$scope', '$state', 'RideService', 'UserSe
 					type: 'danger',
 					show: true
 				});
-				$state.go('home');
 			});
 		};
 

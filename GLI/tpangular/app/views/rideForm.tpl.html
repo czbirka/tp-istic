@@ -21,9 +21,9 @@
 	</div>
 	<div class="form-group" ng-if="$state.is('rides.create')">
 		<label>Driver</label>
-		<ui-select ng-model="ride.driver">
+		<ui-select ng-model="ride.driver" required>
 			<ui-select-match placeholder="Enter a username">{{ $select.selected.username }}</ui-select-match>
-			<ui-select-choices repeat="user in users">
+			<ui-select-choices repeat="user in users | filter: $select.search">
 				<div ng-bind-html="user.username"></div>
 			</ui-select-choices>
 		</ui-select>
