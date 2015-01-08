@@ -1,9 +1,9 @@
-@(username: String, journeys: java.util.List[services.models.Ride])
+@(username: String, rides: java.util.List[services.models.Ride])
 
 @layout {
 
     <div>
-        <h1>Hello @username</h1>
+        <h1>Hello @username</h1><br/>
 
         <div class="panel panel-default">
             <table class="table table-bordered table-striped">
@@ -19,7 +19,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for(ride <- journeys) {
+                @if(rides.length == 0) {
+                    <tr>
+                        <td colspan="7">There is no ride for now.</td>
+                    </tr>
+                }
+
+                @for(ride <- rides) {
                     <tr>
                         <td>@ride.id</td>
                         <td>@ride.origin</td>

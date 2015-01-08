@@ -24,11 +24,9 @@
             @if(user.getRidesAsPassenger().length == 0) {
                 <div>No rides</div>
             } else {
-                <div>
                     @for(ride <- user.getRidesAsPassenger()) {
-                    <a href="@routes.Journeys.journey(ride.id)">@ride.origin &rarr; @ride.destination</a>
+                        <div><a href="@routes.Journeys.journey(ride.id)">@ride.origin &rarr; @ride.destination</a></div>
                     }
-                </div>
             }
         </dd>
     </dl>

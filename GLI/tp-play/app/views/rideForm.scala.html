@@ -4,7 +4,9 @@
 
 @layout {
 
-    @helper.form(action = routes.Journeys.createRide()) {
+    @helper.form(action = routes.Journeys.createRide(), 'class -> "form-with-inputs") {
+
+        <h1>Create your ride</h1><br/>
 
         @if(form.hasGlobalErrors) {
             <div class="form-group has-error">

@@ -7,6 +7,8 @@ import controllers.Journeys;
 import controllers.UsersCtrl;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
+
+import javax.validation.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +25,12 @@ public class User {
     public Long id;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must indicate a username")
     public String username;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must indicate a password")
+    @Constraints.Pattern(value = "^\\w{8,}$", message = "Your password must be at least 8 characters long")
     public String password;
 
     @JsonProperty

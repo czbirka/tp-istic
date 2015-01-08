@@ -11,6 +11,7 @@ import play.data.validation.ValidationError;
 import scala.concurrent.stm.CommitBarrier;
 import services.JourneysService;
 
+import javax.validation.Constraint;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,19 +29,19 @@ public class Ride {
     public Long id;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must define the place of departure")
     public String origin;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must define the place of arrival")
     public String destination;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must define the date of departure")
     public Date leavingDate;
 
     @JsonProperty
-    @Constraints.Required
+    @Constraints.Required(message = "You must define the number of seats available")
     public Integer seatNumber;
 
     @JsonProperty
@@ -64,7 +65,7 @@ public class Ride {
             passengers = new ArrayList<>();
 
         if (driver == null)
-            UsersCtrl.getUserByName(Authentication.username()).map(u -> driver = u).get(UsersCtrl.DEFAULT_TIMEOUT);
+            driver = UsersCtrl.getUserByName(Authentication.username()).get(UsersCtrl.DEFAULT_TIMEOUT);
 
         return errors.isEmpty() ? null : errors;
     }
