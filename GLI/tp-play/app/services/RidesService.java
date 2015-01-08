@@ -18,4 +18,6 @@ public interface RidesService {
     public F.Promise<Ride> createRide(Ride ride);
 
     public F.Promise<Ride> deleteById(Long id);
+
+    public F.Promise<Ride> addPassenger(Long rideId, User passenger);
 }

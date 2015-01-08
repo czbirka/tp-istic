@@ -41,7 +41,7 @@ controllers.controller('CreateCtrl', ['$scope', '$state', 'RideService', 'UserSe
 
 			RideService.create($scope.ride).then(function () {
 				$alert({
-					title:'Success:', 
+					title:'Success:',
 					content: 'The ride was created!',
 					type: 'success',
 					show: true
@@ -106,7 +106,7 @@ controllers.controller('ViewCtrl', ['$state', '$stateParams', '$scope', 'RideSer
 
 			RideService.addPassengerToRide(user, ride).then(function () {
 				$alert({
-					title:'Success:', 
+					title:'Success:',
 					content: 'You have joined the ride!',
 					type: 'success',
 					show: true
@@ -142,15 +142,15 @@ controllers.controller('UpdateCtrl', ['$state', '$stateParams', '$scope', 'RideS
 		promises.push(UserService.getAll());
 
 		$q.all(promises).then(function (data) {
-			$scope.ride = data[0]
+			$scope.ride = data[0];
 			$scope.users = data[1];
 		});
 
 		$scope.submit = function () {
-			
+
 			RideService.update($scope.ride).then(function () {
 				$alert({
-					title:'Success:', 
+					title:'Success:',
 					content: 'The ride has been updated.',
 					type: 'success',
 					show: true
@@ -170,7 +170,7 @@ controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http
 		$http.delete('/rest/rides/delete/' + $stateParams.id)
 		.success(function() {
 			$alert({
-				title:'Success:', 
+				title:'Success:',
 				content: 'The ride was deleted.',
 				type: 'success',
 				show: true
@@ -179,7 +179,7 @@ controllers.controller('DeleteCtrl', ['$state', '$stateParams', '$scope', '$http
 		})
 		.error(function (data, status) {
 			$alert({
-				title:'Error:', 
+				title:'Error:',
 				content: status,
 				type: 'danger',
 				show: true
@@ -226,7 +226,7 @@ controllers.controller('RegisterCtrl', ['$state', '$scope', 'UserService', '$ale
 		$scope.submit = function () {
 			UserService.create($scope.user).then(function () {
 				$alert({
-					title:'Success:', 
+					title:'Success:',
 					content: 'The user has been created successfully.',
 					type: 'success',
 					show: true
@@ -250,7 +250,7 @@ controllers.controller('UpdateUserCtrl', ['$scope', '$state', '$stateParams', 'U
 		$scope.submit = function () {
 			UserService.update($scope.user).then(function () {
 				$alert({
-					title:'Success:', 
+					title:'Success:',
 					content: 'The user has been updated.',
 					type: 'success',
 					show: true
@@ -272,7 +272,7 @@ controllers.controller('DeleteUserCtrl', ['$state', '$stateParams', '$scope', '$
 		$http.delete('/rest/users/delete/' + $stateParams.id)
 		.success(function() {
 			$alert({
-				title:'Success:', 
+				title:'Success:',
 				content: 'The user was deleted.',
 				type: 'success',
 				show: true

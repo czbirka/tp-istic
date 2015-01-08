@@ -4,7 +4,11 @@
 
     <div class="page-header">
         <h1>Ride information</h1>
-        <button type="button" class="btn btn-primary text-right">Join this ride!</button>
+        @if(!Authentication.username().equals(ride.driver.username) && ride.seatNumber > 0) {
+            @helper.form(action = routes.Journeys.joinRide(ride.id, Authentication.username())) {
+                <button class="btn btn-primary text-right">Join this ride!</button>
+            }
+        }
     </div>
 
     <dl class="dl-horizontal">

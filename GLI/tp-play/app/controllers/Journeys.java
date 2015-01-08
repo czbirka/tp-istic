@@ -59,6 +59,13 @@ public class Journeys extends Controller {
         return F.Promise.promise(() -> ok(views.html.rideForm.render(form(Ride.class))));
     }
 
+    public static F.Promise<Result> joinRide(Long rideId, String username) {
+        User user = UsersCtrl.getUserByName(username).get(UsersCtrl.DEFAULT_TIMEOUT);
+        return service.addPassenger(rideId, user)
+                      .map(r -> redirect(routes.Journeys.journey(r.id)));
+    }
+
+
     /**
      * Attend to the journey with the given id
      */

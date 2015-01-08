@@ -63,4 +63,12 @@ public class JourneysServiceHTTP implements RidesService {
                 .map(r -> mapper.readValue(r.getBody(), new TypeReference<Ride>() {
                 }));
     }
+
+    @Override
+    public F.Promise<Ride> addPassenger(Long rideId, User passenger) {
+        return client.url(API_URL + "/" + rideId + "/join")
+                .put(Json.toJson(passenger))
+                .map(r -> mapper.readValue(r.getBody(), new TypeReference<Ride>() {
+                }));
+    }
 }
