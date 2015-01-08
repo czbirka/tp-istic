@@ -3,6 +3,7 @@ package fr.istic.taa.server;
 
 import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.Ride;
+import fr.istic.taa.shared.User;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface IRideResource {
 
     IRide update(Ride update);
 
-    IRide addPassenger(String rideId, String userId) throws Exception;
+    IRide addPassenger(String rideId, User passenger) throws Exception;
 
     IRide deleteById(String id);
 }
