@@ -24,7 +24,7 @@ public class ClickListener implements MouseListener {
     }
 
     /**
-     * Selects the arc under the mouse when clicked.
+     * Handles the selection/deselection of the arcs.
      * @param e
      */
     @Override
@@ -32,21 +32,34 @@ public class ClickListener implements MouseListener {
         View view = controller.getView();
         ArrayList<Arc2D> arcList = view.getArcList();
 
-        if (view.getDragCircle().contains(e.getX(), e.getY()) && !view.getBlankCircle().contains(e.getX(), e.getY())) {
-            for (Arc2D arc : arcList) {
-                // Check if the mouse coordinates are inside the arc primitive.
-                if (arc.contains(e.getX(), e.getY())) {
-                    view.setFocusedArcIndex(arcList.indexOf(arc));
-                    controller.updateViewInfo();
-                    controller.showButtons();
+        if (e.getClickCount() == 1) {
+            if (view.getDragCircle().contains(e.getX(), e.getY()) && !view.getBlankCircle().contains(e.getX(), e.getY())) {
+                for (Arc2D arc : arcList) {
+                    // Check if the mouse coordinates are inside the arc primitive.
+                    if (arc.contains(e.getX(), e.getY())) {
+                        controller.setFocusedArcIndex(arcList.indexOf(arc));
+                        controller.updateViewInfo();
+                        controller.showButtons();
+                        view.repaint();
+                    }
+                }
+            } else if (view.getFocusedArcIndex() != -1) {
+                Arc2D focusedArc = view.resizeArc(arcList.get(view.getFocusedArcIndex()), view.FOCUSED_ARC_RADIUS);
+                if (!focusedArc.contains(e.getX(), e.getY()) || view.getBlankCircle().contains(e.getX(), e.getY())) {
+                    controller.setFocusedArcIndex(-1);
+                    controller.clearTableSelection();
                     view.repaint();
+                    controller.hideButtons();
                 }
             }
         }
-        else {
-            view.setFocusedArcIndex(-1);
-            view.repaint();
-            controller.hideButtons();
+        // Double click the center circle to reset the angle
+        else if (e.getClickCount() == 2) {
+            if (view.getTitleCircle().contains(e.getX(), e.getY())) {
+                view.setDefaultStartAngle(0);
+                view.computeArcs(controller.getModel());
+                view.repaint();
+            }
         }
     }
 

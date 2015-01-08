@@ -28,7 +28,7 @@ public class View extends JComponent implements Observer {
     private static final double TITLE_CIRCLE_RADIUS = 150;
     private static final double BLANK_CIRCLE_RADIUS = TITLE_CIRCLE_RADIUS * 1.4;
     private static final double ARC_RADIUS = TITLE_CIRCLE_RADIUS * 2;
-    private static final double FOCUSED_ARC_RADIUS = ARC_RADIUS * 1.1;
+    public static final double FOCUSED_ARC_RADIUS = ARC_RADIUS * 1.1;
 
     /**
      * Colors.
@@ -162,6 +162,14 @@ public class View extends JComponent implements Observer {
     }
 
     /**
+     * Get the title circle.
+     * @return the title circle
+     */
+    public Arc2D getTitleCircle() {
+        return titleCircle;
+    }
+
+    /**
      * Gets the center circle.
      * @return the center circle
      */
@@ -175,6 +183,14 @@ public class View extends JComponent implements Observer {
      */
     public void setBlankCircle(Arc2D blankCircle) {
         this.blankCircle = blankCircle;
+    }
+
+    /**
+     * Gets the circle used for the drag action.
+     * @return drag circle
+     */
+    public Arc2D getFocusedArc() {
+        return arcList.get(focusedArcIndex);
     }
 
     /**
@@ -333,6 +349,10 @@ public class View extends JComponent implements Observer {
         }
     }
 
+    /**
+     * Computes the arcs according to the model's data.
+     * @param model
+     */
     public void computeArcs(Model model) {
 
         arcList.clear();

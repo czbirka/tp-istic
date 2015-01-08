@@ -13,7 +13,7 @@ public class Field {
     public Field() {
         name = new String();
         description = new String();
-        value = new Float(-1);
+        value = new Float(0);
     }
 
     public Field(String name, String description, Float value) {

@@ -1,8 +1,7 @@
-import components.CamembertTable;
+
 import mvc.Controller;
 import mvc.Model;
 import mvc.View;
-import sun.org.mozilla.javascript.tools.shell.JSConsole;
 import utils.GlobalConfigs;
 
 import javax.swing.*;
@@ -20,12 +19,11 @@ public class Main {
         model.addObserver(controller);
         model.addObserver(view);
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Interactive Camembert");
         frame.add(view, BorderLayout.CENTER);
 
         controller.setView(view);
-        model.setTitle("Navigateurs");
-
+        model.setTitle("Web browsers");
         frame.setSize(GlobalConfigs.WINDOW_WIDTH, GlobalConfigs.WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
