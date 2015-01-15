@@ -1,11 +1,19 @@
-gwtjerseyjpaexample
-===================
+# TP TAA/GWT
 
-This provide an example for the integration of a GWT web app that call a json restfull webservices developped using jersey. 
+### Authors
+* Thomas Daniellou (<thomas.danll@gmail.com>)
+* Amona Souliman (<amona.souliman1@gmail.com>)
 
-It uses autobean to do the marshalling/unmarshalling of JSON Object
+### Getting started
+Make sure you have maven installed.
 
-To run it
-
+### Run the application
+Run the following command in your terminal:
 ```bash
 mvn clean compile gwt:compile  package tomcat7:run-war-only
+```
+A compiled version of the TP Angular will be running with GWT.
+
+### Accessing the applications
+* For GWT, go on http://localhost:8080/ with your browser
+* For Angular, go on http://localhost:8080/angular/index.html
