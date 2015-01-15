@@ -74,8 +74,9 @@ module.exports = function (grunt) {
       proxies: [
         {
           context: '/rest',
-          host: 'localhost',
-          port: 8080,
+          // Change this if your REST API is on another Host
+          host: 'localhost',  // The REST API's host
+          port: 8080,         // The REST API's port
           rewrite: {
             '^/rest': '/rest'
           }
@@ -90,29 +91,21 @@ module.exports = function (grunt) {
             }
 
             // Setup the proxy
-            var middlewares = [require('grunt-connect-proxy/lib/utils').proxyRequest];
-
-            // Serve static files.
-            options.base.forEach(function(base) {
-                middlewares.push(connect.static(base));
-            });
-
-            middlewares.push(connect.static(appConfig.app));
-
-            // Make directory browse-able.
-            var directory = options.directory || options.base[options.base.length - 1];
-            middlewares.push(connect.directory(directory));
-
-            return middlewares;
-
-            /*return [
+            var middlewares = [
+              require('grunt-connect-proxy/lib/utils').proxyRequest,
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
               ),
               connect.static(appConfig.app)
-            ];*/
+            ];
+
+            // Make directory browse-able.
+            var directory = options.directory || options.base[options.base.length - 1];
+            middlewares.push(connect.directory(directory));
+
+            return middlewares;
           }
         }
       },

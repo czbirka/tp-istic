@@ -30,7 +30,7 @@ angularApp.config(['$stateProvider', '$urlRouterProvider', '$alertProvider', 'ui
 
 		$stateProvider.state('home', {
 			url: '/home',
-			templateUrl: 'views/home.tpl.html',
+			templateUrl: 'views/rideList.tpl.html',
 			controller: 'HomeCtrl'
 		})
 		.state('rides', {

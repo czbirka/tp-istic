@@ -26,7 +26,7 @@
 					<td>{{ ride.leavingDate | date:"dd/MM/yyyy" }}</td>
 					<td>{{ ride.seatNumber }}</td>
 					<td><a ui-sref="users.user({ id: ride.driver.id })">{{ ride.driver.username }}</a></td>
-					<td><a ui-sref="rides.view({ id: ride.id })" class="btn btn-xs btn-primary">View</a> <a ui-sref="rides.update({ id: ride.id })" class="btn btn-xs btn-warning">Update</a> <a ui-sref="rides.delete({ id: ride.id })" class="btn btn-xs btn-danger">Delete</a></td>
+					<td><a ui-sref="rides.view({ id: ride.id })" class="btn btn-xs btn-primary">View</a> <!--<a ui-sref="rides.update({ id: ride.id })" class="btn btn-xs btn-warning">Update</a> --><a ui-sref="rides.delete({ id: ride.id })" class="btn btn-xs btn-danger">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

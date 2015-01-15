@@ -18,7 +18,7 @@
 			<tr ng-repeat="user in users">
 				<td>{{ user.id }}</td>
 				<td>{{ user.username }}</td>
-				<td><a ui-sref="users.user({ id: user.id })" class="btn btn-primary btn-xs">View</a> <a ui-sref="users.update({ id: user.id })" class="btn btn-warning btn-xs">Update</a> <a ui-sref="users.delete({ id: user.id })" class="btn btn-danger btn-xs">Delete</a></td>
+				<td><a ui-sref="users.user({ id: user.id })" class="btn btn-primary btn-xs">View</a> <!--<a ui-sref="users.update({ id: user.id })" class="btn btn-warning btn-xs">Update</a> --><a ui-sref="users.delete({ id: user.id })" class="btn btn-danger btn-xs">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>

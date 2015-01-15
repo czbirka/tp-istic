@@ -31,7 +31,7 @@ public class TaaJerseyGwt implements EntryPoint, ValueChangeHandler<String> {
     }
 
     public void loadHomePage() {
-        RootPanel.get().add(new HomeView());
+        RootPanel.get().add(new RideListView());
     }
 
     public void loadUsersPage() {
