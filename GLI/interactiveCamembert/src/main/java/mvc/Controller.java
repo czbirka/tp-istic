@@ -1,5 +1,6 @@
 package mvc;
 
+import components.AddFieldButton;
 import components.CamembertTable;
 import components.NextButton;
 import components.PreviousButton;
@@ -38,6 +39,15 @@ public class Controller implements Observer {
         model.addField("Safari", "By Apple", 9.8f);
         model.addField("Opera", "By Opera Software", 1.3f);
         model.addField("Other", "", 3.7f);
+    }
+
+    /**
+     * Method called when the observable object is modified
+     * @param observable
+     */
+    @Override
+    public void update(Observable observable) {
+        updateViewInfo();
     }
 
     /**
@@ -85,10 +95,13 @@ public class Controller implements Observer {
      */
     private void initTable() {
         table = new CamembertTable(this);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        JPanel panel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(table.getPreferredSize());
-        scrollPane.setMaximumSize(new Dimension(GlobalConfigs.WINDOW_WIDTH, 200));
-        view.getParent().add(scrollPane, BorderLayout.NORTH);
+        scrollPane.setPreferredSize(new Dimension((int)(GlobalConfigs.WINDOW_WIDTH * .5), (int)(GlobalConfigs.WINDOW_HEIGHT * .2)));
+        panel.add(scrollPane);
+        panel.add(new AddFieldButton("Add", this));
+        view.getParent().add(panel, BorderLayout.NORTH);
     }
 
     /**
@@ -116,15 +129,12 @@ public class Controller implements Observer {
         if (focusedArcIndex > -1) {
             String name = model.getFieldName(focusedArcIndex);
             String description = model.getFieldDescription(focusedArcIndex);
-            String value = String.format("%.2f", model.getValueAsPercent(focusedArcIndex) * 100) + " %";
+            String value = String.format("%.2f", model.getValueAsPercent(focusedArcIndex) * 100);
 
             view.setFocusedArcInfo(name, description, value);
+            if (!table.isCellSelected(focusedArcIndex, 0))
+                table.changeSelection(focusedArcIndex, 0, true, false);
         }
-    }
-
-    @Override
-    public void update(Observable observable) {
-        updateViewInfo();
     }
 
     /**
@@ -191,6 +201,14 @@ public class Controller implements Observer {
     }
 
     /**
+     * Sets the index of the focused arc.
+     * @param focusedArcIndex
+     */
+    public void setFocusedArcIndex(int focusedArcIndex) {
+        view.setFocusedArcIndex(focusedArcIndex);
+    }
+
+    /**
      * Adds a ClickListener to the view.
      */
     private void addClickListener() {
@@ -213,4 +231,20 @@ public class Controller implements Observer {
         addClickListener();
         addDragListener();
     }
+
+    /**
+     * Adds an empty row in the table.
+     */
+    public void createField() {
+        table.addRow(new Field());
+    }
+
+    /**
+     * Deselects any row selected from the table.
+     */
+    public void clearTableSelection() {
+        table.clearSelection();
+    }
 }
+
+

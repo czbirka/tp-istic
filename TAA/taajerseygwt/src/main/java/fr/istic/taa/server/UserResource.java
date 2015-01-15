@@ -7,7 +7,9 @@ import fr.istic.taa.shared.User;
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Thomas & Amona on 23/10/14.
@@ -42,6 +44,20 @@ public class UserResource implements IUserResource {
             return null;
 
         return users.get(0);
+    }
+
+    @POST
+    @Path("/authenticate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Boolean> authenticate(User user) {
+        Map<String, Boolean> errors = new HashMap<String, Boolean>();
+        List<IUser> u = (List<IUser>) manager.createQuery("select u from User as u where u.password = '" + user.getPassword() + "'").getResultList();
+
+        errors.put("username", getUserByName(user.getUsername()) != null);
+        errors.put("password", u.size() != 0);
+
+        return errors;
     }
 
     @POST

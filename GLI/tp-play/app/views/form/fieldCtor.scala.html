@@ -4,5 +4,7 @@
     <label class="control-label" for="@field.id">@field.label</label>
     @field.input
     <span class="help-block">@field.errors(field.lang).mkString(", ")</span>
-    <span class="help-block">@field.infos(field.lang).mkString(", ")</span>
+    @if(field.args.get('_showConstraints).map{ _ == true}.getOrElse(false)) {
+        <span class="help-block">@field.infos(field.lang).mkString(", ")</span>
+    }
 </div>

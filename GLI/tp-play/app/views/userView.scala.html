@@ -1,0 +1,33 @@
+@(user: services.models.User)
+
+@layout {
+
+    <div class="page-header">
+        <h1>@user.username</h1>
+    </div>
+
+    <dl class="dl-horizontal">
+        <dt>Identifier</dt>
+        <dd>@user.id</dd>
+        <dt>Rides as driver</dt>
+        <dd>
+            @if(user.getRidesAsDriver().length == 0) {
+                <div>No rides</div>
+            } else {
+                @for(ride <- user.getRidesAsDriver()) {
+                    <div><a href="@routes.Journeys.journey(ride.id)">@ride.origin &rarr; @ride.destination</a></div>
+                }
+            }
+        </dd>
+        <dt>Rides as passenger</dt>
+        <dd>
+            @if(user.getRidesAsPassenger().length == 0) {
+                <div>No rides</div>
+            } else {
+                    @for(ride <- user.getRidesAsPassenger()) {
+                        <div><a href="@routes.Journeys.journey(ride.id)">@ride.origin &rarr; @ride.destination</a></div>
+                    }
+            }
+        </dd>
+    </dl>
+}

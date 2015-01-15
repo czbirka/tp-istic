@@ -71,14 +71,14 @@ public class RideResource implements IRideResource {
     }
 
     @PUT
-    @Path("{rideId}/add/{userId}")
+    @Path("{rideId}/join")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public IRide addPassenger(@PathParam("rideId") String rideId,@PathParam("userId") String userId) throws Exception {
+    public IRide addPassenger(@PathParam("rideId") String rideId, User passenger) throws Exception {
 
         EntityTransaction t = manager.getTransaction();
 
-        IUser user = manager.find(User.class, Integer.parseInt(userId));
+        IUser user = manager.find(User.class, passenger.getId());
         IRide ride = manager.find(Ride.class, Integer.parseInt(rideId));
 
         if (ride.getSeatNumber() == 0) {
@@ -105,7 +105,7 @@ public class RideResource implements IRideResource {
 
         return ride;
     }
-
+    
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)

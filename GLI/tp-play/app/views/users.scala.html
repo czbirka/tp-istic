@@ -1,0 +1,31 @@
+@(users: java.util.List[services.models.User])
+
+@layout {
+
+    <div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(users.length == 0) {
+                    <tr>
+                        <td colspan="7">There is no user for now.</td>
+                    </tr>
+                }
+
+                @for(user <- users) {
+                    <tr>
+                        <td>@user.id</td>
+                        <td>@user.username</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -27,6 +27,10 @@ public class DragListener implements MouseListener {
 
     }
 
+    /**
+     * Handles the rotation of the camembert.
+     * @param e
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 

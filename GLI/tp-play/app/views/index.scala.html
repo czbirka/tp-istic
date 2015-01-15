@@ -1,11 +1,51 @@
-@(username: String, journeys: java.util.List[services.models.Journey])
+@(username: String, rides: java.util.List[services.models.Ride])
 
 @layout {
-    <h1>Hello @username</h1>
 
-    <ul>
-        @for(journey <- journeys) {
-            <li><a href="@routes.Journeys.journey(journey.id)">@journey.name</a> (<a href="@routes.Journeys.observe(journey.id)">observe</a>)</li>
-        }
-    </ul>
+    <div>
+        <h1>Hello @username</h1><br/>
+
+        <div class="panel panel-default">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Leaving date</th>
+                    <th>Seats available</th>
+                    <th>Driver</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(rides.length == 0) {
+                    <tr>
+                        <td colspan="7">There is no ride for now.</td>
+                    </tr>
+                }
+
+                @for(ride <- rides) {
+                    <tr>
+                        <td>@ride.id</td>
+                        <td>@ride.origin</td>
+                        <td>@ride.destination</td>
+                        <td>@ride.leavingDate</td>
+                        <td>@ride.seatNumber</td>
+                        <td>
+                            <a href="@routes.UsersCtrl.user(ride.driver.id)">@ride.driver.username</a>
+                        </td>
+                        <td align="center">
+                            <a href="@routes.Journeys.journey(ride.id)" class="btn btn-xs btn-primary">View</a>
+                            @if(username.equals(ride.driver.username)) {
+                                <a href="#" class="btn btn-xs btn-warning">Update</a>
+                                <a href="@routes.Journeys.delete(ride.id)" class="btn btn-xs btn-danger">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }

@@ -1,10 +1,12 @@
 package controllers;
 
 import play.data.Form;
+import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
+import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.NotImplementedError;
+import services.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +17,12 @@ import static play.data.Form.form;
  * Controller grouping actions related to authentication
  */
 public class Authentication extends Controller {
+
     /**
      * Show the authentication form
      */
     public static Result login() {
-        //return ok(views.html.login.render(form(Login.class)));
-        return ok(views.html.login.render(form(Login.class)));
+        return ok(views.html.login.render(form(User.class)));
     }
 
     /**
@@ -32,16 +34,16 @@ public class Authentication extends Controller {
      * Otherwise, the user must be authenticated (his user id should be stored into his session) and redirected to the index page.
      */
     public static Result authenticate() {
-        //throw new NotImplementedError();
-        Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
+
+        Form<User> loginForm = Form.form(User.class).bindFromRequest();
 
         if (loginForm.hasErrors()) {
-            return badRequest();
+            return badRequest(views.html.login.render(loginForm));
         }
         else {
             session().clear();
-            session().put("username", loginForm.get().name);
-            return redirect(routes.Journeys.journeys());
+            session().put("username", loginForm.get().username);
+            return redirect(routes.Journeys.rides());
         }
 
         // TODO:
@@ -51,12 +53,30 @@ public class Authentication extends Controller {
         // - In case of failure, reply with a 400 status code (Bad Request) and show the form with the validation errors
     }
 
+    public static Result registration() {
+        return ok(views.html.registration.render(form(User.class)));
+    }
+
+    public static F.Promise<Result> register() {
+        Form<User> registerForm = Form.form(User.class).bindFromRequest();
+
+        if (registerForm.hasErrors()) {
+            return F.Promise.promise(() -> badRequest(views.html.registration.render(registerForm)));
+        }
+        else {
+            session().clear();
+            session().put("username", registerForm.get().username);
+            return UsersCtrl.create(registerForm.get());
+        }
+    }
+
     /**
      * Logs out an user (remove his name from his session) and show a good bye message
      */
     public static Result logout() {
         session().clear();
-        return ok(views.html.logout.render());
+        return redirect(routes.Authentication.login());
+        //return ok(views.html.logout.render());
     }
 
     /**
@@ -77,24 +97,25 @@ public class Authentication extends Controller {
      */
     public static class Login {
 
+        @Constraints.Required
         public String name;
 
+        @Constraints.Required
         public String password;
 
         // If needed, override this method to add a “global” validation rule (i.e not related to a particular field)
         public List<ValidationError> validate() {
             List<ValidationError> errors = new ArrayList<ValidationError>();
 
-            if (name.equals("")) {
-                errors.add(new ValidationError("Username", "Invalid username"));
+            if (name.trim().equals("")) {
+                errors.add(new ValidationError("name", "Invalid username"));
             }
 
-            if (password.equals("")) {
-                errors.add(new ValidationError("Password", "Invalid password"));
+            if (password.trim().equals("")) {
+                errors.add(new ValidationError("password", "Invalid password"));
             }
 
             return errors.isEmpty() ? null : errors;
         }
-
     }
 }

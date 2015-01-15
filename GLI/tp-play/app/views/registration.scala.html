@@ -4,9 +4,9 @@
 
 @skel {
 
-    @helper.form(action = routes.Authentication.authenticate(), 'class -> "form-with-inputs") {
+    @helper.form(action = routes.Authentication.register(), 'class -> "form-with-inputs") {
 
-        <h1>Log in</h1><br/>
+        <h1>Register</h1><br/>
 
         @if(form.hasGlobalErrors) {
             <div class="form-group has-error">
@@ -18,13 +18,13 @@
             </div>
         }
 
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="action" value="register">
 
         @helper.inputText(form("username"), 'placeholder -> "Clint Eastwood", '_label -> "Login", 'class -> "form-control")
 
         @helper.inputPassword(form("password"), 'placeholder -> "********", '_label -> "Password", 'class -> "form-control")
 
-        <button class="btn btn-primary">Log In</button> or <a href="@routes.Authentication.registration()">register</a>
+        <button class="btn btn-primary">Register</button> or <a href="@routes.Authentication.login()">log in</a>
     }
 
 }

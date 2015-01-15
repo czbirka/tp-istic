@@ -4,6 +4,7 @@ import play.libs.F;
 import rx.Observable;
 import services.models.Attendee;
 import services.models.Journey;
+import services.models.Ride;
 
 import java.util.List;
 

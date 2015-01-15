@@ -75,7 +75,7 @@ services.factory('RideService', ['$http', '$q',
 		RideService.addPassengerToRide = function (user, ride) {
 			var deferred = $q.defer();
 
-			$http.put('/rest/rides/' + ride.id + '/add/' + user.id).success(function () {
+			$http.put('/rest/rides/' + ride.id + '/join', user).success(function () {
 				deferred.resolve();
 			}).error(function() {
 				deferred.reject();

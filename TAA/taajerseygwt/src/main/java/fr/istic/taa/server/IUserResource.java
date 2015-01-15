@@ -4,6 +4,7 @@ import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Thomas & Amona on 23/10/14.
@@ -16,7 +17,9 @@ public interface IUserResource {
 
     IUser getUserByName(String id);
 
-    IUser create(User ride);
+    Map<String, Boolean> authenticate(User user);
+
+    IUser create(User user);
 
     IUser update(User update);
 
