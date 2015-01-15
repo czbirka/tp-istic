@@ -18,7 +18,7 @@ import fr.istic.taa.shared.IRideList;
 import java.util.List;
 
 /**
- * Created by thomas on 05/11/14.
+ * Created by thomas & amona on 05/11/14.
  */
 public class HomeView extends Composite {
     private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);

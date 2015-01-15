@@ -10,7 +10,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import fr.istic.taa.shared.*;
+import fr.istic.taa.shared.IUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +25,9 @@ public class RegisterFormView extends Composite {
 
     @UiField
     TextBox username;
+
+    @UiField
+    TextBox password;
 
     @UiField
     Form registerForm;
@@ -43,13 +46,15 @@ public class RegisterFormView extends Composite {
         registerForm.addSubmitHandler(new Form.SubmitHandler() {
             public void onSubmit(Form.SubmitEvent submitEvent) {
                 String usernameValue = username.getValue();
+                String passwordValue = password.getValue();
 
-                if (usernameValue.length() == 0) {
+                if (usernameValue.length() == 0 || passwordValue.length() == 0) {
                     Window.alert("Please fill all the required fields!");
                 } else {
-                    IUser user = new User();
+                    IUser user = UserJsonConverter.getInstance().makeUser();
 
                     user.setUsername(usernameValue);
+                    user.setPassword(passwordValue);
 
                     String serializedUser = UserJsonConverter.getInstance().serializeToJson(user);
 
@@ -59,12 +64,10 @@ public class RegisterFormView extends Composite {
                     rb.setHeader("Content-Type", "application/json");
                     rb.setRequestData(serializedUser);
 
-                    Window.alert(serializedUser);
-
                     rb.setCallback(new RequestCallback() {
                         public void onResponseReceived(Request request, Response response) {
                             if (response.getStatusCode() == 200) {
-                                Window.alert("Success!");
+                                Window.Location.replace("#users");
                             }
                         }
 

@@ -7,9 +7,6 @@ import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 import fr.istic.taa.shared.Factory;
 import fr.istic.taa.shared.IRideList;
 
-/**
- * Created by thomas on 05/11/14.
- */
 public class RideListJsonConverter {
 
     private RideListJsonConverter() {
@@ -21,7 +18,7 @@ public class RideListJsonConverter {
     Factory factory = GWT.create(Factory.class);
     // In non-GWT code, use AutoBeanFactorySource.create(MyFactory.class);
 
-    String serializeToJson(IRideList rideList) {
+    public String serializeToJson(IRideList rideList) {
         // Retrieve the AutoBean controller
         AutoBean<IRideList> bean = AutoBeanUtils.getAutoBean(rideList);
 

@@ -28,6 +28,14 @@
                                 </b:Controls>
                             </b:ControlGroup>
 
+
+                            <b:ControlGroup>
+                                <b:ControlLabel for="password">Password</b:ControlLabel>
+                                <b:Controls>
+                                    <b:PasswordTextBox alternateSize="XLARGE" b:id="password" ui:field="password"></b:PasswordTextBox>
+                                </b:Controls>
+                            </b:ControlGroup>
+
                             <b:SubmitButton addStyleNames="btn">Submit</b:SubmitButton>
                         </b:Fieldset>
                     </b:Form>

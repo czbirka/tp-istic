@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by thomas on 06/10/14.
+ * Created by thomas & amona on 06/10/14.
  */
 public interface IRide {
 
@@ -36,5 +36,5 @@ public interface IRide {
 
     void setPassengers(List<IUser> passengers);
 
-    public void addPassenger(IUser passenger);
+    void addPassenger(IUser passenger);
 }

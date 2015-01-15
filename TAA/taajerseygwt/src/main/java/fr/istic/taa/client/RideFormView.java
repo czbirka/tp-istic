@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import fr.istic.taa.shared.IRide;
 import fr.istic.taa.shared.IUser;
 import fr.istic.taa.shared.IUserList;
-import fr.istic.taa.shared.Ride;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -99,7 +98,7 @@ public class RideFormView extends Composite {
                         || seatNumberValue.length() == 0) {
                     Window.alert("Please fill all the required fields!");
                 } else {
-                    IRide ride = new Ride();
+                    IRide ride = RideJsonConverter.getInstance().makeRide();
 
                     ride.setOrigin(originValue);
                     ride.setDestination(destinationValue);
@@ -109,7 +108,6 @@ public class RideFormView extends Composite {
 
                     String serializedRide = RideJsonConverter.getInstance().serializeToJson(ride);
 
-                    Window.alert(serializedRide);
                     RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
                             GWT.getHostPageBaseURL() + "rest/rides/create");
 
@@ -119,7 +117,7 @@ public class RideFormView extends Composite {
                     rb.setCallback(new RequestCallback() {
                         public void onResponseReceived(Request request, Response response) {
                             if (response.getStatusCode() == 200) {
-                                Window.alert("Success!");
+                                Window.Location.replace("#home");
                             }
                         }
 

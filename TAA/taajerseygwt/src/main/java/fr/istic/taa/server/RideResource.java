@@ -61,6 +61,7 @@ public class RideResource implements IRideResource {
     public IRide update(Ride update) {
         // TODO: fix this (rides are not being updated)
         EntityTransaction t = manager.getTransaction();
+        IUser driver = update.getDriver();
 
         t.begin();
         manager.merge(update);
