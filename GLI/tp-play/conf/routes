@@ -8,9 +8,8 @@ GET     /                               controllers.Journeys.rides()
 GET     /auth/login                     controllers.Authentication.login()
 POST    /auth/login                     controllers.Authentication.authenticate()
 GET     /auth/logout                    controllers.Authentication.logout()
-GET     /auth/registration              controllers.Authentication.registration()
+GET     /auth/register                  controllers.Authentication.registration()
 POST    /auth/register                  controllers.Authentication.register()
-
 
 # Other Journeys actions
 GET     /journey/form                   controllers.Journeys.rideForm()
@@ -22,7 +21,7 @@ POST    /journey/:rideId/add/:user      controllers.Journeys.joinRide(rideId: Lo
 POST    /journey/:id/attend             controllers.Journeys.attend(id: Long)
 GET     /users                          controllers.UsersCtrl.users()
 GET     /users/:id                      controllers.UsersCtrl.user(id: Long)
-GET     /users/form                     controllers.UsersCtrl.userForm()
+GET     /users/attendees/:id            controllers.Journeys.attendees(id: Long)
 POST    /users/create                   controllers.UsersCtrl.createUser()
 
 # Part 3: Stream manipulation

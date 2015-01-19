@@ -22,11 +22,21 @@
 
         @helper.inputText(form("destination"), 'placeholder -> "City of arrival", '_label -> "Destination", 'class -> "form-control")
 
-        @helper.inputText(form("leavingDate"), 'placeholder -> "Date of departure", '_label -> "Leaving date", 'class -> "form-control")
+        @helper.inputText(form("leavingDate"), 'placeholder -> "Date of departure", '_label -> "Leaving date", 'class -> "form-control", 'readonly -> true)
 
         @helper.inputText(form("seatNumber"), 'placeholder -> "Available seats", '_label -> "Number of seats", 'class -> "form-control")
 
         <button class="btn btn-primary">Create</button>
     }
 
+    <script type="text/javascript">
+        $(function(){
+            $('#leavingDate').datepicker({
+                format: "yyyy-mm-dd"
+            })
+            .on('changeDate', function(ev){
+                $('.datepicker').hide();
+            });
+        });
+    </script>
 }
