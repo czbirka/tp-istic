@@ -3,21 +3,12 @@ package services.models;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controllers.Authentication;
-import controllers.Journeys;
 import controllers.UsersCtrl;
-import org.omg.CORBA.TIMEOUT;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
-import scala.concurrent.stm.CommitBarrier;
-import services.JourneysService;
-
-import javax.validation.Constraint;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by amona on 04/12/14.

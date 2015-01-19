@@ -38,7 +38,6 @@
                         <td align="center">
                             <a href="@routes.Journeys.journey(ride.id)" class="btn btn-xs btn-primary">View</a>
                             @if(username.equals(ride.driver.username)) {
-                                <a href="#" class="btn btn-xs btn-warning">Update</a>
                                 <a href="@routes.Journeys.delete(ride.id)" class="btn btn-xs btn-danger">Delete</a>
                             }
                         </td>
