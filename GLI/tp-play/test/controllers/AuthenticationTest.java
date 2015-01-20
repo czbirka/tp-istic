@@ -1,6 +1,5 @@
 package controllers;
 
-import org.apache.http.auth.AUTH;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -44,7 +43,7 @@ public class AuthenticationTest extends WithBrowser {
     @Test
     public void signingUser() {
         // Try to go to the index page
-        browser.goTo(routes.Journeys.journeys().url());
+        browser.goTo(routes.Journeys.rides().url());
         // User is redirected to the login page
         assertThat(browser.url()).isEqualTo(routes.Authentication.login().url());
 
@@ -56,7 +55,7 @@ public class AuthenticationTest extends WithBrowser {
         // TODO
 
         assertThat(Authentication.username()).isEqualTo("toto");
-        assertThat(browser.url()).isEqualTo(routes.Journeys.journeys().url());
+        assertThat(browser.url()).isEqualTo(routes.Journeys.rides().url());
 
         // Logout
         // TODO

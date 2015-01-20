@@ -11,8 +11,8 @@ import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
 import scala.NotImplementedError;
-import services.JourneysServiceHTTP;
-import services.RidesService;
+import services.IRidesService;
+import services.RidesServiceHTTP;
 import services.models.Ride;
 import services.models.User;
 
@@ -33,12 +33,15 @@ public class Journeys extends Controller {
     /**
      * The entry point to the service implementation.
      */
-    static RidesService service = new JourneysServiceHTTP(WS.client());
+    static IRidesService service = new RidesServiceHTTP(WS.client());
 
     /**
      * Show all visible journeys
      */
     public static F.Promise<Result> rides() {
+        if (!UsersCtrl.connectionPossible()) {
+            return F.Promise.promise(() -> redirect(routes.Authentication.logout()));
+        }
         return service.allRides()
                 .map(journeys -> ok(views.html.index.render(Authentication.username(), journeys)));
     }
@@ -62,7 +65,10 @@ public class Journeys extends Controller {
     public static F.Promise<Result> joinRide(Long rideId, String username) {
         User user = UsersCtrl.getUserByName(username).get(UsersCtrl.DEFAULT_TIMEOUT);
         return service.addPassenger(rideId, user)
-                      .map(r -> redirect(routes.Journeys.journey(r.id)));
+                      .map(r -> {
+                          Authentication.getCurrentUser();
+                          return redirect(routes.Journeys.journey(r.id));
+                      });
     }
 
 
@@ -120,7 +126,7 @@ public class Journeys extends Controller {
     /**
      * Stream of participation notifications for the journey with the given id
      */
-    public static Result attendees(Long journeyId) {
+    public static F.Promise<Result> attendees(Long id) {
         throw new NotImplementedError();
     }
 
@@ -171,17 +177,7 @@ public class Journeys extends Controller {
         return service.getRideById(id).get(DEFAULT_TIMEOUT);
     }
 
-    /*
-    public static F.Promise<Result> getRide(Long id, Function<Ride, Result> f) {
-        return service.allRides().map(rides ->
-             rides.stream()
-                  .filter(r -> r.getId().equals(id))
-                  .findFirst()
-                  .map(f::apply)
-                  .orElseGet(Results::notFound)
-        );
-    }
-
+/*
     static F.Promise<Result> withJourney(Long id, Function<Journey, Result> f) {
         return service.allJourneys().map(journeys -> {
             return journeys.stream().
@@ -191,7 +187,7 @@ public class Journeys extends Controller {
                 orElseGet(Results::notFound);
         });
     }
-    */
+*/
 
     private static F.Promise<Result> deleteAndRefresh(Long id, Function<Ride, Result> f) {
         return service.allRides().map(journeys -> {
@@ -202,4 +198,5 @@ public class Journeys extends Controller {
                     orElseGet(Results::notFound);
         });
     }
+
 }
