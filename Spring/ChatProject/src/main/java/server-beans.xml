@@ -6,13 +6,11 @@
 
 	<bean id="chatRoom" class="fr.istic.chat.server.ChatRoom"></bean>
 
-	<!--
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="service" ref="chatRoom"></property>
 		<property name="serviceInterface" value="fr.istic.chat.server.IChatRoom"></property>
-		<property name="serviceName" value="ChatRoom"></property>
+		<property name="serviceName" value="ChatRoomService"></property>
 		<property name="replaceExistingBinding" value="true"></property>
 		<property name="registryPort" value="1099"></property>
 	</bean>
-	-->
 </beans>

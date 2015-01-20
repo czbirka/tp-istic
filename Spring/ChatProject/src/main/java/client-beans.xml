@@ -27,13 +27,9 @@
 		<property name="room" ref="chatRoom"></property>
 	</bean>
 
-	<bean id="chatRoom" class="fr.istic.chat.server.ChatRoom"></bean>
-	
-	<!--
-    <bean id="chatRoom" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://localhost/ChatRoom"/>
-        <property name="serviceInterface" value="fr.istic.chat.server.IChatRoom"/>
-    </bean>
-     -->
-	
+	<bean id="chatRoom" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/ChatRoom"></property>
+		<property name="serviceInterface" value="fr.istic.chat.server.IChatRoom"></property>
+	</bean>
+
 </beans>

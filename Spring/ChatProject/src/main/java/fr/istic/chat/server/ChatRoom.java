@@ -100,5 +100,6 @@ public class ChatRoom extends UnicastRemoteObject implements IChatRoom {
 
 	public static void main(String[] args) throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("server-beans.xml");
+		System.out.println("ChatRoom: Waiting for requests");
 	}
 }
