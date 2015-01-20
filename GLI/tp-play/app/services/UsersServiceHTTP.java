@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class UsersService implements IUsersService {
+public class UsersServiceHTTP implements IUsersService {
 
     /** The HTTP client used to communicate with the Web service */
     final WSClient client;
@@ -22,7 +22,7 @@ public class UsersService implements IUsersService {
     /** The Web service base URL */
     final static String API_URL = "http://localhost:8080/rest/users";
 
-    public UsersService(WSClient client) {
+    public UsersServiceHTTP(WSClient client) {
         this.client = client;
         mapper = new ObjectMapper();
     }

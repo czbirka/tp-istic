@@ -4,7 +4,9 @@
 
     <div class="page-header">
         <h1>Ride information</h1>
-        @if(!Authentication.username().equals(ride.driver.username) && ride.seatNumber > 0) {
+        @if(!Authentication.username().equals(ride.driver.username)
+            && ride.seatNumber > 0
+            && !Authentication.currentUser().isPassengerTo(ride.id)) {
             @helper.form(action = routes.Journeys.joinRide(ride.id, Authentication.username())) {
                 <button class="btn btn-primary text-right">Join this ride!</button>
             }
@@ -25,23 +27,21 @@
         <dt>Driver</dt>
         <dd><a href="@routes.UsersCtrl.user(ride.driver.id)">@ride.driver.username</a></dd>
         <dt>Passengers</dt>
+        <dd>
         @if(ride.passengers.length > 0) {
-            <dd>
-                @for((passenger, index) <- ride.passengers.zipWithIndex) {
-                    <span>
-                        <a href="@routes.UsersCtrl.user(passenger.id)">@passenger.username</a>
-                        @if(index != ride.passengers.length - 1) {
-                            <span>, </span>
-                        }
-                    </span>
-                }
-            </dd>
+            @for((passenger, index) <- ride.passengers.zipWithIndex) {
+                <span>
+                    <a href="@routes.UsersCtrl.user(passenger.id)">@passenger.username</a>
+                    @if(index != ride.passengers.length - 1) {
+                        <span>, </span>
+                    }
+                </span>
+            }
         } else {
             @if(ride.passengers.length == 0) {
-                <dd>
-                    There is no passenger for this ride.
-                </dd>
+                There is no passenger for this ride.
             }
         }
+        </dd>
     </dl>
 }

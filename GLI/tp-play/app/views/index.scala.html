@@ -38,7 +38,9 @@
                         <td align="center">
                             <a href="@routes.Journeys.journey(ride.id)" class="btn btn-xs btn-primary">View</a>
                             @if(username.equals(ride.driver.username)) {
-                                <a href="@routes.Journeys.delete(ride.id)" class="btn btn-xs btn-danger">Delete</a>
+                                @helper.form(action = routes.Journeys.delete(ride.id), 'style -> "display: inline-block") {
+                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                }
                             }
                         </td>
                     </tr>

@@ -6,9 +6,6 @@ import services.models.User;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by amona on 04/12/14.
- */
 public interface IUsersService {
 
     public F.Promise<List<User>> allUsers();

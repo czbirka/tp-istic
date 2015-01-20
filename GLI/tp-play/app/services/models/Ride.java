@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by amona on 04/12/14.
- */
 @JsonAutoDetect
 public class Ride {
 

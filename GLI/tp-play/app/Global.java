@@ -21,7 +21,7 @@ public class Global extends GlobalSettings {
 
     @Override
     public F.Promise<Result> onHandlerNotFound(Http.RequestHeader req) {
-        return F.Promise.promise(() -> notFound(views.html.errorPage.render()));
+        return F.Promise.promise(() -> notFound(views.html.pageNotFound.render()));
     }
 
 }

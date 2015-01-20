@@ -1,23 +1,20 @@
 package services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controllers.Journeys;
-import jdk.nashorn.internal.ir.debug.JSONWriter;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WSClient;
-import rx.Observable;
 import services.models.Ride;
 import services.models.User;
 
 import java.util.List;
 
+
 /**
  * JourneyService implementation that delegates to a third party JSON Web service
  */
-public class JourneysServiceHTTP implements RidesService {
+public class RidesServiceHTTP implements IRidesService {
 
     /** The HTTP client used to communicate with the Web service */
     final WSClient client;
@@ -28,7 +25,7 @@ public class JourneysServiceHTTP implements RidesService {
     /** The Web service base URL */
     final static String API_URL = "http://localhost:8080/rest/rides";
 
-    public JourneysServiceHTTP(WSClient client) {
+    public RidesServiceHTTP(WSClient client) {
         this.client = client;
         mapper = new ObjectMapper();
     }

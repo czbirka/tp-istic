@@ -1,15 +1,11 @@
 package controllers;
 
 import play.data.Form;
-import play.data.validation.Constraints;
-import play.data.validation.ValidationError;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.models.User;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static play.data.Form.form;
 
@@ -17,6 +13,11 @@ import static play.data.Form.form;
  * Controller grouping actions related to authentication
  */
 public class Authentication extends Controller {
+
+    /**
+     * User currently logged in.
+     */
+    private static User currentUser;
 
     /**
      * Show the authentication form
@@ -45,12 +46,6 @@ public class Authentication extends Controller {
             session().put("username", loginForm.get().username);
             return redirect(routes.Journeys.rides());
         }
-
-        // TODO:
-        // - Read the data of the form submission
-        // - If data is valid, check that the user name and password are correct
-        // - If everything is alright associate the user’s name to the "username" key in his session and redirect him to the Journeys.journeys action
-        // - In case of failure, reply with a 400 status code (Bad Request) and show the form with the validation errors
     }
 
     public static Result registration() {
@@ -75,6 +70,7 @@ public class Authentication extends Controller {
      */
     public static Result logout() {
         session().clear();
+        currentUser = null;
         return redirect(routes.Authentication.login());
         //return ok(views.html.logout.render());
     }
@@ -87,35 +83,15 @@ public class Authentication extends Controller {
     }
 
     /**
-     * Map the data of the login form submission.
-     *
-     * Example of use:
-     *
-     * <pre>
-     *     Form<Login> submission = form(Login.class).bindFromRequest();
-     * </pre>
+     * @return The current user id
      */
-    public static class Login {
+    public static User currentUser() {
+        if (currentUser == null)
+            getCurrentUser();
+        return currentUser;
+    }
 
-        @Constraints.Required
-        public String name;
-
-        @Constraints.Required
-        public String password;
-
-        // If needed, override this method to add a “global” validation rule (i.e not related to a particular field)
-        public List<ValidationError> validate() {
-            List<ValidationError> errors = new ArrayList<ValidationError>();
-
-            if (name.trim().equals("")) {
-                errors.add(new ValidationError("name", "Invalid username"));
-            }
-
-            if (password.trim().equals("")) {
-                errors.add(new ValidationError("password", "Invalid password"));
-            }
-
-            return errors.isEmpty() ? null : errors;
-        }
+    public static void getCurrentUser() {
+        currentUser = UsersCtrl.getUserByName(username()).get(UsersCtrl.DEFAULT_TIMEOUT);
     }
 }

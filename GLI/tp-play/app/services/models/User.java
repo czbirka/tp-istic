@@ -8,13 +8,9 @@ import controllers.UsersCtrl;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 
-import javax.validation.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by amona on 04/12/14.
- */
 @JsonAutoDetect
 public class User {
 
@@ -107,5 +103,10 @@ public class User {
         }
 
         return rides;
+    }
+
+    @JsonIgnore
+    public boolean isPassengerTo(Long id) {
+        return ridesAsPassengerID.contains(id);
     }
 }

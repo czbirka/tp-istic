@@ -6,10 +6,7 @@ import services.models.User;
 
 import java.util.List;
 
-/**
- * Created by thomas & amona on 04/12/14.
- */
-public interface RidesService {
+public interface IRidesService {
 
     public F.Promise<List<Ride>> allRides();
 
