@@ -12,7 +12,7 @@ npm install -g grunt-cli
 npm install -g bower
 ```
 
-Run `npm install` and `bower install` in your terminal to download the project dependencies.
+Run `npm install` and `bower install` in your terminal to download the project's dependencies.
 
 ### Running the application
 

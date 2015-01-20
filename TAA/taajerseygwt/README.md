@@ -15,5 +15,5 @@ mvn clean compile gwt:compile  package tomcat7:run-war-only
 A compiled version of the TP Angular will be running with GWT.
 
 ### Accessing the applications
-* For GWT, go on http://localhost:8080/ with your browser
-* For Angular, go on http://localhost:8080/angular/index.html
+* For GWT, go on [http://localhost:8080/](http://localhost:8080/) with your browser
+* For Angular, go on [http://localhost:8080/angular/index.html](http://localhost:8080/angular/index.html)
