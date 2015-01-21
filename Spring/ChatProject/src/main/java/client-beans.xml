@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+	<bean id="chatUser" class="fr.istic.chat.client.ChatUser">
+		<property name="room" ref="chatRoom"></property>
+		<property name="ui" ref="chatUi"></property>
+	</bean>
+
+	<bean id="chatUi" class="fr.istic.chat.client.ChatUI">
+		<property name="unregister" ref="unregisterCmd"></property>
+		<property name="postMessage" ref="postMessageCmd"></property>
+		<property name="user" ref="chatUser"></property>
+	</bean>
+
+	<bean id="unregisterCmd" class="fr.istic.chat.client.CommandUnregister">
+		<property name="room" ref="chatRoom"></property>
+		<property name="user" ref="chatUser"></property>
+	</bean>
+
+	<bean id="postMessageCmd" class="fr.istic.chat.client.CommandPost">
+		<property name="user" ref="chatUser"></property>
+		<property name="ui" ref="chatUi"></property>
+		<property name="room" ref="chatRoom"></property>
+	</bean>
+
+	<bean id="chatRoom" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/ChatRoom"></property>
+		<property name="serviceInterface" value="fr.istic.chat.server.IChatRoom"></property>
+	</bean>
+
+</beans>

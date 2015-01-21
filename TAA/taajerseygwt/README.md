@@ -7,7 +7,7 @@
 ### Getting started
 Make sure you have maven installed.
 
-### Run the application
+### Running the application
 Run the following command in your terminal:
 ```bash
 mvn clean compile gwt:compile  package tomcat7:run-war-only
