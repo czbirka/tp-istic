@@ -31,14 +31,30 @@ public class UsersServiceHTTP implements IUsersService {
     public F.Promise<User> getUserByName(String name) {
         return client.url(API_URL + "/search/" + name)
                 .get()
-                .map(r -> mapper.readValue(r.getBody(), new TypeReference<User>() {}));
+                .map(r -> {
+                    User user;
+                    try {
+                        user = mapper.readValue(r.getBody(), new TypeReference<User>() {});
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    return user;
+                });
     }
 
     @Override
     public F.Promise<User> getUserById(Long id) {
         return client.url(API_URL + "/" + id)
                 .get()
-                .map(r -> mapper.readValue(r.getBody(), new TypeReference<User>() {}));
+                .map(r -> {
+                    User user;
+                    try {
+                        user = mapper.readValue(r.getBody(), new TypeReference<User>() {});
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    return user;
+                });
     }
 
     @Override

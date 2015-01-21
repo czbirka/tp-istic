@@ -39,10 +39,17 @@ public class RidesServiceHTTP implements IRidesService {
 
     @Override
     public F.Promise<Ride> getRideById(Long id) {
-        return client.url(API_URL + "/" + id)
-                .get()
-                .map(r -> mapper.readValue(r.getBody(), new TypeReference<Ride>() {
-                }));
+       return client.url(API_URL + "/" + id)
+                    .get()
+                    .map(r -> {
+                        Ride ride = new Ride();
+                        try {
+                            ride = mapper.readValue(r.getBody(), new TypeReference<Ride>() {});
+                        } catch (Exception e) {
+                            return null;
+                        }
+                        return ride;
+                    });
     }
 
     @Override

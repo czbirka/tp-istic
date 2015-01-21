@@ -26,7 +26,7 @@ public class User {
 
     @JsonProperty
     @Constraints.Required(message = "You must indicate a password")
-    @Constraints.Pattern(value = "^\\w{8,}$", message = "Your password must be at least 8 characters long")
+    @Constraints.Pattern(value = "^\\w{4,}$", message = "Your password must be at least 4 characters long")
     public String password;
 
     @JsonProperty

@@ -50,8 +50,11 @@ public class Journeys extends Controller {
      * Show the details of the journey with the given id
      */
     public static F.Promise<Result> journey(Long id) {
-        Ride r = service.getRideById(id).get(DEFAULT_TIMEOUT);
-        return F.Promise.promise(() -> ok(views.html.rideView.render(r)));
+        return service.getRideById(id).map(ride -> {
+            if (ride == null)
+                return notFound(views.html.pageNotFound.render());
+            return ok(views.html.rideView.render(ride));
+        });
     }
 
 // public static F.Promise<Result> journey(Long id) {

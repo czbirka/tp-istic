@@ -46,7 +46,11 @@ public class UsersCtrl extends Controller {
     }
 
     public static F.Promise<Result> user(Long id) {
-        return service.getUserById(id).map(user -> ok(views.html.userView.render(user)));
+        return service.getUserById(id).map(user -> {
+            if (user == null)
+                return notFound(views.html.pageNotFound.render());
+            return ok(views.html.userView.render(user));
+        });
     }
 
     public static F.Promise<Map<String, Boolean>> authenticate(User user) {
