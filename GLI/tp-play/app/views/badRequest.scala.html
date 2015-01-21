@@ -4,7 +4,7 @@
     <title>Journeys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='@routes.Assets.at("css/bootstrap.min.css")' media="screen">
-    <link rel="stylesheet" href='@routes.Assets.at("css/pageNotFound.css")' media="screen">
+    <link rel="stylesheet" href='@routes.Assets.at("css/badRequest.css")' media="screen">
 <body>
 
 <div class="container">
@@ -12,12 +12,12 @@
         <div class="col-md-12">
             <div class="error-template">
                 <h1>Oops!</h1>
-                <h2>404 Not Found</h2>
+                <h2>400 Bad Request</h2>
                 <div class="error-details">
-                    Sorry, an error has occured, Requested page not found!
+                    Sorry, an error has occured, Bad Request!
                 </div>
                 <div class="error-actions">
-                    <a href="@routes.Journeys.rides()" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-home"></span>
+                    <a href="@routes.Journeys.rides()" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-home"></span>
                         Take Me Home
                     </a>
                 </div>

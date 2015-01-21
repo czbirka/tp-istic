@@ -24,4 +24,9 @@ public class Global extends GlobalSettings {
         return F.Promise.promise(() -> notFound(views.html.pageNotFound.render()));
     }
 
+    @Override
+    public F.Promise<Result> onBadRequest(Http.RequestHeader requestHeader, String s) {
+        return F.Promise.promise(() -> badRequest(views.html.badRequest.render()));
+    }
+
 }
