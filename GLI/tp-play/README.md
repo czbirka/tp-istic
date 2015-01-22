@@ -42,4 +42,4 @@ Oui, l'action de déconnexion peut être de type `GET` car celui-ci ne doit pas 
 Une `Promise` est un type de données permettant de calculer et renvoyer un résultat sans être bloquant. Play va donc renvoyer le résultat seulement lorsque la `Promise` sera satisfaite.
 Le client sera bloqué en attendant la réponse mais aucun blocage n'aura lieu côté serveur. Ainsi, l'interaction du serveur avec d'autres clients sera possible.
 
-Un `Observable` est un objet qui va pouvoir emettre des données en continu. Ainsi, des `Observer`  vont pouvoir venir lire ses informations via des "sentinelles" qui attendent l'emission de données et réagissent au moment venu.
+Un `Observable` est un objet qui va pouvoir émettre des données en continu. Ainsi, des `Observer`  vont pouvoir venir lire ces informations via des "sentinelles" qui attendent l'émission de données et réagissent au moment venu.
