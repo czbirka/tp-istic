@@ -1,5 +1,7 @@
 package model;
 
+import java.util.logging.Logger;
+
 /**
  * Created by plouzeau on 2014-10-09.
  * <p/>
@@ -7,9 +9,30 @@ package model;
  */
 public interface Board {
 
+    /**
+     * Gets the board's size.
+     * @return the board's size
+     */
+    int getSideSizeInSquares();
 
-    public int getSideSizeInSquares();
+    /**
+     * Checks if the player won.
+     * @return true if the player won
+     */
+    boolean hasWon();
 
+    /**
+     * Checks if the player lost.
+     * @return true if the player lost
+     */
+    boolean isGameOver();
+
+    /**
+     * Gets the player's points.
+     * @return the player's points
+     */
+    int getPoints();
+    
     /**
      * Return the tile at a given coordinate, or null if none exists there.
      *
@@ -21,7 +44,7 @@ public interface Board {
     Tile getTile(int lineNumber, int columnNumber);
 
     public enum Direction {
-        LEFT, RIGHT, TOP, BOTTOM;
+        LEFT, RIGHT, TOP, BOTTOM
     }
 
     /**
@@ -35,6 +58,4 @@ public interface Board {
      * NOTE: do we need this in the interface?
      */
     void commit();
-
-
 }

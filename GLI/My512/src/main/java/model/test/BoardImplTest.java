@@ -14,10 +14,11 @@ public class BoardImplTest {
 
     BoardImpl testBoard;
     final int defaultBoardSize = 3;
+    final int rankToWin = 9;
 
     @Before
     public void setUp() throws Exception {
-        testBoard = new BoardImpl(defaultBoardSize);
+        testBoard = new BoardImpl(defaultBoardSize, rankToWin);
     }
 
     @Test

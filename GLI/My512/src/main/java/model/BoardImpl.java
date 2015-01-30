@@ -1,23 +1,163 @@
 package model;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 /**
  * Created by plouzeau on 2014-10-09.
+ *
+ * Thomas Daniellou & Amona Souliman
  */
 public class BoardImpl implements Board {
 
-
+    private Tile[][] currentBoard;
+    private Tile[][] nextBoard;
     private final int sideSizeInSquares;
+    private final int rankToWin;
+    private int points;
+    private boolean wonTheGame;
+    private boolean gameOver;
     private Direction directionToPackInto;
 
-    public BoardImpl(int sideSizeInSquares) {
+    public BoardImpl(int sideSizeInSquares, int valueToWin) {
         if (sideSizeInSquares <= 1) {
             throw new IllegalArgumentException("sideSizeInSquares");
         }
         this.sideSizeInSquares = sideSizeInSquares;
-        currentBoard = new Tile[sideSizeInSquares][sideSizeInSquares];
+        this.rankToWin = valueToWin;
+        points = 0;
+        wonTheGame = false;
+        gameOver = false;
+        currentBoard = createStartingBoard();
         nextBoard = new Tile[sideSizeInSquares][sideSizeInSquares];
+    }
+
+    /**
+     * Creates a new board with 2 tiles set randomly.
+     *
+     * @return
+     */
+    private Tile[][] createStartingBoard() {
+        Tile[][] newBoard = new Tile[sideSizeInSquares][sideSizeInSquares];
+
+        addNewTile(newBoard);
+        addNewTile(newBoard);
+        
+        return newBoard;
+    }
+
+    /**
+     * Randomly adds a new tile to the board at an available place.
+     *
+     * @param board
+     */
+    private void addNewTile(Tile[][] board) {
+        Random rand = new Random();
+        int y = rand.nextInt(sideSizeInSquares);
+        int x = rand.nextInt(sideSizeInSquares);
+
+        while(board[x][y] != null) {
+            x = rand.nextInt(sideSizeInSquares);
+            y = rand.nextInt(sideSizeInSquares);
+        }
+
+        board[x][y] = new TileImpl(1);
+    }
+
+    /**
+     * Compares 2 boards.
+     *
+     * @param board1
+     * @param board2
+     * @return true if board1 and board2 are the same
+     */
+    private boolean compare(Tile[][] board1, Tile[][] board2) {
+        for (int i = 0; i < sideSizeInSquares; i++) {
+            for (int j = 0; j < sideSizeInSquares; j++) {
+                if (board1[i][j] == null && board2[i][j] != null) {
+                    return false;
+                }
+                if (board1[i][j] != null && board2[i][j] == null) {
+                    return false;
+                }
+                if (board1[i][j] != null && board2[i][j] != null) {
+                    if (board1[i][j].getRank() != board2[i][j].getRank()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the player lost the game.
+     *
+     * @return true if game over
+     */
+    private boolean checkGameOver() {
+        for (int i = 0; i < sideSizeInSquares; i++) {
+            for (int j = 0; j < sideSizeInSquares; j++) {
+                // Check for empty spaces
+                if (nextBoard[i][j] == null) {
+                    return false;
+                }
+                // Check the neighbors
+                if (hasEqualNeighbor(nextBoard, i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a Tile has a neighbor with the same rank.
+     *  
+     * @param board
+     * @param i
+     * @param j
+     * @return
+     */
+    private boolean hasEqualNeighbor(Tile[][] board, int i, int j) {
+        int rank = board[i][j].getRank();
+
+        // Check the top neighbor (if there is any)
+        if (isInbound(i-1) && board[i-1][j] != null) {
+            if (board[i-1][j].getRank() == rank) {
+                return true;
+            }
+        }
+        // Check the bottom neighbor (if there is any)
+        if (isInbound(i+1) && board[i+1][j] != null) {
+            if (board[i+1][j].getRank() == rank) {
+                return true;
+            }
+        }
+        // Check the left neighbor (if there is any)
+        if (isInbound(j-1) && board[i][j-1] != null) {
+            if (board[i][j-1].getRank() == rank) {
+                return true;
+            }
+        }
+        // Check the right neighbor (if there is any)
+        if (isInbound(j+1) && board[i][j+1] != null) {
+            if (board[i][j+1].getRank() == rank) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**  
+     * Checks if an index is in the board bounds.
+     *  
+     * @param i
+     * @return
+     */
+    private boolean isInbound(int i) {
+        return ((0 <= i) && (i < sideSizeInSquares));
     }
 
     @Override
@@ -25,9 +165,20 @@ public class BoardImpl implements Board {
         return this.sideSizeInSquares;
     }
 
+    @Override
+    public boolean hasWon() {
+        return this.wonTheGame;
+    }
+    
+    @Override
+    public boolean isGameOver() {
+        return gameOver;
+    }
 
-    private Tile[][] currentBoard;
-    private Tile[][] nextBoard;
+    @Override
+    public int getPoints() {
+        return this.points;
+    }
 
     /**
      * Return the tile at a given coordinate, or null if none exists there.
@@ -61,11 +212,19 @@ public class BoardImpl implements Board {
      */
     @Override
     public void commit() {
-
+        
+        // If any tile has moved, we add a new one
+        if (!compare(currentBoard, nextBoard)) {
+            addNewTile(nextBoard);
+        }
+        
+        // Check if game is over
+        gameOver = checkGameOver();
+        
+        // Update the boards
         currentBoard = nextBoard;
         nextBoard = new Tile[sideSizeInSquares][sideSizeInSquares];
     }
-
 
     private void packLine(int lineNumber) {
       /*
@@ -94,6 +253,13 @@ public class BoardImpl implements Board {
                             == readTile(currentBoard, lineNumber, readIndex).getRank())) {
                 // Merge previously written tile and currently read one
                 readTile(nextBoard, lineNumber, writeIndex).incrementRank();
+                
+                // Update points and check for win
+                int rank = readTile(nextBoard, lineNumber, writeIndex).getRank();
+                points +=  (int) Math.pow(2, rank);
+                if (rank == rankToWin) {
+                    wonTheGame = true;
+                }
             } else {
                 // Advance write index and copy currently read tile
                 writeIndex++;
