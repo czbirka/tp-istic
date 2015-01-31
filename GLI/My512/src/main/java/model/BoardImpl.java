@@ -19,12 +19,15 @@ public class BoardImpl implements Board {
     private boolean gameOver;
     private Direction directionToPackInto;
 
-    public BoardImpl(int sideSizeInSquares, int valueToWin) {
+    public BoardImpl(int sideSizeInSquares, int rankToWin) {
         if (sideSizeInSquares <= 1) {
             throw new IllegalArgumentException("sideSizeInSquares");
         }
+        if (rankToWin <= 1) {
+            throw new IllegalArgumentException("rankToWin");
+        }
         this.sideSizeInSquares = sideSizeInSquares;
-        this.rankToWin = valueToWin;
+        this.rankToWin = rankToWin;
         points = 0;
         wonTheGame = false;
         gameOver = false;
@@ -42,7 +45,7 @@ public class BoardImpl implements Board {
 
         addNewTile(newBoard);
         addNewTile(newBoard);
-        
+
         return newBoard;
     }
 
@@ -113,30 +116,18 @@ public class BoardImpl implements Board {
 
     /**
      * Checks if a Tile has a neighbor with the same rank.
-     *  
+     * 
      * @param board
      * @param i
      * @param j
-     * @return
+     * @return true if has an equal neighbor
      */
     private boolean hasEqualNeighbor(Tile[][] board, int i, int j) {
         int rank = board[i][j].getRank();
 
-        // Check the top neighbor (if there is any)
-        if (isInbound(i-1) && board[i-1][j] != null) {
-            if (board[i-1][j].getRank() == rank) {
-                return true;
-            }
-        }
         // Check the bottom neighbor (if there is any)
         if (isInbound(i+1) && board[i+1][j] != null) {
             if (board[i+1][j].getRank() == rank) {
-                return true;
-            }
-        }
-        // Check the left neighbor (if there is any)
-        if (isInbound(j-1) && board[i][j-1] != null) {
-            if (board[i][j-1].getRank() == rank) {
                 return true;
             }
         }
@@ -146,15 +137,27 @@ public class BoardImpl implements Board {
                 return true;
             }
         }
+        // Check the left neighbor (if there is any)
+        if (isInbound(j-1) && board[i][j-1] != null) {
+            if (board[i][j-1].getRank() == rank) {
+                return true;
+            }
+        }
+        // Check the top neighbor (if there is any)
+        if (isInbound(i-1) && board[i-1][j] != null) {
+            if (board[i-1][j].getRank() == rank) {
+                return true;
+            }
+        }
 
         return false;
     }
 
-    /**  
+    /**
      * Checks if an index is in the board bounds.
-     *  
+     *
      * @param i
-     * @return
+     * @return true if i is in bound
      */
     private boolean isInbound(int i) {
         return ((0 <= i) && (i < sideSizeInSquares));
@@ -169,7 +172,7 @@ public class BoardImpl implements Board {
     public boolean hasWon() {
         return this.wonTheGame;
     }
-    
+
     @Override
     public boolean isGameOver() {
         return gameOver;
@@ -203,7 +206,6 @@ public class BoardImpl implements Board {
         for (int i = 1; i <= sideSizeInSquares; i++) {
             packLine(i);
         }
-
     }
 
     /**
@@ -212,29 +214,30 @@ public class BoardImpl implements Board {
      */
     @Override
     public void commit() {
-        
+
         // If any tile has moved, we add a new one
         if (!compare(currentBoard, nextBoard)) {
             addNewTile(nextBoard);
         }
-        
+
         // Check if game is over
         gameOver = checkGameOver();
-        
+
         // Update the boards
         currentBoard = nextBoard;
         nextBoard = new Tile[sideSizeInSquares][sideSizeInSquares];
     }
 
+    /**
+     * Scan the current board line looking for two consecutive tiles
+     * with the same rank
+     * When this case is encountered, write a single tile with rank+1
+     * Otherwise just copy the tile (in practice packing it in the nex board)
+     * Remember that indices are 1-based in this code
+     * Conversion to Java arrays indices is done in computeLineIndex and computeColumnIndex
+     */
     private void packLine(int lineNumber) {
-      /*
-      * Scan the current board line looking for two consecutive tiles
-      * with the same rank
-      * When this case is encountered, write a single tile with rank+1
-      * Otherwise just copy the tile (in practice packing it in the nex board)
-      * Remember that indices are 1-based in this code
-      * Conversion to Java arrays indices is done in computeLineIndex and computeColumnIndex
-      */
+      
         int readIndex = 1; // Position of the tile to be read
         int writeIndex = 0; // Position of the last tile written
 
@@ -247,29 +250,35 @@ public class BoardImpl implements Board {
             if (readIndex > sideSizeInSquares) {
                 break; // Done with the line
             }
+
             // Try to merge with previous tile
-            if ((writeIndex > 0) &&
+            if ((writeIndex > 0) && readTile(nextBoard, lineNumber, writeIndex) != null &&
                     (readTile(nextBoard, lineNumber, writeIndex).getRank()
                             == readTile(currentBoard, lineNumber, readIndex).getRank())) {
                 // Merge previously written tile and currently read one
                 readTile(nextBoard, lineNumber, writeIndex).incrementRank();
-                
+
                 // Update points and check for win
                 int rank = readTile(nextBoard, lineNumber, writeIndex).getRank();
-                points +=  (int) Math.pow(2, rank);
+                points += (int) Math.pow(2, rank);
                 if (rank == rankToWin) {
                     wonTheGame = true;
                 }
-            } else {
-                // Advance write index and copy currently read tile
+                // So that we can only merge the same tile once per move
                 writeIndex++;
+            } 
+            else {
+                // Check if we can write and advance
+                if (writeIndex == 0 || readTile(nextBoard, lineNumber, writeIndex) != null) {
+                    writeIndex++;
+                }
+                // Copy currently read tile
                 writeTile(nextBoard, readTile(currentBoard, lineNumber, readIndex), lineNumber, writeIndex);
             }
+
             // Done with the current tile read, move forward
             readIndex++;
         }
-
-
     }
 
     /**
@@ -293,8 +302,7 @@ public class BoardImpl implements Board {
     private Tile readTile(Tile[][] board, int lineIndex, int columnIndex) {
         int boardLineIndex = computeLineIndex(lineIndex, columnIndex);
         int boardColumnIndex = computeColumnIndex(lineIndex, columnIndex);
-        Tile currentTile = board[boardLineIndex][boardColumnIndex];
-        return currentTile;
+        return board[boardLineIndex][boardColumnIndex];
     }
 
     /**

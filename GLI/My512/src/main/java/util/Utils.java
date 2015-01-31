@@ -5,11 +5,33 @@ package util;
  */
 public class Utils {
 
+    /**
+     * Window's width.
+     */
     public static final int WINDOW_WIDTH = 700;
+
+    /**
+     * Window's height.
+     */
     public static final int WINDOW_HEIGHT = 550;
+
+    /**
+     * Default board's size.
+     */
     public static final int DEFAULT_BOARD_SIZE = 4;
+
+    /**
+     * Default power of 2 to win.
+     * 9 for 512
+     * 11 for 2048
+     */
     public static final int DEFAULT_RANK_TO_WIN = 11;
 
+    /**
+     * Returns the corresponding tile's color.
+     * @param tileValue
+     * @return the corresponding tile's color
+     */
     public static String getTileColor(int tileValue) {
         switch (tileValue) {
             case 0:

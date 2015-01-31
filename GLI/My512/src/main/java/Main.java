@@ -25,7 +25,7 @@ public class Main extends Application {
         URL location = getClass().getResource("sample.fxml");
         Parent root = fxmlLoader.load(location.openStream());
 
-        // Get the ViewController
+        // Get the Controller
         final Controller controller = fxmlLoader.getController();
         
         Board board = new BoardImpl(Utils.DEFAULT_BOARD_SIZE, Utils.DEFAULT_RANK_TO_WIN);
@@ -34,6 +34,8 @@ public class Main extends Application {
 
         primaryStage.setTitle("GLI - 2048");
         Scene scene = new Scene(root, Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
+        
+        // Handle the keyboard events
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

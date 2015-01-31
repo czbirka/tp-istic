@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Board;
 import model.BoardImpl;
@@ -56,6 +57,9 @@ public class Controller implements Initializable {
         update();
     }
 
+    /**
+     * Updates the view with the board's data.
+     */
     public void update() {
         int tileValue;
         grid.getChildren().removeAll();
@@ -67,11 +71,12 @@ public class Controller implements Initializable {
                     tileValue = (int) Math.pow(2, board.getTile(i, j).getRank());
                 }
                 StackPane stack = new StackPane();
-                Text n = new Text((tileValue > 0) ? "" + tileValue : "");
+                Text text = new Text((tileValue > 0) ? "" + tileValue : "");
+                text.setFont(Font.font(20));
                 Circle shape = new Circle(40);
                 shape.setFill(Paint.valueOf(Utils.getTileColor(tileValue)));
                 shape.setStroke(Paint.valueOf("black"));
-                stack.getChildren().addAll(shape, n);
+                stack.getChildren().addAll(shape, text);
                 grid.add(stack, j, i);
             }
         }
@@ -79,11 +84,16 @@ public class Controller implements Initializable {
         if (board.hasWon()) {
             status.setText("Congratulations! You've won!");
         }
+        
         if (board.isGameOver()) {
             status.setText("You loose! Try again!");
         }
     }
 
+    /**
+     * Packs the lines into the corresponding direction.
+     * @param key
+     */
     public void handleKeyPressed(KeyCode key) {
         if (key == KeyCode.LEFT) {
             board.packIntoDirection(Board.Direction.LEFT);
